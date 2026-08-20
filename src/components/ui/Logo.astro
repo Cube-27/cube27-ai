@@ -1,0 +1,27 @@
+---
+import { Image } from "astro:assets";
+import logo from "@/assets/brand/cube27-logo-dark.png";
+
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<span
+  class:list={["brand-lockup", { "brand-lockup--compact": compact }]}
+  role="img"
+  aria-label="Cube27 AI"
+>
+  <Image
+    src={logo}
+    alt=""
+    width={300}
+    height={109}
+    quality={95}
+    loading="eager"
+    decoding="async"
+  />
+  <span class="brand-ai" aria-hidden="true">AI</span>
+</span>

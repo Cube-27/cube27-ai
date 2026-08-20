@@ -1,0 +1,39 @@
+---
+import { CircleCheck } from "@lucide/astro";
+import { ENGINEERING_PRINCIPLES } from "@/data/site";
+import SectionLead from "@/components/ui/SectionLead.astro";
+import SystemIcon from "@/components/ui/SystemIcon.astro";
+---
+
+<section
+  id="capabilities"
+  class="section-shell capabilities-section"
+  data-rail="CAPABILITIES"
+>
+  <SectionLead
+    eyebrow="Engineering posture"
+    title="Production AI for real work."
+    copy="Data, controls, and interfaces for reliable AI workflows."
+  />
+  <div class="posture-system" aria-label="Cube27 AI engineering principles">
+    {
+      ENGINEERING_PRINCIPLES.map((principle) => (
+        <article class="posture-node">
+          <span class="posture-icon">
+            <SystemIcon name={principle.icon} size={20} />
+          </span>
+          <div>
+            <span>{principle.label}</span>
+            <h3>{principle.statement}</h3>
+          </div>
+          <small>{principle.detail}</small>
+        </article>
+      ))
+    }
+    <div class="posture-outcome">
+      <span>OUTCOME</span>
+      <strong>Reliable AI in daily workflows.</strong>
+      <CircleCheck size={17} aria-hidden="true" />
+    </div>
+  </div>
+</section>

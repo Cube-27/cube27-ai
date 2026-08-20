@@ -1,0 +1,29 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/sections/Header.astro";
+import Hero from "@/components/sections/Hero.astro";
+import EngineeringPosture from "@/components/sections/EngineeringPosture.astro";
+import ProductionPatterns from "@/components/sections/ProductionPatterns.astro";
+import ProductSystems from "@/components/sections/ProductSystems.astro";
+import DeliveryMethod from "@/components/sections/DeliveryMethod.astro";
+import FinalCta from "@/components/sections/FinalCta.astro";
+import Footer from "@/components/sections/Footer.astro";
+import { buildHomeSchema } from "@/lib/schema";
+---
+
+<Layout jsonLd={buildHomeSchema()}>
+  <div class="site-shell">
+    <div class="ambient-grid" aria-hidden="true"></div>
+    <div class="signal-rail" aria-hidden="true"><span></span></div>
+    <Header />
+    <main id="main">
+      <Hero />
+      <EngineeringPosture />
+      <ProductionPatterns />
+      <ProductSystems />
+      <DeliveryMethod />
+      <FinalCta />
+    </main>
+    <Footer />
+  </div>
+</Layout>

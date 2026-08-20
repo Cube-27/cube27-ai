@@ -1,0 +1,13 @@
+{
+  "name": "Cube27 AI — Production AI Systems",
+  "short_name": "Cube27 AI",
+  "description": "Cube27 designs grounded, governed, and observable AI systems for real-world operations.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#070b12",
+  "theme_color": "#070b12",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

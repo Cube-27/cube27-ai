@@ -1,0 +1,396 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-20T06:44:06.0876971Z",
+  "title": "Design System: Cube27 AI",
+  "extensions": {
+    "colorMeta": {
+      "background": {
+        "role": "neutral",
+        "displayName": "Midnight Graphite",
+        "canonical": "#070b12",
+        "tonalRamp": [
+          "oklch(15% 0.018 245)",
+          "oklch(26% 0.018 245)",
+          "oklch(37% 0.018 245)",
+          "oklch(49% 0.018 245)",
+          "oklch(61% 0.018 245)",
+          "oklch(73% 0.018 245)",
+          "oklch(84% 0.018 245)",
+          "oklch(95% 0.018 245)"
+        ]
+      },
+      "surface-1": {
+        "role": "neutral",
+        "displayName": "Instrument Surface One",
+        "canonical": "#0b1722",
+        "tonalRamp": [
+          "oklch(15% 0.025 240)",
+          "oklch(26% 0.025 240)",
+          "oklch(37% 0.025 240)",
+          "oklch(49% 0.025 240)",
+          "oklch(61% 0.025 240)",
+          "oklch(73% 0.025 240)",
+          "oklch(84% 0.025 240)",
+          "oklch(95% 0.025 240)"
+        ]
+      },
+      "surface-2": {
+        "role": "neutral",
+        "displayName": "Instrument Surface Two",
+        "canonical": "#0e1b28",
+        "tonalRamp": [
+          "oklch(15% 0.03 240)",
+          "oklch(26% 0.03 240)",
+          "oklch(37% 0.03 240)",
+          "oklch(49% 0.03 240)",
+          "oklch(61% 0.03 240)",
+          "oklch(73% 0.03 240)",
+          "oklch(84% 0.03 240)",
+          "oklch(95% 0.03 240)"
+        ]
+      },
+      "surface-3": {
+        "role": "neutral",
+        "displayName": "Instrument Surface Three",
+        "canonical": "#112835",
+        "tonalRamp": [
+          "oklch(15% 0.035 225)",
+          "oklch(26% 0.035 225)",
+          "oklch(37% 0.035 225)",
+          "oklch(49% 0.035 225)",
+          "oklch(61% 0.035 225)",
+          "oklch(73% 0.035 225)",
+          "oklch(84% 0.035 225)",
+          "oklch(95% 0.035 225)"
+        ]
+      },
+      "text-primary": {
+        "role": "neutral",
+        "displayName": "Telemetry White",
+        "canonical": "#effbff",
+        "tonalRamp": [
+          "oklch(15% 0.012 210)",
+          "oklch(26% 0.012 210)",
+          "oklch(37% 0.012 210)",
+          "oklch(49% 0.012 210)",
+          "oklch(61% 0.012 210)",
+          "oklch(73% 0.012 210)",
+          "oklch(84% 0.012 210)",
+          "oklch(95% 0.012 210)"
+        ]
+      },
+      "text-secondary": {
+        "role": "neutral",
+        "displayName": "Cool Secondary Text",
+        "canonical": "#b2c8d2",
+        "tonalRamp": [
+          "oklch(15% 0.02 220)",
+          "oklch(26% 0.02 220)",
+          "oklch(37% 0.02 220)",
+          "oklch(49% 0.02 220)",
+          "oklch(61% 0.02 220)",
+          "oklch(73% 0.02 220)",
+          "oklch(84% 0.02 220)",
+          "oklch(95% 0.02 220)"
+        ]
+      },
+      "text-muted": {
+        "role": "neutral",
+        "displayName": "Muted Telemetry Text",
+        "canonical": "#8faebb",
+        "tonalRamp": [
+          "oklch(15% 0.025 220)",
+          "oklch(26% 0.025 220)",
+          "oklch(37% 0.025 220)",
+          "oklch(49% 0.025 220)",
+          "oklch(61% 0.025 220)",
+          "oklch(73% 0.025 220)",
+          "oklch(84% 0.025 220)",
+          "oklch(95% 0.025 220)"
+        ]
+      },
+      "signal": {
+        "role": "primary",
+        "displayName": "Signal Cyan",
+        "canonical": "#5ee8ff",
+        "tonalRamp": [
+          "oklch(15% 0.13 210)",
+          "oklch(26% 0.13 210)",
+          "oklch(37% 0.13 210)",
+          "oklch(49% 0.13 210)",
+          "oklch(61% 0.13 210)",
+          "oklch(73% 0.13 210)",
+          "oklch(84% 0.13 210)",
+          "oklch(95% 0.13 210)"
+        ]
+      },
+      "signal-hover": {
+        "role": "primary",
+        "displayName": "Signal Cyan Hover",
+        "canonical": "#95efff",
+        "tonalRamp": [
+          "oklch(15% 0.09 210)",
+          "oklch(26% 0.09 210)",
+          "oklch(37% 0.09 210)",
+          "oklch(49% 0.09 210)",
+          "oklch(61% 0.09 210)",
+          "oklch(73% 0.09 210)",
+          "oklch(84% 0.09 210)",
+          "oklch(95% 0.09 210)"
+        ]
+      },
+      "verified": {
+        "role": "secondary",
+        "displayName": "Verified Chartreuse",
+        "canonical": "#b3e85a",
+        "tonalRamp": [
+          "oklch(15% 0.15 125)",
+          "oklch(26% 0.15 125)",
+          "oklch(37% 0.15 125)",
+          "oklch(49% 0.15 125)",
+          "oklch(61% 0.15 125)",
+          "oklch(73% 0.15 125)",
+          "oklch(84% 0.15 125)",
+          "oklch(95% 0.15 125)"
+        ]
+      },
+      "assurance": {
+        "role": "secondary",
+        "displayName": "Assurance Lavender",
+        "canonical": "#a8b8ff",
+        "tonalRamp": [
+          "oklch(15% 0.11 275)",
+          "oklch(26% 0.11 275)",
+          "oklch(37% 0.11 275)",
+          "oklch(49% 0.11 275)",
+          "oklch(61% 0.11 275)",
+          "oklch(73% 0.11 275)",
+          "oklch(84% 0.11 275)",
+          "oklch(95% 0.11 275)"
+        ]
+      },
+      "learning": {
+        "role": "secondary",
+        "displayName": "Learning Amber",
+        "canonical": "#f4cd85",
+        "tonalRamp": [
+          "oklch(15% 0.1 80)",
+          "oklch(26% 0.1 80)",
+          "oklch(37% 0.1 80)",
+          "oklch(49% 0.1 80)",
+          "oklch(61% 0.1 80)",
+          "oklch(73% 0.1 80)",
+          "oklch(84% 0.1 80)",
+          "oklch(95% 0.1 80)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Structural Border",
+        "canonical": "rgb(159 212 230 / 0.15)",
+        "tonalRamp": [
+          "oklch(15% 0.035 215)",
+          "oklch(26% 0.035 215)",
+          "oklch(37% 0.035 215)",
+          "oklch(49% 0.035 215)",
+          "oklch(61% 0.035 215)",
+          "oklch(73% 0.035 215)",
+          "oklch(84% 0.035 215)",
+          "oklch(95% 0.035 215)"
+        ]
+      },
+      "border-active": {
+        "role": "primary",
+        "displayName": "Active Signal Border",
+        "canonical": "rgb(94 232 255 / 0.56)",
+        "tonalRamp": [
+          "oklch(15% 0.13 210)",
+          "oklch(26% 0.13 210)",
+          "oklch(37% 0.13 210)",
+          "oklch(49% 0.13 210)",
+          "oklch(61% 0.13 210)",
+          "oklch(73% 0.13 210)",
+          "oklch(84% 0.13 210)",
+          "oklch(95% 0.13 210)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Hero Display",
+        "purpose": "The homepage proposition and equivalent first-view declarations."
+      },
+      "headline": {
+        "displayName": "Section Headline",
+        "purpose": "Major section leads generated by SectionLead."
+      },
+      "title": {
+        "displayName": "Instrument Title",
+        "purpose": "Card, node, product, and step names."
+      },
+      "body": {
+        "displayName": "Explanatory Body",
+        "purpose": "Human-readable supporting propositions and explanations."
+      },
+      "label": {
+        "displayName": "Telemetry Label",
+        "purpose": "Navigation, IDs, statuses, measurements, and route traces."
+      }
+    },
+    "shadows": [
+      {
+        "name": "instrument-float",
+        "value": "0 22px 70px rgb(0 0 0 / 0.3)",
+        "purpose": "Hero deployment-lens panel over topology imagery."
+      },
+      {
+        "name": "menu-float",
+        "value": "0 28px 50px rgb(0 0 0 / 0.38)",
+        "purpose": "Open mobile navigation sheet."
+      },
+      {
+        "name": "signal-node",
+        "value": "0 0 0 4px rgb(94 232 255 / 0.12), 0 0 22px rgb(94 232 255 / 0.72)",
+        "purpose": "The moving node on the fixed signal rail."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "Movement and arrival easing."
+      },
+      {
+        "name": "state-fast",
+        "value": "180ms",
+        "purpose": "Navigation, button, and text-link state changes."
+      },
+      {
+        "name": "state-card",
+        "value": "200ms",
+        "purpose": "Product evidence card hover changes."
+      },
+      {
+        "name": "hero-arrive",
+        "value": "650ms",
+        "purpose": "Hero intro upward arrival."
+      },
+      {
+        "name": "hero-panel-arrive",
+        "value": "680ms 180ms",
+        "purpose": "Hero status panel lateral arrival and delay."
+      },
+      {
+        "name": "signal-drift",
+        "value": "5s ease-in-out infinite",
+        "purpose": "Slow vertical rail-node trace; disabled by reduced motion."
+      }
+    ],
+    "breakpoints": [
+      { "name": "navigation", "value": "1050px" },
+      { "name": "single-column", "value": "760px" },
+      { "name": "narrow-mobile", "value": "370px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The decisive cyan action used in the hero, final CTA, and 404 route.",
+      "html": "<a class=\"ds-primary-button\" href=\"#\">Map your production path <svg viewBox=\"0 0 24 24\" width=\"17\" height=\"17\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a>",
+      "css": ".ds-primary-button { display:inline-flex; min-height:48px; align-items:center; justify-content:center; gap:10px; padding:13px 18px; background:var(--ai-signal,#5ee8ff); color:#071117; font:700 13px var(--font-display,\"Space Grotesk Variable\",sans-serif); text-decoration:none; transition:background 180ms ease,transform 180ms cubic-bezier(.23,1,.32,1); } .ds-primary-button:hover { background:var(--ai-signal-hover,#95efff); transform:translateY(-2px); } .ds-primary-button:active { transform:translateY(0); } .ds-primary-button:focus-visible { outline:2px solid var(--ai-signal,#5ee8ff); outline-offset:4px; }"
+    },
+    {
+      "name": "Header CTA",
+      "kind": "button",
+      "refersTo": "button-header",
+      "description": "A lower-emphasis outlined action for the fixed header.",
+      "html": "<a class=\"ds-header-cta\" href=\"#\">Start a conversation <svg viewBox=\"0 0 24 24\" width=\"15\" height=\"15\" aria-hidden=\"true\"><path d=\"M7 17 17 7M7 7h10v10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a>",
+      "css": ".ds-header-cta { display:inline-flex; min-height:44px; align-items:center; gap:9px; padding:11px 16px; border:1px solid rgb(94 232 255 / .42); background:rgb(94 232 255 / .055); color:#d7f8fd; font:600 11px var(--font-display,\"Space Grotesk Variable\",sans-serif); text-decoration:none; transition:border-color 180ms ease,background 180ms ease; } .ds-header-cta:hover { border-color:var(--ai-signal,#5ee8ff); background:rgb(94 232 255 / .1); } .ds-header-cta:active { background:rgb(94 232 255 / .055); } .ds-header-cta:focus-visible { outline:2px solid var(--ai-signal,#5ee8ff); outline-offset:4px; }"
+    },
+    {
+      "name": "Text Link",
+      "kind": "button",
+      "description": "A containerless secondary action whose arrow travel carries the hover response.",
+      "html": "<a class=\"ds-text-link\" href=\"#\">Explore the patterns <svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" aria-hidden=\"true\"><path d=\"M7 17 17 7M7 7h10v10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a>",
+      "css": ".ds-text-link { display:inline-flex; min-height:44px; align-items:center; gap:8px; color:#b9dae2; font:600 12px var(--font-display,\"Space Grotesk Variable\",sans-serif); text-decoration:none; transition:color 180ms ease,gap 180ms cubic-bezier(.23,1,.32,1); } .ds-text-link:hover { gap:11px; color:var(--ai-signal-hover,#95efff); } .ds-text-link:active { color:var(--ai-signal,#5ee8ff); } .ds-text-link:focus-visible { outline:2px solid var(--ai-signal,#5ee8ff); outline-offset:4px; }"
+    },
+    {
+      "name": "Desktop Navigation Link",
+      "kind": "nav",
+      "description": "Compact uppercase telemetry navigation with a directional underline trace.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Primary navigation\"><a href=\"#\">Capabilities</a><a href=\"#\">Patterns</a><a href=\"#\">Proof</a></nav>",
+      "css": ".ds-nav { display:flex; align-items:center; gap:32px; } .ds-nav a { position:relative; padding:15px 0; color:#9abac4; font:500 10px var(--font-mono,\"JetBrains Mono Variable\",monospace); letter-spacing:.08em; text-transform:uppercase; text-decoration:none; transition:color 180ms ease; } .ds-nav a::after { position:absolute; right:0; bottom:9px; left:0; height:1px; content:\"\"; transform:scaleX(0); transform-origin:right; background:var(--ai-signal,#5ee8ff); transition:transform 180ms cubic-bezier(.23,1,.32,1); } .ds-nav a:hover { color:var(--ai-signal-hover,#95efff); } .ds-nav a:hover::after { transform:scaleX(1); transform-origin:left; } .ds-nav a:active { color:var(--ai-signal,#5ee8ff); } .ds-nav a:focus-visible { outline:2px solid var(--ai-signal,#5ee8ff); outline-offset:4px; }"
+    },
+    {
+      "name": "Telemetry Eyebrow",
+      "kind": "custom",
+      "description": "The reusable SectionLead label pairing a framed signal node with mono text.",
+      "html": "<p class=\"ds-eyebrow\"><span class=\"ds-crest\" aria-hidden=\"true\"><i></i></span>Engineering posture</p>",
+      "css": ".ds-eyebrow { display:flex; align-items:center; gap:9px; margin:0; color:#8fc2cd; font:500 10px var(--font-mono,\"JetBrains Mono Variable\",monospace); letter-spacing:.1em; text-transform:uppercase; } .ds-crest { display:grid; width:17px; height:17px; place-items:center; border:1px solid rgb(94 232 255 / .34); } .ds-crest i { width:5px; height:5px; border-radius:50%; background:var(--ai-signal,#5ee8ff); box-shadow:0 0 8px rgb(94 232 255 / .8); }"
+    },
+    {
+      "name": "Deployment Lens Panel",
+      "kind": "card",
+      "refersTo": "card-instrument",
+      "description": "A translucent ruled instrument for compact active-state evidence over imagery.",
+      "html": "<aside class=\"ds-lens\"><header><span>DEPLOYMENT LENS</span><b><i></i> ACTIVE</b></header><div class=\"ds-route\"><small>01</small><span><strong>Grounded</strong><em>Evidence and retrieval</em></span></div><div class=\"ds-route\"><small>02</small><span><strong>Governed</strong><em>Boundaries and controls</em></span></div><footer>AI.CUBE27.COM</footer></aside>",
+      "css": ".ds-lens { min-width:290px; border:1px solid rgb(94 232 255 / .24); background:rgb(7 16 24 / .73); color:var(--ai-text-primary,#effbff); box-shadow:0 22px 70px rgb(0 0 0 / .3); backdrop-filter:blur(12px); font-family:var(--font-body,Geist,sans-serif); } .ds-lens header,.ds-lens footer { display:flex; min-height:42px; align-items:center; justify-content:space-between; padding:0 14px; color:#7fa8b4; font:500 8px var(--font-mono,\"JetBrains Mono Variable\",monospace); letter-spacing:.085em; } .ds-lens header { border-bottom:1px solid var(--ai-border,rgb(159 212 230 / .15)); } .ds-lens header b { display:inline-flex; align-items:center; gap:6px; color:var(--ai-verified,#b3e85a); font:inherit; } .ds-lens header i { width:4px; height:4px; border-radius:50%; background:currentColor; box-shadow:0 0 7px rgb(179 232 90 / .75); } .ds-route { display:grid; grid-template-columns:28px 1fr; gap:8px; padding:18px 14px; border-bottom:1px solid rgb(159 212 230 / .1); } .ds-route small { align-self:center; color:#6995a1; font:500 8px var(--font-mono,monospace); } .ds-route span { display:grid; gap:3px; } .ds-route strong { font:500 16px var(--font-display,\"Space Grotesk Variable\",sans-serif); } .ds-route em { color:var(--ai-text-muted,#8faebb); font-size:11px; font-style:normal; } .ds-lens footer { border-top:1px solid var(--ai-border,rgb(159 212 230 / .15)); color:#9cc8d2; }"
+    },
+    {
+      "name": "Product Evidence Card",
+      "kind": "card",
+      "refersTo": "card-instrument",
+      "description": "A product proof module that keeps identification, use case, audience, and metric together.",
+      "html": "<article class=\"ds-product\"><div class=\"ds-product-top\"><span>CL-01</span><span>Search &amp; visibility intelligence</span></div><h3>CiteLadder</h3><p>Make owned content easier to find, trust, and recommend.</p><div class=\"ds-fit\"><span>BEST FOR</span><b>Marketing &amp; ecommerce teams</b><i aria-hidden=\"true\"></i></div><div class=\"ds-metric\"><span>OUTCOME METRIC</span><b>Answer-engine citation share</b></div></article>",
+      "css": ".ds-product { position:relative; min-height:278px; display:flex; flex-direction:column; padding:25px 27px; border:1px solid rgb(139 205 222 / .21); background:linear-gradient(145deg,var(--ai-surface-1,#0b1722),#08111a); color:var(--ai-text-primary,#effbff); font-family:var(--font-body,Geist,sans-serif); transition:background 200ms ease,transform 200ms cubic-bezier(.23,1,.32,1); } .ds-product:hover { transform:translateY(-2px); background:linear-gradient(145deg,#0e2633,#091720); } .ds-product-top { display:flex; justify-content:space-between; gap:18px; color:#75a5b2; font:500 10px var(--font-mono,\"JetBrains Mono Variable\",monospace); letter-spacing:.075em; } .ds-product h3 { margin:auto 0 8px; font:500 30px/.98 var(--font-display,\"Space Grotesk Variable\",sans-serif); letter-spacing:-.055em; } .ds-product>p { margin:0 0 20px; color:#b4ccd4; font-size:15px; line-height:1.45; } .ds-fit { display:flex; align-items:center; gap:9px; padding-top:13px; border-top:1px solid var(--ai-border,rgb(159 212 230 / .15)); } .ds-fit span,.ds-metric span { color:#78acba; font:500 9px var(--font-mono,monospace); letter-spacing:.075em; } .ds-fit b,.ds-metric b { color:#d7f0f5; font:500 13px var(--font-display,\"Space Grotesk Variable\",sans-serif); } .ds-fit i { width:7px; height:7px; margin-left:auto; border-radius:50%; background:var(--ai-verified,#b3e85a); box-shadow:0 0 11px rgb(179 232 90 / .7); } .ds-metric { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:9px; padding:9px 10px; border-left:2px solid var(--ai-signal,#5ee8ff); background:rgb(94 232 255 / .065); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Inference Control Room",
+    "overview": "Cube27 AI reads as one traced production system, not a sequence of generic marketing bands. Midnight graphite, signal cyan, status colors, hairline routes, technical imagery, and compact telemetry create an instrumented environment; generous section height and plain-language headings keep it calm and legible.\n\nThe visual thesis is a vertical signal path. The fixed `.signal-rail`, section branches from `.section-shell[data-rail]`, ruled modules, and diagnostic labels connect evidence across the page. The fixed `.ambient-grid` is an intentional two-axis, 48px control-room reference—not accidental “graph paper” decoration—and remains subtle at `opacity: 0.2` under a vertical mask.",
+    "keyCharacteristics": [
+      "Dark, flat operating field with translucent instruments only over imagery.",
+      "Square modules, one-pixel structure, and sparse cyan/chartreuse glow.",
+      "Large human-readable display type paired with mono telemetry.",
+      "Asymmetric rail-aligned gutters and decisive mobile stacking."
+    ],
+    "rules": [
+      {
+        "name": "The Signal Rarity Rule",
+        "body": "Cyan identifies action, routing, or active state; it is not a general fill color.",
+        "section": "colors"
+      },
+      {
+        "name": "The Semantic Status Rule",
+        "body": "Chartreuse, lavender, and amber keep their implemented meanings and never carry paragraph text.",
+        "section": "colors"
+      },
+      {
+        "name": "The Three-Voice Rule",
+        "body": "Space Grotesk speaks, Geist explains, and JetBrains Mono measures; do not swap those roles.",
+        "section": "typography"
+      },
+      {
+        "name": "The Instrument-Only Blur Rule",
+        "body": "Backdrop blur is reserved for translucent controls laid over topology imagery or the fixed header.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** extend the existing `.site-shell` / rail / `SectionLead` / button / evidence-module vocabulary before adding a new primitive.",
+      "**Do** use semantic `--ai-*` properties for shared roles; local alpha overlays and gradients are allowed when they express image legibility or instrument translucency.",
+      "**Do** preserve square shared-grid construction and recompose connected systems at the implemented breakpoints.",
+      "**Do** keep the ambient two-axis grid; it is a pinned Inference Control Room exception and must stay low-contrast and non-interactive.",
+      "**Do** add new reusable components or tokens to both this file and `.impeccable/design.json`."
+    ],
+    "donts": [
+      "**Don't** turn the system into a neon cyberpunk interface; glows remain sparse and functional.",
+      "**Don't** use cyan, chartreuse, lavender, or amber as arbitrary decoration or body text.",
+      "**Don't** round structural modules, add pill-shaped controls, or float independent generic cards inside sections.",
+      "**Don't** hide below-fold content behind JavaScript or motion, and don't bypass the global focus/reduced-motion behavior.",
+      "**Don't** change the Cube27 cube, magenta `27`, proportions, or transparent dark-surface treatment."
+    ]
+  }
+}

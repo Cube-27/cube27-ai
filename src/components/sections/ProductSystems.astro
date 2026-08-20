@@ -1,0 +1,47 @@
+---
+import { PRODUCT_PROOF } from "@/data/site";
+import SectionLead from "@/components/ui/SectionLead.astro";
+---
+
+<section id="proof" class="section-shell proof-section" data-rail="PRODUCTS">
+  <div class="proof-heading">
+    <SectionLead
+      eyebrow="Product systems"
+      title="AI products for operational teams."
+      copy="Built around data, documents, decisions, and daily work."
+    />
+    <div class="product-key">
+      <span>4 PRODUCT SYSTEMS</span>
+      <b>Marketing · Commerce · Bids · Operations</b>
+    </div>
+  </div>
+  <div class="product-readable-grid">
+    {
+      PRODUCT_PROOF.map((product) => (
+        <article class="product-readable-card">
+          <div class="product-readable-top">
+            <>
+              <span>{product.code}</span>
+              <span>{product.label}</span>
+            </>
+          </div>
+          <h3>{product.name}</h3>
+          <p>{product.useCase}</p>
+          <div class="product-fit">
+            <>
+              <span>BEST FOR</span>
+              <b>{product.focus}</b>
+              <i aria-hidden="true" />
+            </>
+          </div>
+          <div class="product-metric">
+            <>
+              <span>OUTCOME METRIC</span>
+              <b>{product.metric}</b>
+            </>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>

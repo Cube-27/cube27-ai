@@ -1,0 +1,79 @@
+---
+import { Picture } from "astro:assets";
+import { ArrowRight, ArrowUpRight, Network } from "@lucide/astro";
+import heroTopology from "@/assets/images/hero-topology.png";
+import { DEPLOYMENT_LENS, SITE } from "@/data/site";
+---
+
+<section id="top" class="hero-section">
+  <div class="hero-media" aria-hidden="true">
+    <Picture
+      class="hero-backdrop"
+      src={heroTopology}
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
+      widths={[640, 960, 1280, 1600, 1920]}
+      sizes="100vw"
+      alt=""
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+    />
+  </div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-intro">
+      <p class="eyebrow hero-eyebrow">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        AI ENGINEERING PARTNER
+      </p>
+      <h1>AI systems that stay <em>grounded</em> when the work gets real.</h1>
+      <p class="hero-copy">
+        Cube27 designs and builds reliable AI systems for teams that need more
+        than a compelling demo: context-aware, observable, measurable, and ready
+        to operate.
+      </p>
+      <div class="hero-actions">
+        <a class="primary-button" href={SITE.contactUrl}>
+          Map your production path <ArrowRight size={17} aria-hidden="true" />
+        </a>
+        <a class="text-link" href="#patterns">
+          Explore the patterns <ArrowUpRight size={16} aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+
+    <aside class="hero-status-panel" aria-label="Cube27 AI approach">
+      <div class="panel-topline">
+        <span>DEPLOYMENT LENS</span>
+        <span class="status-live"><i aria-hidden="true"></i> ACTIVE</span>
+      </div>
+      <div class="panel-routes">
+        {
+          DEPLOYMENT_LENS.map((route) => (
+            <div>
+              <span class="route-index">{route.id}</span>
+              <strong>{route.name}</strong>
+              <small>{route.detail}</small>
+            </div>
+          ))
+        }
+      </div>
+      <div class="panel-footer">
+        <span>AI.CUBE27.COM</span>
+        <Network size={17} aria-hidden="true" />
+      </div>
+    </aside>
+
+    <div class="hero-diagnostic-strip" aria-label="AI system diagnostic state">
+      <span>SYS: C27-PRD</span>
+      <span><i aria-hidden="true"></i> PATH: ACTIVE</span>
+      <span>MODE: CONTROLLED</span>
+    </div>
+  </div>
+
+  <div class="hero-bottomline" aria-hidden="true">
+    <span>ENGINEERING THE INTELLIGENT ENTERPRISE</span>
+    <span>SCROLL TO TRACE THE SYSTEM <ArrowRight size={15} /></span>
+  </div>
+</section>
