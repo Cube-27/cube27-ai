@@ -328,7 +328,7 @@ picture {
   max-width: 840px;
   margin: 0;
   color: var(--ai-text-primary);
-  font: 500 clamp(38px, calc(5.45vw - 4px), 78px)/0.94 var(--font-display);
+  font: 500 clamp(34px, calc(5.45vw - 8px), 74px)/0.94 var(--font-display);
   letter-spacing: -0.055em;
   text-wrap: balance;
 }
@@ -782,6 +782,10 @@ picture {
   align-items: end;
   gap: 48px;
 }
+.proof-heading .section-lead,
+.proof-heading .section-lead h2 {
+  max-width: none;
+}
 .product-key {
   display: grid;
   min-width: 242px;
@@ -1083,6 +1087,12 @@ picture {
   }
 }
 
+@media (min-width: 1051px) {
+  .proof-heading .section-lead h2 {
+    white-space: nowrap;
+  }
+}
+
 @media (max-width: 1050px) {
   .site-header {
     grid-template-columns: 1fr auto;
@@ -1161,7 +1171,7 @@ picture {
     gap: 38px;
   }
   .hero-intro h1 {
-    font-size: clamp(38px, calc(6vw - 4px), 58px);
+    font-size: clamp(34px, calc(6vw - 8px), 54px);
   }
   .proof-heading {
     align-items: start;
@@ -1235,7 +1245,7 @@ picture {
     animation: none;
   }
   .hero-intro h1 {
-    font-size: clamp(35px, calc(11.8vw - 4px), 50px);
+    font-size: clamp(31px, calc(11.8vw - 8px), 46px);
   }
   .hero-copy {
     margin-top: 24px;
@@ -1449,7 +1459,7 @@ picture {
     --gutter-right: 16px;
   }
   .hero-intro h1 {
-    font-size: 33px;
+    font-size: 29px;
   }
   .hero-diagnostic-strip {
     gap: 5px;

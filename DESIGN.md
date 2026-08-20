@@ -132,7 +132,7 @@ The palette assigns color by system meaning: cyan is the active path, chartreuse
 
 ### Hierarchy
 
-- **Display:** `hero-intro h1`; mobile overrides to `clamp(35px, calc(11.8vw - 4px), 50px)` and 33px below 370px.
+- **Display:** `hero-intro h1`; each responsive size is 4px below the original scale, using `clamp(34px, calc(5.45vw - 8px), 74px)` on desktop, `clamp(31px, calc(11.8vw - 8px), 46px)` on mobile, and 29px below 370px.
 - **Headline:** `.section-lead h2`; 32px at and below 760px.
 - **CTA headline:** `.final-cta h2`; `clamp(32px, 3.8vw, 54px)` with unit line height.
 - **Title:** component-specific Space Grotesk at 14–34px; product names use `clamp(26px, 2.35vw, 34px)`.
@@ -149,7 +149,7 @@ Responsive behavior is implemented at three max-width breakpoints:
 
 - **1050px:** desktop navigation/CTA become native `<details>` navigation; delivery becomes two columns; final CTA becomes two columns.
 - **760px:** gutters become 35px/20px, header 68px, section branches hide, content becomes one column, sticky imagery becomes static, hero entry animations are removed, and primary CTAs expand full width.
-- **370px:** gutters tighten to 30px/16px and the hero display settles at 33px.
+- **370px:** gutters tighten to 30px/16px and the hero display settles at 29px.
 
 Treat 1050px and 760px as inclusive boundaries. Preserve stability at 320px and zoom; connected diagrams reorient rather than simply shrink.
 
