@@ -9,25 +9,28 @@ import SectionLead from "@/components/ui/SectionLead.astro";
   class="section-shell method-section"
   data-rail="DELIVERY PATH // 04"
 >
-  <div class="method-heading">
-    <SectionLead
-      eyebrow="How we work"
-      title="Start with the decision. Build the system around it."
-      copy="The goal is not to introduce AI everywhere. It is to make one valuable workflow faster, clearer, and more capable — then expand from a working foundation."
-    />
-    <a class="text-link" href={SITE.contactUrl}
-      >Bring us a workflow <ArrowUpRight size={16} aria-hidden="true" /></a
-    >
-  </div>
-  <div class="delivery-track">
-    {
-      DELIVERY_STEPS.map((item) => (
-        <article class="delivery-step">
-          <span>{item.step}</span>
-          <h3>{item.name}</h3>
-          <p>{item.detail}</p>
-        </article>
-      ))
-    }
+  <div class="method-layout">
+    <div class="method-intro">
+      <SectionLead
+        eyebrow="How we work"
+        title="Start with the decision. Build the system around it."
+        copy="The goal is not to introduce AI everywhere. It is to make one valuable workflow faster, clearer, and more capable — then expand from a working foundation."
+      />
+      <a class="text-link" href={SITE.contactUrl}
+        >Bring us a workflow <ArrowUpRight size={16} aria-hidden="true" /></a
+      >
+    </div>
+
+    <ol class="delivery-track" aria-label="Our delivery process">
+      {
+        DELIVERY_STEPS.map((item) => (
+          <li class="delivery-step">
+            <span>{item.step}</span>
+            <h3>{item.name}</h3>
+            <p>{item.detail}</p>
+          </li>
+        ))
+      }
+    </ol>
   </div>
 </section>

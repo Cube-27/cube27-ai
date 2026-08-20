@@ -147,7 +147,7 @@ The palette assigns color by system meaning: cyan is the active path, chartreuse
 
 Responsive behavior is implemented at three max-width breakpoints:
 
-- **1050px:** desktop navigation/CTA become native `<details>` navigation; delivery becomes two columns; final CTA becomes two columns.
+- **1050px:** desktop navigation/CTA become native `<details>` navigation; the delivery split tightens while preserving its vertical path; final CTA becomes two columns.
 - **760px:** gutters become 35px/20px, header 68px, section branches hide, content becomes one column, sticky imagery becomes static, hero entry animations are removed, and primary CTAs expand full width.
 - **370px:** gutters tighten to 30px/16px and the hero display settles at 29px.
 
@@ -190,7 +190,7 @@ The structural language is square: buttons, cards, panels, icon frames, diagnost
 - `.posture-system` is a connected three-node diagram plus `.posture-outcome`; below 760px the connection becomes vertical.
 - `.pattern-row` is a compact icon/title/detail/completion row. Category color stays on `.pattern-icon`; the completion mark stays verified.
 - `.product-readable-grid` is a shared one-pixel 2×2 grid that becomes one column below 760px. Each `.product-readable-card` keeps code/category, name, use case, audience, and outcome metric together.
-- `.delivery-track` is an ordered four-step signal line: four columns, then two below 1050px, then one below 760px.
+- `.method-layout` pairs the delivery statement with an ordered vertical signal path. `.delivery-track` keeps four stacked steps on desktop and mobile; below 760px the statement and path stack while the timeline remains intact.
 
 ### States, motion, and accessibility
 
