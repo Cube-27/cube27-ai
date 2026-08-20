@@ -8,7 +8,7 @@
     "node": ">=26.7.0"
   },
   "scripts": {
-    "dev": "astro dev --port 3000",
+    "dev": "astro dev --port 3200",
     "build": "astro build",
     "preview": "wrangler pages dev dist --port 8788",
     "check": "astro check",

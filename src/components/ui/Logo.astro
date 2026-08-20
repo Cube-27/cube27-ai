@@ -1,7 +1,4 @@
 ---
-import { Image } from "astro:assets";
-import logo from "@/assets/brand/cube27-logo-dark.png";
-
 interface Props {
   compact?: boolean;
 }
@@ -14,14 +11,15 @@ const { compact = false } = Astro.props;
   role="img"
   aria-label="Cube27 AI"
 >
-  <Image
-    src={logo}
+  <img
+    src="/cube27-mark.svg"
     alt=""
-    width={300}
-    height={109}
-    quality={95}
+    width="64"
+    height="64"
     loading="eager"
     decoding="async"
   />
-  <span class="brand-ai" aria-hidden="true">AI</span>
+  <span class="brand-wordmark" aria-hidden="true"
+    >CUBE<span class="brand-number">27</span> AI</span
+  >
 </span>

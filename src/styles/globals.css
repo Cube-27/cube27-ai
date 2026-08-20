@@ -170,20 +170,25 @@ picture {
   min-height: 44px;
 }
 .brand-lockup img {
-  width: auto;
+  width: 30px;
   height: 30px;
   object-fit: contain;
 }
-.brand-ai {
+.brand-wordmark {
   color: var(--ai-text-primary);
-  font: 600 17px var(--font-display);
-  letter-spacing: -0.055em;
+  font: 650 19px/1 var(--font-display);
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+}
+.brand-number {
+  color: #b51f78;
 }
 .brand-lockup--compact img {
+  width: 24px;
   height: 24px;
 }
-.brand-lockup--compact .brand-ai {
-  font-size: 14px;
+.brand-lockup--compact .brand-wordmark {
+  font-size: 16px;
 }
 .desktop-nav {
   display: flex;
@@ -194,7 +199,7 @@ picture {
   position: relative;
   padding: 15px 0;
   color: #9abac4;
-  font: 500 10px var(--font-mono);
+  font: 500 12px var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: color 180ms ease;
@@ -228,7 +233,7 @@ picture {
   border: 1px solid rgb(94 232 255 / 0.42);
   background: rgb(94 232 255 / 0.055);
   color: #d7f8fd;
-  font: 600 11px var(--font-display);
+  font: 600 13px var(--font-display);
   transition:
     border-color 180ms ease,
     background 180ms ease;
@@ -503,9 +508,9 @@ picture {
 }
 .section-shell[data-rail]::before {
   position: absolute;
-  top: 50%;
-  left: calc(clamp(18px, 3.1vw, 58px) - var(--gutter-left) - 3px);
-  width: 205px;
+  top: 39px;
+  left: clamp(18px, 3.1vw, 58px);
+  width: calc(var(--gutter-left) - clamp(18px, 3.1vw, 58px) + 4px);
   height: 1px;
   content: "";
   background:
@@ -520,13 +525,12 @@ picture {
 }
 .section-shell[data-rail]::after {
   position: absolute;
-  top: calc(50% + 11px);
-  left: 0;
-  width: 170px;
-  padding-top: 7px;
-  padding-left: 12px;
-  border-top: 1px solid rgb(94 232 255 / 0.55);
+  top: 31px;
+  left: var(--gutter-left);
+  width: auto;
+  padding: 3px 8px;
   content: attr(data-rail);
+  background: var(--ai-background);
   color: #9bdce8;
   font: 500 8px var(--font-mono);
   letter-spacing: 0.075em;
@@ -1012,7 +1016,7 @@ picture {
   gap: 7px;
   margin: 0;
   color: #8cabb5;
-  font-size: 11px;
+  font-size: 13px;
 }
 .footer-note svg {
   color: var(--ai-verified);
@@ -1023,7 +1027,7 @@ picture {
   justify-content: end;
   gap: 18px;
   color: #8eafb9;
-  font: 500 9px var(--font-mono);
+  font: 500 11px var(--font-mono);
 }
 .footer-links a:hover {
   color: var(--ai-signal-hover);
@@ -1132,7 +1136,7 @@ picture {
     justify-content: space-between;
     border-bottom: 1px solid var(--ai-border);
     color: #c6e0e6;
-    font: 500 11px var(--font-mono);
+    font: 500 13px var(--font-mono);
     letter-spacing: 0.07em;
     text-transform: uppercase;
   }
@@ -1194,10 +1198,11 @@ picture {
     padding-right: 16px;
   }
   .brand-lockup img {
+    width: 23px;
     height: 23px;
   }
-  .brand-ai {
-    font-size: 14px;
+  .brand-wordmark {
+    font-size: 16px;
   }
   .mobile-nav nav {
     top: 68px;
