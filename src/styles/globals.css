@@ -181,7 +181,7 @@ picture {
   white-space: nowrap;
 }
 .brand-number {
-  color: #b51f78;
+  color: #d24a98;
 }
 .brand-lockup--compact img {
   width: 24px;
@@ -1229,6 +1229,10 @@ picture {
     justify-content: center;
     gap: 31px;
     padding: 52px 0 84px;
+  }
+  .hero-intro,
+  .hero-status-panel {
+    animation: none;
   }
   .hero-intro h1 {
     font-size: clamp(35px, calc(11.8vw - 4px), 50px);

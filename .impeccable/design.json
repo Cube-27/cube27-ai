@@ -273,12 +273,12 @@
       {
         "name": "hero-arrive",
         "value": "650ms",
-        "purpose": "Hero intro upward arrival."
+        "purpose": "Hero intro upward arrival above the mobile breakpoint."
       },
       {
         "name": "hero-panel-arrive",
         "value": "680ms 180ms",
-        "purpose": "Hero status panel lateral arrival and delay."
+        "purpose": "Hero status panel lateral arrival and delay above the mobile breakpoint."
       },
       {
         "name": "signal-drift",

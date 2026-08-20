@@ -32,15 +32,16 @@ const robots = noindex
 const serializedJsonLd = jsonLd
   ? JSON.stringify(jsonLd).replace(/</g, "\\u003c")
   : undefined;
+const heroWidths = [640, 960, 1280, 1600] as const;
 const heroPreloads = noindex
   ? []
   : await Promise.all(
-      [640, 960, 1280, 1600].map((width) =>
+      heroWidths.map((width) =>
         getImage({ src: heroTopology, width, format: "avif" }),
       ),
     );
 const heroSrcset = heroPreloads
-  .map((asset, index) => `${asset.src} ${[640, 960, 1280, 1600][index]}w`)
+  .map((asset, index) => `${asset.src} ${heroWidths[index]}w`)
   .join(", ");
 ---
 

@@ -20,25 +20,19 @@ import SectionLead from "@/components/ui/SectionLead.astro";
       PRODUCT_PROOF.map((product) => (
         <article class="product-readable-card">
           <div class="product-readable-top">
-            <>
-              <span>{product.code}</span>
-              <span>{product.label}</span>
-            </>
+            <span>{product.code}</span>
+            <span>{product.label}</span>
           </div>
           <h3>{product.name}</h3>
           <p>{product.useCase}</p>
           <div class="product-fit">
-            <>
-              <span>BEST FOR</span>
-              <b>{product.focus}</b>
-              <i aria-hidden="true" />
-            </>
+            <span>BEST FOR</span>
+            <b>{product.focus}</b>
+            <i aria-hidden="true" />
           </div>
           <div class="product-metric">
-            <>
-              <span>OUTCOME METRIC</span>
-              <b>{product.metric}</b>
-            </>
+            <span>OUTCOME METRIC</span>
+            <b>{product.metric}</b>
           </div>
         </article>
       ))

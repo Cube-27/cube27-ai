@@ -132,7 +132,7 @@ The palette assigns color by system meaning: cyan is the active path, chartreuse
 
 ### Hierarchy
 
-- **Display:** `hero-intro h1`; mobile overrides to `clamp(39px, 11.8vw, 54px)` and 37px below 370px.
+- **Display:** `hero-intro h1`; mobile overrides to `clamp(35px, calc(11.8vw - 4px), 50px)` and 33px below 370px.
 - **Headline:** `.section-lead h2`; 32px at and below 760px.
 - **CTA headline:** `.final-cta h2`; `clamp(32px, 3.8vw, 54px)` with unit line height.
 - **Title:** component-specific Space Grotesk at 14–34px; product names use `clamp(26px, 2.35vw, 34px)`.
@@ -148,8 +148,8 @@ The palette assigns color by system meaning: cyan is the active path, chartreuse
 Responsive behavior is implemented at three max-width breakpoints:
 
 - **1050px:** desktop navigation/CTA become native `<details>` navigation; delivery becomes two columns; final CTA becomes two columns.
-- **760px:** gutters become 35px/20px, header 68px, section branches hide, content becomes one column, sticky imagery becomes static, and primary CTAs expand full width.
-- **370px:** gutters tighten to 30px/16px and the hero display settles at 37px.
+- **760px:** gutters become 35px/20px, header 68px, section branches hide, content becomes one column, sticky imagery becomes static, hero entry animations are removed, and primary CTAs expand full width.
+- **370px:** gutters tighten to 30px/16px and the hero display settles at 33px.
 
 Treat 1050px and 760px as inclusive boundaries. Preserve stability at 320px and zoom; connected diagrams reorient rather than simply shrink.
 
@@ -174,7 +174,7 @@ The structural language is square: buttons, cards, panels, icon frames, diagnost
 ### Section lead and icon
 
 - `SectionLead.astro` accepts `eyebrow: string`, `title: string`, and optional `copy?: string`. It owns `.section-lead`, `.eyebrow`, `.section-crest`, H2, and `.section-copy`.
-- `SystemIcon.astro` accepts `name: string` and optional `size?: number` (default 18). Supported names are `activity`, `bot`, `brain`, `clipboard`, `database`, `gauge`, `messages`, `search`, and `shield`; unknown names intentionally fall back to Activity. Icons use 1.65px strokes and are decorative.
+- `SystemIcon.astro` accepts a typed `name` from `activity`, `bot`, `brain`, `clipboard`, `database`, `gauge`, `messages`, `search`, or `shield`, plus optional `size?: number` (default 18). Invalid names fail at build time. Icons use 1.65px strokes and are decorative.
 
 ### Buttons and links
 
@@ -194,7 +194,7 @@ The structural language is square: buttons, cards, panels, icon frames, diagnost
 
 ### States, motion, and accessibility
 
-- Entry motion is limited to hero content: `arrive` (650ms) and `arrive-right` (680ms with 180ms delay), both using `--ease-out`. The rail node drifts over 5s.
+- Above 760px, entry motion is limited to hero content: `arrive` (650ms) and `arrive-right` (680ms with 180ms delay), both using `--ease-out`. Mobile renders the LCP-region content immediately. The rail node drifts over 5s.
 - Resting content remains visible. `prefers-reduced-motion: reduce` disables smooth scrolling and collapses animations/transitions to 0.01ms.
 - Keep semantic landmarks, logical headings, the skip link, native disclosure navigation, empty alt text for decorative imagery, text labels for status, and forced-color overrides for signal dots.
 
