@@ -1,0 +1,31 @@
+diff --git a/dist/chrome-launcher.js b/dist/chrome-launcher.js
+index d7fb4cf753f817e241554438b317ec333af2e7fc..eee55a0988c2a44a92980259134e673c987cd141 100644
+--- a/dist/chrome-launcher.js
++++ b/dist/chrome-launcher.js
+@@ -361,10 +361,25 @@ class Launcher {
+             this.fs.closeSync(this.errFile);
+             delete this.errFile;
+         }
++        // kill() can invoke cleanup directly and again from the process close
++        // handler. Mark the directory handled before removing it so Windows
++        // does not race two recursive deletions of the same Chrome profile.
++        const userDataDir = this.userDataDir;
++        this.userDataDir = undefined;
+         // backwards support for node v12 + v14.14+
+         // https://nodejs.org/api/deprecations.html#DEP0147
+         const rmSync = this.fs.rmSync || this.fs.rmdirSync;
+-        rmSync(this.userDataDir, { recursive: true, force: true, maxRetries: 10 });
++        try {
++            rmSync(userDataDir, { recursive: true, force: true, maxRetries: 10 });
++        }
++        catch (err) {
++            // A successful Lighthouse run should not fail because Windows is
++            // still releasing a Chrome profile file during best-effort cleanup.
++            if (!isWindows || (err.code !== 'EPERM' && err.code !== 'EBUSY')) {
++                throw err;
++            }
++            log.warn('ChromeLauncher', `Unable to remove temporary profile ${userDataDir}`, err);
++        }
+     }
+ }
+ ;

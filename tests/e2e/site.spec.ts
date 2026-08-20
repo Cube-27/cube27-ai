@@ -65,6 +65,28 @@ test("keeps navigation available across the tablet boundary", async ({
   await expect(page.locator(".desktop-nav")).toBeVisible();
 });
 
+test("keeps the mobile posture route inside the icon rail", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+
+  const geometry = await page.locator(".posture-node").nth(1).evaluate((node) => {
+    const card = node.getBoundingClientRect();
+    const icon = node.querySelector(".posture-icon")!.getBoundingClientRect();
+    const copy = node.querySelector("div")!.getBoundingClientRect();
+    const route = getComputedStyle(node, "::before");
+    const routeX = card.left + Number.parseFloat(route.left);
+
+    return {
+      routeX,
+      iconCenterX: icon.left + icon.width / 2,
+      copyLeft: copy.left,
+    };
+  });
+
+  expect(Math.abs(geometry.routeX - geometry.iconCenterX)).toBeLessThanOrEqual(1);
+  expect(geometry.routeX).toBeLessThan(geometry.copyLeft);
+});
+
 test("meets automated accessibility checks", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/");

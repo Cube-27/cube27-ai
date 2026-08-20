@@ -1313,12 +1313,7 @@ picture {
     margin-top: 31px;
   }
   .posture-system::before {
-    top: 11%;
-    right: auto;
-    bottom: 18%;
-    left: 45px;
-    width: 1px;
-    height: auto;
+    display: none;
   }
   .posture-node {
     min-height: 156px;
@@ -1327,13 +1322,31 @@ picture {
     gap: 0 15px;
     padding: 17px;
   }
+  .posture-node::before {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    bottom: -1px;
+    left: 38px;
+    width: 1px;
+    content: "";
+    background: rgb(94 232 255 / 0.42);
+  }
+  .posture-node:first-of-type::before {
+    top: 39px;
+  }
+  .posture-node:last-of-type::before {
+    bottom: calc(100% - 39px);
+  }
   .posture-node::after {
     top: auto;
     right: auto;
     bottom: -4px;
-    left: 42px;
+    left: 35px;
   }
   .posture-icon {
+    position: relative;
+    z-index: 2;
     grid-row: span 2;
     width: 44px;
     height: 44px;

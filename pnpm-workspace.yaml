@@ -6,3 +6,5 @@ minimumReleaseAgeExclude:
   - "@astrojs/markdown-satteri@0.3.7"
   - astro@7.2.4
   - "@lucide/astro@1.33.0"
+patchedDependencies:
+  chrome-launcher@1.2.1: patches/chrome-launcher@1.2.1.patch
