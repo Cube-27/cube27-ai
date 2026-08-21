@@ -62,29 +62,59 @@ import { CTA, NAV_ITEMS, PRODUCT_LINKS, SITE } from "@/data/site";
           popovertarget="mobile-menu"
           aria-label="Menu"
         >
-          <Icon name="menu" size={22} stroke={1.9} class="icon-open" />
-          <Icon name="close" size={22} stroke={1.9} class="icon-close" />
+          <Icon name="menu" size={22} stroke={1.9} />
         </button>
 
+        {
+          /*
+           * A full-height sheet, not a floating card: the panel covers the
+           * header, so it carries its own header row — same lockup, same
+           * 46px control in the same place — and the close button lands
+           * exactly where the thumb just tapped open.
+           */
+        }
         <div class="mobile-nav__panel" id="mobile-menu" popover>
-          <nav aria-label="Primary mobile">
-            <p class="mobile-nav__label">Products</p>
-            {
-              PRODUCT_LINKS.map((product) => (
-                <a class="mobile-nav__link" href={product.href}>
-                  {product.label}
-                </a>
-              ))
-            }
-            <p class="mobile-nav__label">Company</p>
-            {
-              NAV_ITEMS.map((item) => (
-                <a class="mobile-nav__link" href={item.href}>
-                  {item.label}
-                </a>
-              ))
-            }
+          <div class="mobile-nav__head">
+            <Logo href="/" />
+            <button
+              class="mobile-nav__close"
+              type="button"
+              popovertarget="mobile-menu"
+              popovertargetaction="hide"
+              aria-label="Close menu"
+            >
+              <Icon name="close" size={22} stroke={1.9} />
+            </button>
+          </div>
+
+          <nav class="mobile-nav__body" aria-label="Primary mobile">
+            <div class="mobile-nav__group">
+              <p class="mobile-nav__label">Products</p>
+              <div class="mobile-nav__links">
+                {
+                  PRODUCT_LINKS.map((product) => (
+                    <a class="mobile-nav__link" href={product.href}>
+                      {product.label}
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
+
+            <div class="mobile-nav__group">
+              <p class="mobile-nav__label">Company</p>
+              <div class="mobile-nav__links">
+                {
+                  NAV_ITEMS.map((item) => (
+                    <a class="mobile-nav__link" href={item.href}>
+                      {item.label}
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
           </nav>
+
           <Button href={SITE.contactUrl} variant="secondary">
             {CTA.primary}
           </Button>

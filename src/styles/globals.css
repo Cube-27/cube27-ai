@@ -14,17 +14,56 @@
   --c-band: #eef1f8;
   --c-band-deep: #e2e8f4;
 
-  /* Ink on light */
+  /* The home hero's plane. Product heroes use their own --card-soft; this is
+     the brand-level equivalent, and the header rests on it at scroll top. */
+  --c-hero: var(--c-band);
+
+  /* Ink on light: primary, secondary, tertiary. */
   --c-ink: #0c1024;
   --c-ink-2: #414a63;
   --c-ink-3: #5f6884;
+
+  /* Ink on dark, one role for one role with the light side. The third rung is
+     what card numbers, labels and captions on a dark band use; without it they
+     get picked by hand and drift. */
+  --c-dark-ink: #f2f4fa;
+  --c-dark-ink-2: #a8b0c6;
+  --c-dark-ink-3: #767f99;
 
   /* Dark bands */
   --c-dark: #0a0d16;
   --c-dark-2: #151a2a;
   --c-dark-3: #1e2436;
-  --c-dark-ink: #f2f4fa;
-  --c-dark-ink-2: #a8b0c6;
+
+  /* Surface elevation. A component asks for a height above its ground, not for
+     a colour, so the same card works on either ground. --s-* is rebound by
+     .on-dark below; nothing outside this block should name a plane directly. */
+  --s-0: var(--c-canvas);
+  --s-1: var(--c-band);
+  --s-2: var(--c-band-deep);
+  --s-3: #d6def0;
+
+  /* Dark-ground equivalents, one rung for one rung. */
+  --s-dark-0: var(--c-dark);
+  --s-dark-1: #232733;
+  --s-dark-2: #2f3442;
+  --s-dark-3: #3a4054;
+
+  /* Tint fills for quiet controls. Alpha, not a mixed colour, so one token
+     works on any ground once .on-dark flips the channel. */
+  --fill-1: rgb(12 16 36 / 0.06);
+  --fill-2: rgb(12 16 36 / 0.1);
+
+  /* The accent for the current ground. Components reference this, never the
+     light/dark pair directly — crimson on a dark band is 1.6:1 and unreadable,
+     and pairing it by hand is how that ships. */
+  --c-accent-current: var(--c-accent);
+
+  /* Ground-relative ink, one rung for one rung with --s-*. Components address
+     these; the light/dark pairs above are only their source values. */
+  --ink-1: var(--c-ink);
+  --ink-2: var(--c-ink-2);
+  --ink-3: var(--c-ink-3);
 
   /* Action — the magenta of the CUBE27 mark. Action or active state only. */
   --c-accent: #a91d4b;
@@ -46,28 +85,65 @@
   --hue-purple-soft: #f1eaf4;
   --hue-purple-deep: #522e60;
 
-  /* Type */
+  /* Type. One family: at the sizes this site uses, a second grotesque reads as
+     a mismatch rather than a contrast, and weight carries the distinction. */
   --font-display: "Geist Variable", Geist, system-ui, sans-serif;
-  --font-body: "Inter Variable", Inter, system-ui, sans-serif;
+  --font-body: var(--font-display);
 
-  /* Type ladder. Every size in the system comes from here; no ad-hoc values,
-     and every step is an even number of pixels. */
-  --t-12: 12px;
+  /* Type ladder. Every size in the system comes from here, each rung roughly
+     1.12x the one below it, with no gap anywhere along its length. */
+  --t-13: 13px;
   --t-14: 14px;
+  --t-15: 15px;
   --t-16: 16px;
+  --t-17: 17px;
   --t-18: 18px;
   --t-20: 20px;
-  --t-24: 24px;
+  --t-23: 23px;
+  --t-26: 26px;
+  --t-30: 30px;
+  --t-34: 34px;
   --t-40: 40px;
-  --t-56: 56px;
+  --t-44: 44px;
+  --t-54: 54px;
 
-  /* Fluid steps, interpolating between ladder rungs. */
-  --t-display: clamp(30px, 4vw, var(--t-56));
-  --t-h2: clamp(var(--t-24), 2.9vw, var(--t-40));
-  --t-h3: clamp(var(--t-18), 1.7vw, var(--t-24));
-  --t-h4: clamp(var(--t-16), 1.2vw, var(--t-18));
-  --t-lead: clamp(var(--t-16), 1.2vw, var(--t-18));
-  --t-body: clamp(var(--t-14), 1vw, var(--t-16));
+  /* Roles, at phone width. Sizes step between breakpoints rather than
+     interpolating, so no viewport ever renders a size that is off the ladder;
+     a clamp does the opposite, and its floor also pins the small roles at
+     their phone size across every laptop width.
+
+     Line heights are absolute and land on a 4px grid, so text in adjacent
+     cards shares a baseline instead of drifting by a fraction of a pixel. */
+  --t-display: var(--t-34);
+  --lh-display: 40px;
+  --ls-display: -0.04em;
+
+  --t-h2: var(--t-26);
+  --lh-h2: 32px;
+  --ls-h2: -0.034em;
+
+  --t-h3: var(--t-20);
+  --lh-h3: 24px;
+  --ls-h3: -0.028em;
+
+  /* A lead sits under a display heading; an h4 titles a card. The lead is the
+     larger of the two — they were previously the same size, which left weight
+     and colour to carry a distinction they could not. */
+  --t-lead: var(--t-18);
+  --lh-lead: 28px;
+  --ls-lead: -0.018em;
+
+  --t-h4: var(--t-16);
+  --lh-h4: 24px;
+  --ls-h4: -0.02em;
+
+  --t-body: var(--t-15);
+  --lh-body: 24px;
+  --ls-body: -0.011em;
+
+  --t-meta: var(--t-13);
+  --lh-meta: 20px;
+  --ls-meta: 0em;
 
   /* Shape */
   --r-sm: 10px;
@@ -85,6 +161,47 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --lift: 0 18px 40px -18px rgb(12 16 36 / 0.28);
   --lift-soft: 0 10px 30px -16px rgb(12 16 36 / 0.22);
+}
+
+/* Tablet. Every role moves up the same ladder; nothing new is introduced. */
+@media (min-width: 640px) {
+  :root {
+    --t-display: var(--t-44);
+    --lh-display: 48px;
+
+    --t-h2: var(--t-30);
+    --lh-h2: 36px;
+
+    --t-h3: var(--t-23);
+    --lh-h3: 28px;
+
+    --t-lead: var(--t-20);
+    --lh-lead: 28px;
+
+    --t-h4: var(--t-17);
+
+    --t-body: var(--t-16);
+
+    --t-meta: var(--t-14);
+  }
+}
+
+/* Desktop. Only the three display roles keep climbing: past this width the
+   reading sizes are already right, and growing them just shortens the measure. */
+@media (min-width: 1080px) {
+  :root {
+    --t-display: var(--t-54);
+    --lh-display: 56px;
+    --ls-display: -0.045em;
+
+    --t-h2: var(--t-40);
+    --lh-h2: 44px;
+
+    --t-h3: var(--t-26);
+    --lh-h3: 32px;
+
+    --t-h4: var(--t-18);
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -111,8 +228,8 @@ body {
   background: var(--c-canvas);
   color: var(--c-ink);
   font-family: var(--font-body);
-  font-size: var(--t-16);
-  line-height: 1.6;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -124,6 +241,8 @@ a {
   font-synthesis: none;
 }
 
+/* 500 is the only heading weight. Size, colour and the surface a heading sits
+   on carry the hierarchy; a second heading weight only blurs it. */
 h1,
 h2,
 h3,
@@ -131,8 +250,8 @@ h4 {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 500;
-  letter-spacing: -0.028em;
-  line-height: 1.08;
+  letter-spacing: var(--ls-h3);
+  line-height: var(--lh-h3);
   text-wrap: balance;
 }
 
@@ -177,13 +296,9 @@ svg {
 }
 
 :focus-visible {
-  outline: 2px solid var(--c-accent);
+  outline: 2px solid var(--c-accent-current);
   outline-offset: 3px;
   border-radius: 2px;
-}
-
-.on-dark :focus-visible {
-  outline-color: var(--c-accent-dark);
 }
 
 .sr-only {
@@ -241,6 +356,22 @@ svg {
   background: var(--c-band-deep);
 }
 
+/* One place rebinds every ground-dependent token. Anything nested inside a
+   dark band then resolves correctly without naming a dark colour itself. */
+.band--dark,
+.on-dark {
+  --s-0: var(--s-dark-0);
+  --s-1: var(--s-dark-1);
+  --s-2: var(--s-dark-2);
+  --s-3: var(--s-dark-3);
+  --fill-1: rgb(255 255 255 / 0.08);
+  --fill-2: rgb(255 255 255 / 0.14);
+  --c-accent-current: var(--c-accent-dark);
+  --ink-1: var(--c-dark-ink);
+  --ink-2: var(--c-dark-ink-2);
+  --ink-3: var(--c-dark-ink-3);
+}
+
 .band--dark {
   background: var(--c-dark);
   color: var(--c-dark-ink);
@@ -269,46 +400,40 @@ svg {
 
 .t-display {
   font-size: var(--t-display);
-  line-height: 1;
-  letter-spacing: -0.038em;
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
 }
 
 .t-h2 {
   font-size: var(--t-h2);
-  line-height: 1.04;
-  letter-spacing: -0.032em;
+  line-height: var(--lh-h2);
+  letter-spacing: var(--ls-h2);
 }
 
 .t-h3 {
   font-size: var(--t-h3);
-  line-height: 1.12;
-  letter-spacing: -0.026em;
+  line-height: var(--lh-h3);
+  letter-spacing: var(--ls-h3);
 }
 
 .t-h4 {
   font-size: var(--t-h4);
-  line-height: 1.2;
-  letter-spacing: -0.018em;
-  font-weight: 600;
+  line-height: var(--lh-h4);
+  letter-spacing: var(--ls-h4);
 }
 
 .t-lead {
   font-size: var(--t-lead);
-  line-height: 1.55;
-  color: var(--c-ink-2);
+  line-height: var(--lh-lead);
+  letter-spacing: var(--ls-lead);
+  color: var(--ink-2);
 }
 
 .t-body {
   font-size: var(--t-body);
-  line-height: 1.62;
-  color: var(--c-ink-2);
-}
-
-.band--dark .t-lead,
-.band--dark .t-body,
-.on-dark .t-lead,
-.on-dark .t-body {
-  color: var(--c-dark-ink-2);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  color: var(--ink-2);
 }
 
 /* --------------------------------------------------------------------------
@@ -320,11 +445,12 @@ svg {
   align-items: center;
   gap: 8px;
   margin: 0 0 20px;
-  color: var(--c-accent);
+  color: var(--c-accent-current);
   font-family: var(--font-body);
-  font-size: var(--t-12);
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-size: var(--t-meta);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .eyebrow::before {
@@ -335,10 +461,8 @@ svg {
   background: currentColor;
 }
 
-.band--dark .eyebrow,
-.on-dark .eyebrow {
-  color: var(--c-accent-dark);
-}
+/* Handled by --c-accent-current; the rule survives only for the ::before rule,
+   which inherits currentColor. */
 
 /* --------------------------------------------------------------------------
    Section header
@@ -428,17 +552,17 @@ svg {
 }
 
 .btn--secondary:hover {
-  background: #1b2138;
+  background: var(--c-dark-3);
   box-shadow: var(--lift);
 }
 
 .btn--quiet {
-  background: rgb(12 16 36 / 0.06);
-  color: var(--c-ink);
+  background: var(--fill-1);
+  color: var(--ink-1);
 }
 
 .btn--quiet:hover {
-  background: rgb(12 16 36 / 0.1);
+  background: var(--fill-2);
 }
 
 .btn--on-dark {
@@ -452,12 +576,12 @@ svg {
 }
 
 .btn--ghost-dark {
-  background: #232733;
-  color: #ffffff;
+  background: var(--s-dark-1);
+  color: #fff;
 }
 
 .btn--ghost-dark:hover {
-  background: #2f3442;
+  background: var(--s-dark-2);
 }
 
 .btn-row {
@@ -488,7 +612,7 @@ svg {
   align-items: center;
   gap: 8px;
   min-height: 44px;
-  color: var(--c-accent);
+  color: var(--c-accent-current);
   font-size: var(--t-16);
   font-weight: 600;
   transition: color 200ms var(--ease);
@@ -524,11 +648,6 @@ svg {
   transform: translate(3px, -3px);
 }
 
-.on-dark .tlink,
-.band--dark .tlink {
-  color: var(--c-accent-dark);
-}
-
 /* Whole-card link: the anchor covers the card, the card owns the visuals. */
 .stretch::after {
   content: "";
@@ -550,15 +669,15 @@ svg {
 .tag {
   padding: 6px 14px;
   border-radius: var(--r-pill);
-  background: rgb(12 16 36 / 0.055);
-  color: var(--c-ink-2);
+  background: var(--fill-1);
+  color: var(--ink-2);
   font-size: var(--t-14);
   font-weight: 500;
   line-height: 1.35;
 }
 
 .on-dark .tag {
-  background: rgb(255 255 255 / 0.1);
+  background: var(--fill-2);
   color: var(--c-dark-ink-2);
 }
 
@@ -566,28 +685,44 @@ svg {
    Header
    -------------------------------------------------------------------------- */
 
+/* At rest the header is the page's own ground, so there is no bar across the
+   top of the first viewport; it resolves to canvas as soon as content starts
+   passing beneath it. Pages without a tinted first section set --header-rest
+   to canvas, which makes the animation a no-op on colour and a hairline only. */
 .site-header {
   position: sticky;
   z-index: 90;
   top: 0;
   padding-block: 14px;
-  background: rgb(255 255 255 / 0.82);
-  backdrop-filter: blur(14px);
+  background: var(--c-canvas);
 }
 
-/* The lift on scroll is a scroll() timeline, so the header needs no script. */
+/* The hero is the only tinted first section, so it is what shifts the resting
+   colour. Scoped by presence, not by a page flag, so a page that grows a hero
+   picks this up on its own. */
+body:has(.hero) {
+  --header-rest: var(--c-hero);
+}
+
+/* The lift on scroll is a scroll() timeline, so the header needs no script.
+   Non-supporting browsers keep the canvas background above, which is the safe
+   end of the animation rather than the transient one. */
 @keyframes header-lift {
   from {
+    background-color: var(--header-rest, var(--c-canvas));
     box-shadow: 0 1px 0 rgb(12 16 36 / 0);
   }
   to {
+    background-color: var(--c-canvas);
     box-shadow: 0 1px 0 rgb(12 16 36 / 0.08);
   }
 }
 
 @supports (animation-timeline: scroll()) {
   .site-header {
-    animation: header-lift linear both;
+    animation-name: header-lift;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
     animation-timeline: scroll();
     animation-range: 0 48px;
   }
@@ -620,15 +755,11 @@ svg {
 }
 
 .brand-number {
-  color: var(--c-accent);
+  color: var(--c-accent-current);
 }
 
 .on-dark .brand-wordmark {
   color: #fff;
-}
-
-.on-dark .brand-number {
-  color: var(--c-accent-dark);
 }
 
 .desktop-nav {
@@ -654,7 +785,7 @@ svg {
 
 .nav-link:hover,
 .nav-link[aria-current="page"] {
-  background: rgb(12 16 36 / 0.055);
+  background: var(--fill-1);
   color: var(--c-ink);
 }
 
@@ -707,7 +838,7 @@ svg {
 
 .nav-menu:hover > .nav-link,
 .nav-menu:focus-within > .nav-link {
-  background: rgb(12 16 36 / 0.055);
+  background: var(--fill-1);
   color: var(--c-ink);
 }
 
@@ -736,7 +867,7 @@ svg {
   margin-top: 4px;
   font-size: var(--t-14);
   line-height: 1.45;
-  color: var(--c-ink-3);
+  color: var(--ink-3);
 }
 
 .nav-menu__chevron {
@@ -775,54 +906,71 @@ svg {
   padding: 0;
   border: 0;
   border-radius: var(--r-pill);
-  background: rgb(12 16 36 / 0.055);
+  background: var(--fill-1);
   color: var(--c-ink);
 }
 
-.mobile-nav__toggle .icon-open,
-.mobile-nav__toggle .icon-close {
-  position: absolute;
-  transition:
-    opacity 180ms var(--ease),
-    transform 220ms var(--ease);
-}
-
-.mobile-nav__toggle .icon-close {
-  opacity: 0;
-  transform: rotate(-70deg) scale(0.82);
-}
-
-/* The panel stays a DOM sibling even while it is in the top layer, so the
-   toggle can reflect its open state without script. */
-.mobile-nav:has(> [popover]:popover-open) .icon-open {
-  opacity: 0;
-  transform: rotate(70deg) scale(0.82);
-}
-
-.mobile-nav:has(> [popover]:popover-open) .icon-close {
-  opacity: 1;
-  transform: none;
-}
-
+/* A sheet that owns the whole viewport. A dropdown card has to fight the page
+   behind it with a shadow and a scrim; a full surface simply replaces it, which
+   is what leaves room for the larger tap targets below. */
 .mobile-nav__panel[popover] {
   position: fixed;
-  inset: auto;
-  top: 80px;
-  right: var(--pad-x);
-  left: var(--pad-x);
-  width: auto;
+  inset: 0;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
   max-width: none;
-  max-height: calc(100dvh - 100px);
+  height: 100dvh;
+  max-height: none;
   margin: 0;
-  padding: 14px;
+  padding: 14px var(--pad-x) calc(24px + env(safe-area-inset-bottom, 0px));
   overflow-y: auto;
+  overscroll-behavior: contain;
   border: 0;
-  border-radius: var(--r-lg);
-  background: #fff;
+  border-radius: 0;
+  background: var(--c-canvas);
   color: var(--c-ink);
-  box-shadow:
-    0 2px 8px rgb(12 16 36 / 0.06),
-    0 28px 60px -20px rgb(12 16 36 / 0.32);
+}
+
+/* Only while open: an author `display` on [popover] would beat the UA sheet's
+   closed-state `display: none` and leave the sheet showing on load. */
+.mobile-nav__panel[popover]:popover-open {
+  display: flex;
+}
+
+/* Mirrors .site-header__inner so the lockup and the 46px control do not shift
+   by a pixel between closed and open. */
+.mobile-nav__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex: none;
+}
+
+.mobile-nav__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--fill-1);
+  color: var(--c-ink);
+}
+
+.mobile-nav__body {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.mobile-nav__links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .mobile-nav__panel[popover]::backdrop {
@@ -834,20 +982,30 @@ svg {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* The surface fades; the contents rise into it. Sliding a full-viewport
+     sheet from off-canvas reads as a page transition, which this is not. */
   .mobile-nav__panel[popover] {
     opacity: 0;
-    transform: translateY(-10px);
     transition:
-      opacity 220ms ease-in,
-      transform 260ms ease-in,
+      opacity 200ms ease-in,
       overlay 260ms allow-discrete,
       display 260ms allow-discrete;
   }
 
   .mobile-nav__panel[popover]:popover-open {
     opacity: 1;
-    transform: none;
     transition-timing-function: var(--ease);
+  }
+
+  .mobile-nav__panel[popover] .mobile-nav__head,
+  .mobile-nav__panel[popover] .mobile-nav__body {
+    transform: translateY(14px);
+    transition: transform 320ms var(--ease);
+  }
+
+  .mobile-nav__panel[popover]:popover-open .mobile-nav__head,
+  .mobile-nav__panel[popover]:popover-open .mobile-nav__body {
+    transform: none;
   }
 
   .mobile-nav__panel[popover]::backdrop {
@@ -864,7 +1022,11 @@ svg {
   @starting-style {
     .mobile-nav__panel[popover]:popover-open {
       opacity: 0;
-      transform: translateY(-10px);
+    }
+
+    .mobile-nav__panel[popover]:popover-open .mobile-nav__head,
+    .mobile-nav__panel[popover]:popover-open .mobile-nav__body {
+      transform: translateY(14px);
     }
 
     .mobile-nav__panel[popover]:popover-open::backdrop {
@@ -873,30 +1035,38 @@ svg {
   }
 }
 
+/* The group label steps down and the destination steps up: on a sheet the
+   links are the content, so they carry the size and the label just files
+   them. Hover is not a state a thumb can reach, so the feedback is on
+   :active instead of a hover rectangle. */
 .mobile-nav__label {
-  padding: 10px 14px 6px;
-  color: var(--c-ink-3);
-  font-size: var(--t-12);
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  margin: 0 0 16px;
+  color: var(--ink-3);
+  font-size: var(--t-14);
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
 .mobile-nav__link {
-  display: block;
-  padding: 13px 14px;
-  border-radius: var(--r-md);
-  font-size: var(--t-16);
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--t-20);
   font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
   color: var(--c-ink);
+  transition: color 160ms var(--ease);
 }
 
-.mobile-nav__link:hover {
-  background: var(--c-band);
+.mobile-nav__link:active {
+  color: var(--c-accent-current);
 }
 
 .mobile-nav__panel .btn {
   width: 100%;
-  margin-top: 10px;
+  margin-top: auto;
+  flex: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -908,37 +1078,11 @@ svg {
 
 .hero {
   position: relative;
-  isolation: isolate;
   display: grid;
   align-content: center;
   min-height: min(720px, 78vh);
   padding-block: clamp(72px, 9vw, 128px);
-  background: var(--c-canvas);
-  overflow: hidden;
-}
-
-/* The veil keeps the ink on calm ground and lets the field thin out into the
-   band below, so the section ends without an edge. */
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      56% 60% at 50% 48%,
-      rgb(255 255 255 / 0.86) 0%,
-      rgb(255 255 255 / 0.52) 52%,
-      rgb(255 255 255 / 0) 100%
-    ),
-    linear-gradient(
-      to bottom,
-      rgb(255 255 255 / 0.62) 0%,
-      rgb(255 255 255 / 0) 20%,
-      rgb(255 255 255 / 0) 62%,
-      var(--c-canvas) 100%
-    );
+  background: var(--c-hero);
 }
 
 .hero__inner {
@@ -953,108 +1097,6 @@ svg {
 
 .hero .btn-row {
   margin-top: 36px;
-}
-
-/* --------------------------------------------------------------------------
-   Hero field
-
-   Four bundles of drifting strands. Each layer holds two tiles of a wave that
-   repeats exactly once per tile, so sliding the layer left by half its own
-   width returns it to where it started and the loop has no seam. Only the
-   transform animates, which keeps the whole field on the compositor: no
-   repaint, no layout, no script. Under prefers-reduced-motion the global
-   damper stops every layer and the field stands still, which is the state the
-   composition is drawn for.
-   -------------------------------------------------------------------------- */
-
-.hero-field {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  /* Scaled past the frame so the tilt never exposes a corner, at any shape of
-     section from a wide desktop band to a tall phone screen. */
-  transform: rotate(-7deg) scale(1.34);
-}
-
-.hero-field__layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  /* The two tiles always span the whole layer, so -50% is one tile whatever
-     the width is. Widening the layer therefore stretches the waves sideways
-     without touching the loop — which is how the narrow breakpoints below keep
-     the strands sweeping across instead of standing on end. */
-  width: 200%;
-  height: 100%;
-  animation: hero-drift linear infinite;
-}
-
-.hero-field__layer svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  animation: hero-breathe ease-in-out infinite alternate;
-}
-
-@keyframes hero-drift {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
-@keyframes hero-breathe {
-  from {
-    transform: translate3d(0, -1.6%, 0);
-  }
-  to {
-    transform: translate3d(0, 1.6%, 0);
-  }
-}
-
-/* Periods share no common factor, so the layers never fall back into step. */
-.hero-field__layer--a {
-  animation-duration: 149s;
-}
-
-.hero-field__layer--a svg {
-  animation-duration: 23s;
-}
-
-.hero-field__layer--b {
-  animation-duration: 103s;
-  animation-direction: reverse;
-}
-
-.hero-field__layer--b svg {
-  animation-duration: 31s;
-}
-
-.hero-field__layer--c {
-  animation-duration: 127s;
-}
-
-.hero-field__layer--c svg {
-  animation-duration: 19s;
-}
-
-.hero-field__layer--d {
-  animation-duration: 79s;
-  animation-direction: reverse;
-}
-
-.hero-field__layer--d svg {
-  animation-duration: 27s;
-}
-
-/* The taller and narrower the section, the wider the layer has to run to keep
-   the waves sweeping across it rather than up it. */
-@media (max-width: 1080px) {
-  .hero-field__layer {
-    width: 320%;
-  }
 }
 
 /* --------------------------------------------------------------------------
@@ -1172,35 +1214,31 @@ svg {
 }
 
 /* The wide first card goes dark: one deliberate focal surface in the grid,
-   and it absorbs the extra height the two-column span creates. */
+   and it absorbs the extra height the two-column span creates. A dark island
+   on a light band names the dark plane explicitly, and carries .on-dark in the
+   markup so every token inside it resolves against the ground it actually has
+   rather than the band's. */
 .cap-card:first-child {
   grid-column: span 2;
-  background: var(--c-ink);
-  color: var(--c-dark-ink);
-}
-
-/* Headline weight to match its footprint. */
-.cap-card:first-child .t-h4 {
-  font-size: var(--t-h3);
-  letter-spacing: -0.026em;
+  background: var(--s-dark-1);
+  color: var(--ink-1);
 }
 
 .cap-card:first-child .t-body {
   max-width: 46ch;
-  color: var(--c-dark-ink-2);
 }
 
 .cap-card:first-child .cap-card__icon {
-  background: #232733;
-  color: var(--c-accent-dark);
+  background: var(--s-dark-3);
+  color: var(--c-accent-current);
 }
 
 .cap-card:first-child .cap-card__num {
-  color: var(--c-accent-dark);
+  color: var(--c-accent-current);
 }
 
 .cap-card:first-child:hover {
-  background: #171d31;
+  background: var(--s-dark-2);
 }
 
 /* White cards on the deep band: this is the one section where the cards, not
@@ -1237,14 +1275,14 @@ svg {
   height: 44px;
   border-radius: var(--r-sm);
   background: var(--c-accent-soft);
-  color: var(--c-accent);
+  color: var(--c-accent-current);
 }
 
 .cap-card__num {
-  font-size: var(--t-12);
+  font-size: var(--t-meta);
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: var(--c-ink-3);
+  color: var(--ink-3);
 }
 
 .cap-outro {
@@ -1274,16 +1312,16 @@ svg {
   gap: 12px;
   padding: clamp(24px, 2.2vw, 34px);
   border-radius: var(--r-md);
-  background: var(--c-dark-2);
+  background: var(--s-1);
   transition: background-color 320ms var(--ease);
 }
 
 .phil-card:hover {
-  background: var(--c-dark-3);
+  background: var(--s-2);
 }
 
 .phil-card__step {
-  color: var(--c-accent-dark);
+  color: var(--c-accent-current);
   font-size: var(--t-14);
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -1341,7 +1379,7 @@ svg {
   gap: 8px;
   margin-bottom: 14px;
   font-size: var(--t-14);
-  color: var(--c-ink-3);
+  color: var(--ink-3);
 }
 
 .crumbs a {
@@ -1434,7 +1472,7 @@ svg {
 }
 
 .p-flow__arrow {
-  color: var(--c-ink-3);
+  color: var(--ink-3);
   flex-shrink: 0;
 }
 
@@ -1564,7 +1602,9 @@ svg {
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
     [data-reveal] {
-      animation: reveal linear both;
+      animation-name: reveal;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       animation-timeline: view();
       animation-range: entry 4% cover 20%;
     }
@@ -1653,10 +1693,6 @@ svg {
 @media (max-width: 620px) {
   :root {
     --band-y: clamp(56px, 13vw, 80px);
-  }
-
-  .hero-field__layer {
-    width: 520%;
   }
 
   .hero .section-head__title {

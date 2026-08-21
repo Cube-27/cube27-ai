@@ -5,6 +5,7 @@ colors:
   canvas: "#ffffff"
   band: "#eef1f8"
   band-deep: "#e2e8f4"
+  hero: "#eef1f8"
   ink: "#0c1024"
   ink-2: "#414a63"
   ink-3: "#5f6884"
@@ -13,6 +14,11 @@ colors:
   dark-3: "#1e2436"
   dark-ink: "#f2f4fa"
   dark-ink-2: "#a8b0c6"
+  dark-ink-3: "#767f99"
+  s-3: "#d6def0"
+  s-dark-1: "#232733"
+  s-dark-2: "#2f3442"
+  s-dark-3: "#3a4054"
   accent: "#a91d4b"
   accent-hover: "#87153c"
   accent-soft: "#fbecf1"
@@ -22,42 +28,45 @@ colors:
   hue-indigo: "#33348f"
   hue-purple: "#6d3d80"
 typography:
+  fontFamily: '"Geist Variable", Geist, system-ui, sans-serif'
+  scale: [13, 14, 15, 16, 17, 18, 20, 23, 26, 30, 34, 40, 44, 54]
+  breakpoints: { phone: 0, tablet: 640, desktop: 1080 }
   display:
-    fontFamily: '"Geist Variable", Geist, system-ui, sans-serif'
-    fontSize: "clamp(30px, 4vw, 56px)"
+    fontSize: { phone: "34px", tablet: "44px", desktop: "54px" }
+    lineHeight: { phone: "40px", tablet: "48px", desktop: "56px" }
     fontWeight: 500
-    lineHeight: 1
-    letterSpacing: "-0.038em"
+    letterSpacing: { phone: "-0.04em", desktop: "-0.045em" }
   headline:
-    fontFamily: '"Geist Variable", Geist, system-ui, sans-serif'
-    fontSize: "clamp(24px, 2.9vw, 40px)"
+    fontSize: { phone: "26px", tablet: "30px", desktop: "40px" }
+    lineHeight: { phone: "32px", tablet: "36px", desktop: "44px" }
     fontWeight: 500
-    lineHeight: 1.04
-    letterSpacing: "-0.032em"
+    letterSpacing: "-0.034em"
   title:
-    fontFamily: '"Geist Variable", Geist, system-ui, sans-serif'
-    fontSize: "clamp(18px, 1.7vw, 24px)"
+    fontSize: { phone: "20px", tablet: "23px", desktop: "26px" }
+    lineHeight: { phone: "24px", tablet: "28px", desktop: "32px" }
     fontWeight: 500
-    lineHeight: 1.12
-    letterSpacing: "-0.026em"
+    letterSpacing: "-0.028em"
   lead:
-    fontFamily: '"Inter Variable", Inter, system-ui, sans-serif'
-    fontSize: "clamp(16px, 1.2vw, 18px)"
+    fontSize: { phone: "18px", tablet: "20px", desktop: "20px" }
+    lineHeight: "28px"
     fontWeight: 400
-    lineHeight: 1.55
-    letterSpacing: "normal"
+    letterSpacing: "-0.018em"
+  cardTitle:
+    fontSize: { phone: "16px", tablet: "17px", desktop: "18px" }
+    lineHeight: "24px"
+    fontWeight: 500
+    letterSpacing: "-0.02em"
   body:
-    fontFamily: '"Inter Variable", Inter, system-ui, sans-serif'
-    fontSize: "clamp(14px, 1vw, 16px)"
+    fontSize: { phone: "15px", tablet: "16px", desktop: "16px" }
+    lineHeight: "24px"
     fontWeight: 400
-    lineHeight: 1.62
-    letterSpacing: "normal"
+    letterSpacing: "-0.011em"
   eyebrow:
-    fontFamily: '"Inter Variable", Inter, system-ui, sans-serif'
-    fontSize: "12px"
-    fontWeight: 600
-    lineHeight: 1.2
-    letterSpacing: "0.02em"
+    fontSize: { phone: "13px", tablet: "14px" }
+    lineHeight: "20px"
+    fontWeight: 500
+    letterSpacing: "0.06em"
+    textTransform: "uppercase"
 rounded:
   sm: "10px"
   md: "14px"
@@ -124,91 +133,148 @@ each product's closing statement, the final call, and the footer.
 - Light, borderless, generously spaced; depth is tonal, not shadowed.
 - One accent — the crimson of the CUBE27 `27` — reserved for action.
 - Four product hues, each drawn from a quadrant of the CUBE27 mark.
-- Large Geist headlines over calm Inter explanation. No third face.
+- Large Geist headlines over calm Geist explanation, separated by weight and
+  colour rather than by a second face.
 - Motion that is felt rather than watched, and which costs no JavaScript.
-- The landing page opens on a drawn field of drifting light rather than a
-  photograph, with the proposition centred on top of it.
+- The landing page opens on a tinted hero plane, with the proposition centred
+  on top of it.
 
 ## Colors
 
-### Field
+### Grounds and elevation
 
-- **Canvas** `#ffffff` — the default plane, and the surface of cards that sit on
-  a tinted band.
-- **Band** `#eef1f8` and **Band Deep** `#e2e8f4` — pale blue-grey planes that
-  separate sections without a rule.
-- **Dark** `#0a0d16`, with **Dark 2/3** for raised cards inside a dark band.
+The system has two **grounds** — light and dark — and each carries the same
+four-rung **elevation** ladder. A component asks for a height above its ground,
+never for a colour, so the same card works on either.
+
+| Rung    | Light               | Dark           | Used for              |
+| ------- | ------------------- | -------------- | --------------------- |
+| `--s-0` | canvas `#ffffff`    | dark `#0a0d16` | the plane itself      |
+| `--s-1` | band `#eef1f8`      | `#232733`      | a resting card        |
+| `--s-2` | band-deep `#e2e8f4` | `#2f3442`      | hover, a raised card  |
+| `--s-3` | `#d6def0`           | `#3a4054`      | an inset chip or tile |
+
+`.band--dark` and `.on-dark` rebind `--s-*`, `--ink-*`, `--fill-*` and
+`--c-accent-current` in **one place**. Anything nested inside then resolves
+correctly without naming a dark colour itself.
+
+**A dark island on a light band must carry `.on-dark` in the markup** and name
+`--s-dark-*` explicitly — the wide first capability card is the one instance.
+Without the class its contents resolve against the band's ground, not its own.
 
 ### Ink
 
-`ink` for headings and emphasis, `ink-2` for paragraphs, `ink-3` for supporting
-detail. On dark bands, `dark-ink` and `dark-ink-2` take those roles.
+Three rungs on each ground, one for one, addressed through `--ink-1/-2/-3`:
 
-**Every pairing in this system clears WCAG AA at its intended size.** `ink-3`
-was darkened specifically so it survives on `band`, not only on canvas. Check
-any new pairing against the surface it will actually sit on, not against white.
+| Role      | Light     | Dark      | Used for                            |
+| --------- | --------- | --------- | ----------------------------------- |
+| `--ink-1` | `#0c1024` | `#f2f4fa` | headings, primary text              |
+| `--ink-2` | `#414a63` | `#a8b0c6` | body, leads, tags                   |
+| `--ink-3` | `#5f6884` | `#767f99` | card numbers, captions, small print |
 
-### Action
+The dark side previously had only two rungs against the light side's three,
+which is why small type on dark bands got its colour picked by hand.
 
-**Accent** `#a91d4b` is the crimson of the `27` in the parent mark. On dark
-bands it lifts to `accent-dark` `#f2789f`, because the base crimson only reaches
-2.7:1 there.
+### Fills
 
-**The Accent Rarity Rule.** Accent means action or active state: primary
-buttons, text links, eyebrows, focus rings. It is never a decorative fill and
-never carries paragraph text.
+`--fill-1` (6%) and `--fill-2` (10%) are the tint fills for quiet controls —
+the quiet button, the nav toggle, tags. They are **alpha, not mixed colours**,
+so a single token works on any ground once `.on-dark` flips the channel from
+ink to white.
+
+### Accent
+
+Crimson `#a91d4b` is the action colour on light grounds; `#f2789f` is its
+counterpart on dark. **Components reference `--c-accent-current` and nothing
+else.** Crimson on `--c-dark` measures 1.6:1 — unreadable — and pairing the two
+by hand at every call site is how that ships. The rebind makes it structural.
 
 ### Product hues
 
-Each product owns one quadrant hue of the CUBE27 cube — `blue`, `green`,
-`indigo`, `purple` — exposed through `data-hue` as `--card-soft`, `--card-mid`
-and `--card-deep`. The soft tint is the card and hero surface, the mid is used
-in the product illustration, the deep is used for the product's name and links.
+Four hues from the quadrants of the mark — blue, green, indigo, purple — each
+with `soft`, `mid` and `deep`. Applied with `data-hue` on a section, which sets
+`--card-soft`, `--card-mid` and `--card-deep`. A hue is an identity, never an
+action colour.
 
-**The Hue Ownership Rule.** A hue belongs to its product everywhere it appears:
-homepage card, page hero, capability hover, workflow pills. Crimson is never a
-product hue, so action never competes with identity.
+### The contrast floor
+
+Body text must clear 4.5:1 against the surface it actually sits on, not against
+the page. The pairs that do **not** clear it, and must never be written:
+
+| Foreground       | Surface      | Ratio | Use instead       |
+| ---------------- | ------------ | ----- | ----------------- |
+| `--c-accent`     | `--c-dark`   | 1.6:1 | `--c-accent-dark` |
+| `--c-ink-3`      | `--s-dark-1` | 2.4:1 | `--ink-3`         |
+| `--c-dark-ink-2` | `--c-canvas` | 2.0:1 | `--ink-2`         |
+
+Addressing colour through `--ink-*`, `--s-*` and `--c-accent-current` makes all
+three unreachable, which is the point of the indirection.
 
 ## Typography
 
-**Display:** Geist Variable. **Body:** Inter Variable. There is no third face,
-no monospace, and no italic in the system.
+**One family: Geist Variable.** There is no second face, no monospace, and no
+italic in the system. `--font-body` is an alias of `--font-display`, so the two
+role names survive in the CSS without implying two downloads.
 
 ### The ladder
 
-Every size in the system comes from one ladder of even pixel values, declared as
-tokens in `:root`. **There are no ad-hoc font sizes** — `grep "font-size:"` over
-`globals.css` should return nothing but `var(--t-*)`.
+Every size comes from one ladder of tokens in `:root`, each rung roughly 1.12x
+the one below it. **There are no ad-hoc font sizes** — `grep "font-size:"` over
+`globals.css` returns nothing but `var(--t-*)`.
 
-| Token    | Value | Used for                                                |
-| -------- | ----- | ------------------------------------------------------- |
-| `--t-12` | 12px  | eyebrows, capability numbers, mobile nav labels         |
-| `--t-14` | 14px  | small print, tags, breadcrumbs, header CTA, footer base |
-| `--t-16` | 16px  | body base, nav links, buttons, text links, footer links |
-| `--t-18` | 18px  | top of the lead and h4 ranges                           |
-| `--t-20` | 20px  | the wordmark                                            |
-| `--t-24` | 24px  | top of the h3 range                                     |
-| `--t-40` | 40px  | top of the h2 range                                     |
-| `--t-56` | 56px  | top of the display range                                |
+`13 · 14 · 15 · 16 · 17 · 18 · 20 · 23 · 26 · 30 · 34 · 40 · 44 · 54`
 
-Fluid steps interpolate between rungs: `--t-display` `clamp(30px, 4vw, 56px)`,
-`--t-h2` `clamp(24px, 2.9vw, 40px)`, `--t-h3` `clamp(18px, 1.7vw, 24px)`,
-`--t-h4` and `--t-lead` `clamp(16px, 1.2vw, 18px)`, `--t-body`
-`clamp(14px, 1vw, 16px)`.
+The ladder has no gap along its length. That matters more than the exact
+values: a hole in the middle forces a heading to borrow a size from a role it
+does not belong to, which is how the old scale ended up with a card-title
+override in the capabilities grid.
 
-The display cap is 56px because the heroes are half-width columns: above that,
-a 45-character headline breaks to four lines. Any change to `--t-display`
-should be checked against the longest product headline, not the shortest.
+### Roles step; they do not interpolate
 
-Geist states, Inter explains. Headings run 500 weight with tight negative
-tracking; body runs 400 at 1.6 line height. Eyebrows are Inter 600 at 13px with
-a short accent rule drawn by `::before` — the one place small type carries
-accent colour.
+Each role is a plain token redefined at two breakpoints — 640px and 1080px —
+and every step lands on a rung of the ladder. No viewport width renders a size
+that is not on the ladder.
 
-**The Two-Voice Rule.** Do not introduce a third family, and do not set body
-copy in Geist or headings in Inter. The wordmark is the one deliberate
-exception: it is Inter 800, not Geist, so the lockup reads as a mark rather
-than as a heading.
+| Role    | Phone | Tablet | Desktop | Line height  |
+| ------- | ----- | ------ | ------- | ------------ |
+| display | 34    | 44     | 54      | 40 / 48 / 56 |
+| h2      | 26    | 30     | 40      | 32 / 36 / 44 |
+| h3      | 20    | 23     | 26      | 24 / 28 / 32 |
+| lead    | 18    | 20     | 20      | 28           |
+| h4      | 16    | 17     | 18      | 24           |
+| body    | 15    | 16     | 16      | 24           |
+| meta    | 13    | 14     | 14      | 20           |
+
+**Why not `clamp()`.** A clamp interpolates, so it produces off-ladder sizes at
+most widths, and its floor pins the small roles at their phone size across
+every laptop. Under the previous scale `--t-body` was `clamp(14px, 1vw, 16px)`,
+which does not reach 16px until a 1600px viewport: desktop body copy was
+rendering at its mobile size on every normal laptop. The same floor held
+`--t-h4` and `--t-lead` at 16px from 390px to roughly 1500px.
+
+**Lead is larger than h4.** A lead is a subtitle under a display heading; an h4
+titles a card. They were previously the same `clamp()` expression — identical
+to the pixel — which left weight and colour carrying a distinction they could
+not hold on their own.
+
+### Line heights are absolute, on a 4px grid
+
+`56 / 48 / 44 / 40 / 36 / 32 / 28 / 24 / 20`. Unitless ratios put line boxes on
+fractional pixels, so text in adjacent cards of the same grid never shares a
+baseline. Absolute values on a common grid make the columns line up.
+
+### Two weights
+
+**400 and 500, nothing else.** Size, colour, and the surface a heading sits on
+carry the hierarchy. A third weight blurs it rather than sharpening it — this
+is why `.t-h4` no longer sets 600 and the eyebrow dropped from 600 to 500.
+
+Eyebrows are 13/14px, weight 500, uppercase with `0.06em` tracking and a short
+accent rule drawn by `::before` — the one place small type carries accent
+colour. The tracking and the case do the work that the extra weight used to.
+
+**The wordmark** is the one deliberate exception to the role system: Geist 800
+at 20px, so the lockup reads as a mark rather than as a heading.
 
 ## Layout
 
@@ -264,13 +330,26 @@ system's zero-radius square language is retired and must not return.
 
 ### Shell
 
-- `Layout.astro` owns head metadata, per-route canonical and JSON-LD, the two
-  font preloads, the skip link, `Header` and `Footer`. Pages supply only their
+- `Layout.astro` owns head metadata, per-route canonical and JSON-LD, the Geist
+  font preload, the skip link, `Header` and `Footer`. Pages supply only their
   bands.
 - `Header.astro` takes no props. Desktop shows a hover/focus Products menu;
-  below 1080px a popover panel replaces it. **The mobile menu is a native
+  below 1080px a full-height sheet replaces it. **The mobile menu is a native
   `popover`**, which supplies outside-click dismissal, Escape and focus handling
   with no script.
+
+**The mobile menu is a sheet, not a dropdown.** It covers the viewport
+(`inset: 0`, `100dvh`), so it carries its own header row — the same lockup and
+the same 46px control in the same position — and the close button lands exactly
+where the thumb opened it. Group labels step _down_ to 14px muted and the
+destinations step _up_ to 20px: on a sheet the links are the content, and the
+label only files them. Feedback is on `:active`, never a hover rectangle, since
+a thumb cannot hover. The CTA is full width and pinned to the bottom.
+
+Give `display` to `:popover-open`, never to `[popover]`. An author `display` on
+the base selector beats the UA stylesheet's closed-state `display: none` and
+leaves the sheet showing on page load.
+
 - `Footer.astro` closes the dark run that begins at the final CTA.
 
 ### Primitives
@@ -317,23 +396,30 @@ only changes the hash, which the popover API cannot do on its own. The e2e
 suite asserts that this module is the only one and that it stays under 1 KB.
 Nothing is ever inlined, so the CSP still needs no `unsafe-inline`.
 
-- The hero field is four bundles of drifting strands, each a layer holding two
-  tiles of a wave that repeats exactly once per tile. Sliding a layer left by
-  half its own width returns it to where it started, so the loop has no seam.
-  Only `transform` animates, so the compositor carries the whole field and no
-  frame repaints.
 - Section entry uses `animation-timeline: view()` behind an `@supports` guard.
   Where the timeline is unsupported, content simply renders at rest — there is
   no hidden state to get stuck in and no flash.
-- The header's hairline uses `animation-timeline: scroll()`.
+- The header's background and hairline both use `animation-timeline: scroll()`.
+  It rests on the colour of the section beneath it and resolves to canvas over
+  the first 48px of scroll, so the first viewport has no bar across the top.
+  `body:has(.hero)` sets `--header-rest`; pages without a tinted first section
+  leave it at canvas and the animation moves the hairline only.
+
+**Never write scroll-driven animations with the `animation` shorthand.** The
+CSS minifier folds the following `animation-timeline` into it, emitting
+`animation: linear both name scroll()`, which no browser parses — the whole
+declaration is dropped and the animation silently does not run. Use
+`animation-name` / `animation-timing-function` / `animation-fill-mode`
+longhands, which cannot be merged that way. Both the header lift and every
+`[data-reveal]` shipped dead for exactly this reason.
+
 - `data-reveal-delay` staggers a group by shifting `animation-range`, not by
   `animation-delay`, which has no meaning on a scroll timeline.
 - Hover lifts, the text-link underline draw, and the popover's
   `@starting-style` entry are ordinary transitions.
 - `prefers-reduced-motion: reduce` collapses all of it to 0.01ms and disables
   smooth scrolling. The reveal timelines are additionally scoped inside a
-  `no-preference` query, so they never run at all, and the hero field settles
-  into the still composition it is drawn for.
+  `no-preference` query, so they never run at all.
 
 ## Accessibility
 
@@ -349,21 +435,36 @@ overrides that restore borders to borderless cards.
 
 - **Do** express structure with a surface change and space before reaching for
   anything else.
-- **Do** check a new colour pairing against the surface it will actually sit on.
+- **Do** check a new colour pairing against the surface it will actually sit
+  on, and against the contrast floor table above.
 - **Do** extend `.band`, `.shell`, `SectionHead`, `Button`, `TextLink` and the
   card vocabulary before adding a new primitive.
 - **Do** keep new motion CSS-only, guarded by `@supports`, and inert under
   reduced motion.
 - **Do** record new tokens and components in this file and in
   `.impeccable/design.json`.
+- **Do** set type from a role token (`--t-h2`, `--t-lead`, …), and add a
+  breakpoint step to `:root` if a role needs to move — never a `font-size` on
+  the component.
 
 ### Don't
 
 - **Don't** add borders as a structural device, or return to zero-radius boxes.
 - **Don't** use crimson as decoration, or a product hue as an action colour.
+- **Don't** name a plane, an ink or an accent by its light/dark value in a
+  component. Address `--s-*`, `--ink-*` and `--c-accent-current`; if a rule
+  needs an `.on-dark` counterpart, the token is wrong, not the rule.
+- **Don't** hardcode a hex for a surface. Every one that existed was picked by
+  hand and none of them was findable by name.
 - **Don't** add an inline `style` attribute or an inline `<script>` — the CSP
   blocks both, and `validate-build` fails the build on either.
-- **Don't** introduce a third font family, a monospace face, or italics.
+- **Don't** introduce a second font family, a monospace face, or italics, and
+  don't add a third weight — 400 and 500 are the whole system.
+- **Don't** set type with `clamp()`. Roles step between breakpoints so every
+  rendered size stays on the ladder; a clamp interpolates off it and its floor
+  pins small roles at their phone size across laptop widths.
+- **Don't** use unitless line heights. They land on fractional pixels and stop
+  adjacent cards in a grid from sharing a baseline.
 - **Don't** show brains, glowing network nodes, robots or generic purple AI
   gradients. The imagery is material and the illustrations are interfaces.
 - **Don't** expose the internal build names behind the four product systems.

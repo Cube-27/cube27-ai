@@ -4,7 +4,7 @@ Static Astro site for [ai.cube27.com](https://ai.cube27.com), deployed on
 Cloudflare Pages. Five routes: the homepage and one page per product system.
 
 The site ships **one 147-byte module** of first-party JavaScript, and nothing
-else. Section reveals, the hero field, the sticky header and opening the mobile
+else. Section reveals, the header's colour shift on scroll and opening the mobile
 menu are all CSS or native platform features. See
 [docs/rebuild.md](./docs/rebuild.md) for why, and for the one case that needed
 a script.

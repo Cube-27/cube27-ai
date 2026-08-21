@@ -52,6 +52,12 @@ for (const route of ROUTES) {
 
   test(`${route} passes an accessibility audit`, async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 });
+    // Reveals hold their subject at opacity 0 until its scroll range is
+    // entered, and axe scores an invisible element as a contrast failure
+    // against the surface behind it. Reduced motion is the state the page is
+    // also drawn for, and it takes the reveals out entirely, so the audit sees
+    // the colours the design actually ships.
+    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto(route);
     await settle(page);
     const results = await new AxeBuilder({ page })
@@ -147,9 +153,7 @@ test("desktop products menu opens on hover and on keyboard focus", async ({
   await expect(panel).toBeVisible();
 });
 
-test("mobile navigation opens, links out, and light-dismisses", async ({
-  page,
-}) => {
+test("mobile navigation opens, links out, and closes", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
   await expect(page.locator(".desktop-nav")).toBeHidden();
@@ -168,9 +172,11 @@ test("mobile navigation opens, links out, and light-dismisses", async ({
   await page.keyboard.press("Escape");
   await expect(panel).toBeHidden();
 
+  // The panel is a full-viewport sheet, so light dismiss has no outside left
+  // to click; the close button in its own header row is the affordance.
   await toggle.click();
   await expect(panel).toBeVisible();
-  await page.mouse.click(200, 700);
+  await panel.locator(".mobile-nav__close").click();
   await expect(panel).toBeHidden();
 
   // A link to an anchor on this same page never unloads the document, so the
@@ -207,17 +213,30 @@ test("ships only the analytics loader and the menu module", async ({
   expect((await response.body()).byteLength).toBeLessThan(1024);
 });
 
-test("the hero opens on the drawn field, not on an image", async ({ page }) => {
+test("the hero opens on a flat plane the header rests on", async ({ page }) => {
   await page.goto("/");
   const hero = page.locator(".hero");
-  await expect(hero.locator(".hero-field")).toBeAttached();
-  await expect(hero.locator(".hero-field__layer")).toHaveCount(4);
+  // No image, and no decorative layer either: the hero is one tinted surface,
+  // the same treatment the product heroes get from their own hue.
   await expect(hero.locator("img")).toHaveCount(0);
-  // The field is decoration: it must not reach the accessibility tree.
-  await expect(hero.locator(".hero-field")).toHaveAttribute(
-    "aria-hidden",
-    "true",
+  await expect(hero.locator("svg")).toHaveCount(0);
+
+  const plane = await hero.evaluate(
+    (el) => getComputedStyle(el).backgroundColor,
   );
+  expect(plane).toBe("rgb(238, 241, 248)");
+
+  // At scroll top the header is that same plane, so the first viewport has no
+  // bar across it; it resolves to canvas once content passes beneath.
+  const header = page.locator(".site-header");
+  expect(
+    await header.evaluate((el) => getComputedStyle(el).backgroundColor),
+  ).toBe(plane);
+
+  await page.evaluate(() => window.scrollTo(0, 400));
+  await expect
+    .poll(() => header.evaluate((el) => getComputedStyle(el).backgroundColor))
+    .toBe("rgb(255, 255, 255)");
 });
 
 test("product pages carry their own canonical, title and breadcrumb", async ({

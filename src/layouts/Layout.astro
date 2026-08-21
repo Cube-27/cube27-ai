@@ -6,7 +6,6 @@ import Header from "@/components/sections/Header.astro";
 import { SITE } from "@/data/site";
 import type { JsonLd } from "@/lib/schema";
 import geistLatinUrl from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
-import interLatinUrl from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 
 interface Props {
   title?: string;
@@ -72,13 +71,6 @@ const serializedJsonLd = jsonLd
     <link
       rel="preload"
       href={geistLatinUrl}
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href={interLatinUrl}
       as="font"
       type="font/woff2"
       crossorigin

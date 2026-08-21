@@ -1,14 +1,11 @@
 ---
 import Button from "@/components/ui/Button.astro";
 import SectionHead from "@/components/ui/SectionHead.astro";
-import HeroField from "@/components/visuals/HeroField.astro";
 import { HERO } from "@/data/home";
 import { CTA, SITE } from "@/data/site";
 ---
 
 <section class="hero">
-  <HeroField />
-
   <div class="shell hero__inner">
     <SectionHead level={1} title={HERO.title} lead={HERO.lead} flush>
       <p class="t-body hero__support">{HERO.support}</p>
