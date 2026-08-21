@@ -1,0 +1,54 @@
+---
+/**
+ * The single container for every heading + subtitle pair on the site. Owns the
+ * eyebrow, the headline measure, the lead measure and the alignment, so no page
+ * re-invents them. Anything that follows the pair (buttons, extra copy) goes in
+ * the default slot and inherits the same alignment.
+ */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  /** Heading level. Visual size follows `size`, not this. */
+  level?: 1 | 2 | 3;
+  /** Visual size, when it should differ from the semantic level. */
+  size?: "display" | "h2" | "h3";
+  align?: "center" | "start";
+  wide?: boolean;
+  /** Drop the bottom margin when the head is not introducing a grid. */
+  flush?: boolean;
+  class?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  lead,
+  level = 2,
+  size,
+  align = "center",
+  wide = false,
+  flush = false,
+  class: className,
+} = Astro.props;
+
+const Heading = `h${level}` as "h1" | "h2" | "h3";
+const SIZE_CLASS = { display: "t-display", h2: "t-h2", h3: "t-h3" } as const;
+const sizeClass =
+  SIZE_CLASS[size ?? (level === 1 ? "display" : level === 2 ? "h2" : "h3")];
+---
+
+<div
+  class:list={[
+    "section-head",
+    `section-head--${align}`,
+    { "section-head--wide": wide, "section-head--flush": flush },
+    className,
+  ]}
+  data-reveal
+>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <Heading class:list={[sizeClass, "section-head__title"]}>{title}</Heading>
+  {lead && <p class="t-lead section-head__lead">{lead}</p>}
+  <slot />
+</div>

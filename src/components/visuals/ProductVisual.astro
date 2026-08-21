@@ -1,0 +1,25 @@
+---
+import BidDocument from "@/components/visuals/BidDocument.astro";
+import CommerceFeed from "@/components/visuals/CommerceFeed.astro";
+import SupplierTimeline from "@/components/visuals/SupplierTimeline.astro";
+import VisibilityBoard from "@/components/visuals/VisibilityBoard.astro";
+import type { Product } from "@/data/products";
+
+interface Props {
+  visual: Product["visual"];
+  label?: string;
+}
+
+const { visual, label } = Astro.props;
+
+const VISUALS = {
+  visibility: VisibilityBoard,
+  commerce: CommerceFeed,
+  supplier: SupplierTimeline,
+  bid: BidDocument,
+} as const;
+
+const Visual = VISUALS[visual];
+---
+
+<Visual label={label} />

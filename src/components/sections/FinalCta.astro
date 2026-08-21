@@ -1,19 +1,23 @@
 ---
-import { ArrowRight } from "@lucide/astro";
-import { SITE } from "@/data/site";
+import Button from "@/components/ui/Button.astro";
+import SectionHead from "@/components/ui/SectionHead.astro";
+import { FINAL_CTA } from "@/data/home";
+import { CTA, SITE } from "@/data/site";
 ---
 
-<section class="section-shell final-cta" data-rail="ACTIVATE // 05">
-  <div class="cta-pulse" aria-hidden="true">
-    <span></span><span></span><span></span>
+<section class="band band--dark on-dark cta-band">
+  <div class="shell cta-band__inner">
+    <SectionHead
+      title={FINAL_CTA.title}
+      lead={FINAL_CTA.lead}
+      align="start"
+      flush
+    />
+    <div class="cta-band__actions" data-reveal data-reveal-delay="1">
+      <Button href={SITE.contactUrl} variant="on-dark" arrow>
+        {CTA.primary}
+      </Button>
+      <Button href="/#products" variant="ghost-dark">{CTA.products}</Button>
+    </div>
   </div>
-  <div>
-    <p class="eyebrow">
-      <span class="eyebrow-dot" aria-hidden="true"></span>YOUR NEXT SYSTEM
-    </p>
-    <h2>Let’s turn an AI idea into an operational advantage.</h2>
-  </div>
-  <a class="primary-button primary-button-large" href={SITE.contactUrl}>
-    START A CONVERSATION <ArrowRight size={18} aria-hidden="true" />
-  </a>
 </section>

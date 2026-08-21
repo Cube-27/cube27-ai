@@ -1,19 +1,29 @@
 ---
-import { ArrowLeft } from "@lucide/astro";
+import Button from "@/components/ui/Button.astro";
+import SectionHead from "@/components/ui/SectionHead.astro";
 import Layout from "@/layouts/Layout.astro";
 ---
 
 <Layout
-  title="Page not found — Cube27 AI"
-  description="The requested Cube27 AI page could not be found."
+  title="Page not found — CUBE27 AI"
+  description="The requested CUBE27 AI page could not be found."
   noindex
 >
-  <main class="error-page">
-    <p class="eyebrow"><span class="eyebrow-dot"></span>SYS: 404</p>
-    <h1>Signal path not found.</h1>
-    <p>The requested route is outside this system.</p>
-    <a class="primary-button" href="/"
-      ><ArrowLeft size={17} /> Return to Cube27 AI</a
-    >
-  </main>
+  <section class="band band--canvas">
+    <div class="shell nf">
+      <SectionHead
+        eyebrow="404"
+        level={1}
+        size="h2"
+        title="We could not find that page."
+        lead="The link may be out of date. Our product systems and capabilities are all reachable from the homepage."
+      >
+        <div class="btn-row btn-row--center">
+          <Button href="/" variant="primary">Back to CUBE27 AI</Button>
+          <Button href="/#products" variant="quiet">Explore our products</Button
+          >
+        </div>
+      </SectionHead>
+    </div>
+  </section>
 </Layout>

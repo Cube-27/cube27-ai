@@ -1,0 +1,41 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+import SectionHead from "@/components/ui/SectionHead.astro";
+import { CAPABILITIES, CAPABILITIES_INTRO } from "@/data/capabilities";
+---
+
+<section class="band band--deep" id="capabilities">
+  <div class="shell">
+    <SectionHead
+      eyebrow={CAPABILITIES_INTRO.eyebrow}
+      title={CAPABILITIES_INTRO.title}
+      lead={CAPABILITIES_INTRO.lead}
+      wide
+    />
+
+    <ul class="cap-grid">
+      {
+        CAPABILITIES.map((capability, index) => (
+          <li
+            class="cap-card"
+            data-reveal
+            data-reveal-delay={index % 4}
+          >
+            <div class="cap-card__top">
+              <span class="cap-card__icon">
+                <Icon name={capability.icon} size={22} />
+              </span>
+              <span class="cap-card__num" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+            </div>
+            <h3 class="t-h4">{capability.name}</h3>
+            <p class="t-body">{capability.detail}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="cap-outro" data-reveal>{CAPABILITIES_INTRO.outro}</p>
+  </div>
+</section>

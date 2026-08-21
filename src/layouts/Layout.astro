@@ -1,20 +1,17 @@
 ---
 import "@/styles/fonts.css";
 import "@/styles/globals.css";
-import { getImage } from "astro:assets";
+import Footer from "@/components/sections/Footer.astro";
+import Header from "@/components/sections/Header.astro";
 import { SITE } from "@/data/site";
 import type { JsonLd } from "@/lib/schema";
-import heroTopology from "@/assets/images/hero-topology.png";
 import geistLatinUrl from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
-import jetBrainsMonoLatinUrl from "@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url";
-import spaceGroteskLatinUrl from "@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url";
+import interLatinUrl from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 
 interface Props {
   title?: string;
   description?: string;
   canonical?: string;
-  image?: string;
-  imageAlt?: string;
   noindex?: boolean;
   jsonLd?: JsonLd;
 }
@@ -23,29 +20,19 @@ const {
   title = SITE.name,
   description = SITE.description,
   canonical = `${SITE.url}/`,
-  image = `${SITE.url}/social-preview.jpg`,
-  imageAlt = "Cube27 AI production systems control room.",
   noindex = false,
   jsonLd,
 } = Astro.props;
 
+const image = `${SITE.url}/social-preview.jpg`;
+const imageAlt =
+  "Layered ribbons of light in the CUBE27 brand colours, the visual signature of CUBE27 AI.";
 const robots = noindex
   ? "noindex, nofollow"
   : "index, follow, max-image-preview:large";
 const serializedJsonLd = jsonLd
   ? JSON.stringify(jsonLd).replace(/</g, "\\u003c")
   : undefined;
-const heroWidths = [640, 960, 1280, 1600] as const;
-const heroPreloads = noindex
-  ? []
-  : await Promise.all(
-      heroWidths.map((width) =>
-        getImage({ src: heroTopology, width, format: "avif" }),
-      ),
-    );
-const heroSrcset = heroPreloads
-  .map((asset, index) => `${asset.src} ${heroWidths[index]}w`)
-  .join(", ");
 ---
 
 <!doctype html>
@@ -53,7 +40,7 @@ const heroSrcset = heroPreloads
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#070b12" />
+    <meta name="theme-color" content="#ffffff" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -84,13 +71,6 @@ const heroSrcset = heroPreloads
     <link rel="manifest" href="/site.webmanifest" />
     <link
       rel="preload"
-      href={spaceGroteskLatinUrl}
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
       href={geistLatinUrl}
       as="font"
       type="font/woff2"
@@ -98,24 +78,11 @@ const heroSrcset = heroPreloads
     />
     <link
       rel="preload"
-      href={jetBrainsMonoLatinUrl}
+      href={interLatinUrl}
       as="font"
       type="font/woff2"
       crossorigin
     />
-    {
-      !noindex && (
-        <link
-          rel="preload"
-          as="image"
-          href={heroPreloads[2]?.src}
-          imagesrcset={heroSrcset}
-          imagesizes="100vw"
-          type="image/avif"
-          fetchpriority="high"
-        />
-      )
-    }
 
     {
       serializedJsonLd && (
@@ -134,14 +101,17 @@ const heroSrcset = heroPreloads
   </head>
   <body>
     <!--
-    THESIS: Inference Control Room turns a marketing page into one traced production system and refuses disconnected landing-page bands.
-    OWN-WORLD: Midnight graphite, signal cyan, verified chartreuse, hairline routes, square instrument panels, and precise operational typography.
-    STORY: Visitors understand Cube27's grounded AI posture, inspect its patterns and product proof, then continue to a working conversation.
-    FIRST VIEWPORT: Fixed header and signal rail frame an asymmetric declaration, full-bleed topology field, deployment lens, and cyan primary action.
-    FORM: User-pinned live demo reference; seed key pinned-demo-inference-control-room.
+    THESIS: CUBE27 builds AI products for complex operational work; the product systems lead and the engineering explains how they stay reliable.
+    OWN-WORLD: A light field of tinted surfaces without borders, punctuated by dark bands, carrying the four hues of the CUBE27 mark.
+    STORY: Visitors see what we make, then how each product works, then the engineering underneath, then how to start.
+    FIRST VIEWPORT: The proposition, two actions, and a sculptural field of layered light.
     FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
     -->
     <a class="skip-link" href="#main">Skip to content</a>
-    <slot />
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>

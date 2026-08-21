@@ -1,0 +1,27 @@
+---
+import SectionHead from "@/components/ui/SectionHead.astro";
+import { PHILOSOPHY_INTRO, PHILOSOPHY_STEPS } from "@/data/capabilities";
+---
+
+<section class="band band--dark band--round-top on-dark" id="how-we-build">
+  <div class="shell">
+    <SectionHead
+      eyebrow={PHILOSOPHY_INTRO.eyebrow}
+      title={PHILOSOPHY_INTRO.title}
+      lead={PHILOSOPHY_INTRO.lead}
+      wide
+    />
+
+    <ol class="phil-grid">
+      {
+        PHILOSOPHY_STEPS.map((item, index) => (
+          <li class="phil-card" data-reveal data-reveal-delay={index}>
+            <span class="phil-card__step">{item.step}</span>
+            <h3 class="t-h4">{item.name}</h3>
+            <p class="t-body">{item.detail}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,27 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+
+interface Props {
+  href: string;
+  variant?: "primary" | "secondary" | "quiet" | "on-dark" | "ghost-dark";
+  arrow?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  variant = "primary",
+  arrow = false,
+  class: className,
+} = Astro.props;
+const external = href.startsWith("http");
+---
+
+<a
+  class:list={["btn", `btn--${variant}`, className]}
+  href={href}
+  rel={external ? "noopener" : undefined}
+>
+  <slot />
+  {arrow && <Icon name="arrowUpRight" size={17} stroke={2} />}
+</a>

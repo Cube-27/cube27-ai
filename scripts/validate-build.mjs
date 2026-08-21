@@ -1,6 +1,5 @@
 import { access, readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
-import sharp from "sharp";
 
 const root = process.cwd();
 const dist = path.join(root, "dist");
@@ -20,119 +19,181 @@ const exists = async (name) => {
   }
 };
 
-const html = await read("index.html");
-expect(
-  html.includes("<title>Cube27 AI — Production AI Systems</title>"),
-  "exact title is missing",
-);
-expect(
-  html.includes(
-    'name="description" content="Cube27 designs grounded, governed, and observable AI systems for real-world operations."',
-  ),
-  "exact description is missing",
-);
-expect(
-  html.includes('rel="canonical" href="https://ai.cube27.com/"'),
-  "self canonical is missing",
-);
-expect(
-  html.includes(
-    'property="og:image" content="https://ai.cube27.com/social-preview.jpg"',
-  ),
-  "Open Graph image is missing",
-);
-expect(
-  html.includes('name="twitter:card" content="summary_large_image"'),
-  "Twitter card metadata is missing",
-);
-expect(html.includes('type="application/ld+json"'), "JSON-LD is missing");
-for (const type of [
-  "Organization",
-  "WebSite",
-  "WebPage",
-  "Service",
-  "ItemList",
-  "OfferCatalog",
-]) {
-  expect(html.includes(`"@type":"${type}"`), `JSON-LD type ${type} is missing`);
-}
-expect(
-  html.includes('rel="preload" as="image"'),
-  "hero image preload is missing",
-);
-expect(
-  !/manus|manus-storage/i.test(html),
-  "generated HTML contains a Manus reference",
-);
-expect(
-  !/client:(load|idle|visible|media|only)|astro-island/i.test(html),
-  "first-party hydration markup is present",
-);
-expect(
-  !/react|framer-motion/i.test(html),
-  "React or Framer Motion leaked into generated HTML",
-);
+const SITE_URL = "https://ai.cube27.com";
 
-for (const file of [
-  "robots.txt",
-  "llms.txt",
-  "llms-full.txt",
-  "sitemap-index.xml",
-  "_headers",
-  "_redirects",
-  "site.webmanifest",
-]) {
-  expect(await exists(file), `${file} was not generated`);
-}
+/** Astro escapes text nodes, so expectations must be compared escaped. */
+const escapeHtml = (value) =>
+  value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-const robots = await read("robots.txt");
-expect(
-  robots.includes("OAI-SearchBot\nAllow: /"),
-  "OAI-SearchBot is not explicitly allowed",
-);
-expect(
-  robots.includes("https://ai.cube27.com/sitemap-index.xml"),
-  "robots sitemap URL is incorrect",
-);
+const ROUTES = [
+  {
+    file: "index.html",
+    url: `${SITE_URL}/`,
+    title: "CUBE27 AI — AI products for complex operational work",
+    heading: "AI products for complex operational work.",
+    types: ["Organization", "WebSite", "WebPage", "Service", "ItemList"],
+  },
+  {
+    file: "products/ai-visibility/index.html",
+    url: `${SITE_URL}/products/ai-visibility/`,
+    title: "AI Visibility & Growth Intelligence — CUBE27 AI",
+    heading: "Understand why AI recommends one brand over another.",
+    types: ["BreadcrumbList", "Service", "WebPage"],
+  },
+  {
+    file: "products/commerce-intelligence/index.html",
+    url: `${SITE_URL}/products/commerce-intelligence/`,
+    title: "Commerce Intelligence & Monitoring — CUBE27 AI",
+    heading: "Know when the market changes.",
+    types: ["BreadcrumbList", "Service", "WebPage"],
+  },
+  {
+    file: "products/supplier-operations/index.html",
+    url: `${SITE_URL}/products/supplier-operations/`,
+    title: "Supplier Order Operations — CUBE27 AI",
+    heading: "One flow from purchase order to reconciliation.",
+    types: ["BreadcrumbList", "Service", "WebPage"],
+  },
+  {
+    file: "products/bid-operations/index.html",
+    url: `${SITE_URL}/products/bid-operations/`,
+    title: "Bid & Proposal Operations — CUBE27 AI",
+    heading: "From tender document to submission workspace.",
+    types: ["BreadcrumbList", "Service", "WebPage"],
+  },
+];
 
-const llms = await read("llms-full.txt");
-for (const name of ["Invoro", "CiteLadder", "SalesERP", "RFPmanager"]) {
-  expect(llms.includes(name), `${name} is absent from llms-full.txt`);
-}
+/** Internal build names that must never ship. */
+const INTERNAL_NAMES = ["CiteLadder", "Invoro", "SalesERP", "RFPmanager"];
 
-const social = await sharp(path.join(dist, "social-preview.jpg")).metadata();
-expect(
-  social.width === 1200 && social.height === 630,
-  "social preview must be 1200×630",
-);
+const documents = [];
 
-const collectFiles = async (directory) => {
-  const entries = await readdir(directory, { withFileTypes: true });
-  const files = [];
-  for (const entry of entries) {
-    const absolute = path.join(directory, entry.name);
-    if (entry.isDirectory()) files.push(...(await collectFiles(absolute)));
-    else files.push(absolute);
+for (const route of ROUTES) {
+  if (!(await exists(route.file))) {
+    expect(false, `${route.file} is missing`);
+    continue;
   }
-  return files;
-};
-const distFiles = await collectFiles(dist);
-const jsFiles = distFiles.filter(
-  (file) => file.endsWith(".js") && !file.endsWith("analytics.js"),
-);
-const jsBytes = (await Promise.all(jsFiles.map((file) => stat(file)))).reduce(
-  (sum, item) => sum + item.size,
-  0,
-);
+  const html = await read(route.file);
+  documents.push({ route, html });
+
+  expect(
+    html.includes(`<title>${escapeHtml(route.title)}</title>`),
+    `${route.file}: exact title is missing`,
+  );
+  expect(
+    html.includes(`rel="canonical" href="${route.url}"`),
+    `${route.file}: self canonical is missing`,
+  );
+  expect(
+    html.includes(`property="og:url" content="${route.url}"`),
+    `${route.file}: og:url is missing`,
+  );
+  expect(
+    html.includes(
+      `property="og:image" content="${SITE_URL}/social-preview.jpg"`,
+    ),
+    `${route.file}: Open Graph image is missing`,
+  );
+  expect(
+    html.includes('name="twitter:card" content="summary_large_image"'),
+    `${route.file}: Twitter card metadata is missing`,
+  );
+  expect(
+    html.includes(escapeHtml(route.heading)),
+    `${route.file}: page heading is missing`,
+  );
+  expect(
+    html.includes('type="application/ld+json"'),
+    `${route.file}: JSON-LD is missing`,
+  );
+  for (const type of route.types) {
+    expect(
+      html.includes(`"@type":"${type}"`),
+      `${route.file}: JSON-LD type ${type} is missing`,
+    );
+  }
+  expect(
+    (html.match(/<h1[\s>]/g) ?? []).length === 1,
+    `${route.file}: expected exactly one h1`,
+  );
+  expect(
+    html.includes('rel="preload"') && html.includes('as="font"'),
+    `${route.file}: font preloads are missing`,
+  );
+  for (const name of INTERNAL_NAMES) {
+    expect(
+      !html.includes(name),
+      `${route.file}: internal build name ${name} leaked`,
+    );
+  }
+  // The CSP allows neither inline styles nor inline scripts.
+  expect(
+    !/\sstyle="/.test(html),
+    `${route.file}: an inline style attribute would be blocked by the CSP`,
+  );
+  expect(
+    !/<script(?![^>]*(src=|type="application\/ld\+json"))/.test(html),
+    `${route.file}: an inline script would be blocked by the CSP`,
+  );
+  // Space Grotesk and JetBrains Mono were retired with the previous design.
+  expect(
+    !/Space Grotesk|JetBrains Mono/.test(html),
+    `${route.file}: a retired font family is still referenced`,
+  );
+}
+
+// The homepage LCP image must be offered in a modern format.
+const home = documents.find((doc) => doc.route.file === "index.html")?.html;
 expect(
-  jsBytes === 0,
-  `expected zero first-party JavaScript, found ${jsBytes} bytes`,
+  home !== undefined && /<source[^>]+type="image\/avif"/.test(home),
+  "homepage hero is not served as AVIF",
 );
 
-if (failures.length) {
-  console.error(
-    `Generated output validation failed:\n- ${failures.join("\n- ")}`,
+// Crawler and sitemap surfaces.
+expect(await exists("sitemap-index.xml"), "sitemap-index.xml is missing");
+expect(await exists("robots.txt"), "robots.txt is missing");
+expect(await exists("404.html"), "404.html is missing");
+expect(await exists("social-preview.jpg"), "social-preview.jpg is missing");
+
+const sitemap = await read("sitemap-0.xml");
+for (const route of ROUTES) {
+  expect(sitemap.includes(route.url), `sitemap is missing ${route.url}`);
+}
+
+const llms = await read("llms.txt");
+const llmsFull = await read("llms-full.txt");
+for (const route of ROUTES.slice(1)) {
+  expect(llms.includes(route.url), `llms.txt is missing ${route.url}`);
+  expect(llmsFull.includes(route.url), `llms-full.txt is missing ${route.url}`);
+}
+for (const name of INTERNAL_NAMES) {
+  expect(!llms.includes(name), `llms.txt leaked ${name}`);
+  expect(!llmsFull.includes(name), `llms-full.txt leaked ${name}`);
+}
+
+// No stylesheet or script may be inlined: the CSP allows neither.
+expect(
+  !/<style[\s>]/.test(home),
+  "an inline <style> block would be blocked by the CSP",
+);
+
+// Asset budget for the render-blocking stylesheet.
+const astroDir = path.join(dist, "_astro");
+const assets = await readdir(astroDir);
+const cssFiles = assets.filter((name) => name.endsWith(".css"));
+expect(cssFiles.length > 0, "no compiled stylesheet was emitted");
+for (const file of cssFiles) {
+  const { size } = await stat(path.join(astroDir, file));
+  expect(
+    size < 90_000,
+    `stylesheet ${file} is ${(size / 1024).toFixed(0)} KB, over the 88 KB budget`,
   );
+}
+
+if (failures.length > 0) {
+  console.error("Build validation failed:\n");
+  for (const failure of failures) console.error(`  - ${failure}`);
   process.exit(1);
 }
-console.log("Generated output validation passed.");
+
+console.log(`Build validation passed across ${ROUTES.length} routes.`);

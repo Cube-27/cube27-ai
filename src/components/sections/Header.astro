@@ -1,39 +1,92 @@
 ---
-import { ArrowUpRight, Menu, X } from "@lucide/astro";
-import { NAV_ITEMS, SITE } from "@/data/site";
+import Button from "@/components/ui/Button.astro";
+import Icon from "@/components/ui/Icon.astro";
 import Logo from "@/components/ui/Logo.astro";
+import { CTA, NAV_ITEMS, PRODUCT_LINKS, SITE } from "@/data/site";
 ---
 
 <header class="site-header">
-  <a class="brand-home" href="#top" aria-label="Cube27 AI home">
-    <Logo />
-  </a>
+  <div class="shell site-header__inner">
+    <Logo href="/" />
 
-  <nav class="desktop-nav" aria-label="Primary navigation">
-    {NAV_ITEMS.map((item) => <a href={item.href}>{item.label}</a>)}
-  </nav>
-
-  <a class="header-cta" href={SITE.contactUrl}>
-    START A CONVERSATION <ArrowUpRight size={15} aria-hidden="true" />
-  </a>
-
-  <details class="mobile-nav">
-    <summary>
-      <span class="sr-only">Navigation menu</span>
-      <Menu class="menu-open" size={24} aria-hidden="true" />
-      <X class="menu-close" size={24} aria-hidden="true" />
-    </summary>
-    <nav aria-label="Mobile navigation">
+    <nav class="desktop-nav" aria-label="Primary">
+      <div class="nav-menu">
+        <a class="nav-link" href="/#products">
+          Products
+          <Icon
+            name="chevronDown"
+            size={15}
+            stroke={2}
+            class="nav-menu__chevron"
+          />
+        </a>
+        <div class="nav-menu__panel">
+          {
+            PRODUCT_LINKS.map((product) => (
+              <a class="nav-menu__item" href={product.href}>
+                <span class="nav-menu__name">{product.label}</span>
+                <span class="nav-menu__promise">{product.promise}</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
       {
         NAV_ITEMS.map((item) => (
-          <a class="mobile-section-link" href={item.href}>
+          <a class="nav-link" href={item.href}>
             {item.label}
           </a>
         ))
       }
-      <a href={SITE.contactUrl}>
-        START A CONVERSATION <ArrowUpRight size={18} aria-hidden="true" />
-      </a>
     </nav>
-  </details>
+
+    <div class="header-actions">
+      <Button href={SITE.contactUrl} variant="secondary" class="btn--desktop">
+        {CTA.primary}
+      </Button>
+
+      {
+        /*
+         * The popover API supplies light dismiss — outside click and Escape —
+         * plus focus handling, so the whole menu needs no JavaScript and no
+         * inline-script exception in the CSP.
+         */
+      }
+      <div class="mobile-nav">
+        <button
+          class="mobile-nav__toggle"
+          type="button"
+          popovertarget="mobile-menu"
+          aria-label="Menu"
+        >
+          <Icon name="menu" size={22} stroke={1.9} class="icon-open" />
+          <Icon name="close" size={22} stroke={1.9} class="icon-close" />
+        </button>
+
+        <div class="mobile-nav__panel" id="mobile-menu" popover>
+          <nav aria-label="Primary mobile">
+            <p class="mobile-nav__label">Products</p>
+            {
+              PRODUCT_LINKS.map((product) => (
+                <a class="mobile-nav__link" href={product.href}>
+                  {product.label}
+                </a>
+              ))
+            }
+            <p class="mobile-nav__label">Company</p>
+            {
+              NAV_ITEMS.map((item) => (
+                <a class="mobile-nav__link" href={item.href}>
+                  {item.label}
+                </a>
+              ))
+            }
+          </nav>
+          <Button href={SITE.contactUrl} variant="secondary">
+            {CTA.primary}
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
 </header>

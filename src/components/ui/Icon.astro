@@ -1,0 +1,35 @@
+---
+import { ICON_DOTS, ICONS, type IconName } from "@/lib/icons";
+
+interface Props {
+  name: IconName;
+  size?: number;
+  stroke?: number;
+  class?: string;
+}
+
+const { name, size = 22, stroke = 1.7, class: className } = Astro.props;
+const paths = ICONS[name];
+const dots = ICON_DOTS[name] ?? [];
+---
+
+<svg
+  class={className}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={stroke}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  {paths.map((d) => <path d={d} />)}
+  {
+    dots.map(([cx, cy]) => (
+      <circle cx={cx} cy={cy} r="2.6" fill="currentColor" stroke="none" />
+    ))
+  }
+</svg>

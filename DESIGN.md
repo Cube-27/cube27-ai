@@ -1,223 +1,358 @@
 ---
-name: Cube27 AI
-description: A production-AI control room built from signal paths, operational evidence, and restrained instrumentation.
+name: CUBE27 AI
+description: A light field of tinted surfaces without borders, carrying the four hues of the CUBE27 mark, punctuated by full-bleed dark bands.
 colors:
-  background: "#070b12"
-  surface-1: "#0b1722"
-  surface-2: "#0e1b28"
-  surface-3: "#112835"
-  text-primary: "#effbff"
-  text-secondary: "#b2c8d2"
-  text-muted: "#8faebb"
-  signal: "#5ee8ff"
-  signal-hover: "#95efff"
-  verified: "#b3e85a"
-  assurance: "#a8b8ff"
-  learning: "#f4cd85"
-  border: "rgb(159 212 230 / 0.15)"
-  border-active: "rgb(94 232 255 / 0.56)"
+  canvas: "#ffffff"
+  band: "#eef1f8"
+  band-deep: "#e2e8f4"
+  ink: "#0c1024"
+  ink-2: "#414a63"
+  ink-3: "#5f6884"
+  dark: "#0a0d16"
+  dark-2: "#151a2a"
+  dark-3: "#1e2436"
+  dark-ink: "#f2f4fa"
+  dark-ink-2: "#a8b0c6"
+  accent: "#a91d4b"
+  accent-hover: "#87153c"
+  accent-soft: "#fbecf1"
+  accent-dark: "#f2789f"
+  hue-blue: "#0872ba"
+  hue-green: "#0b7a3c"
+  hue-indigo: "#33348f"
+  hue-purple: "#6d3d80"
 typography:
   display:
-    fontFamily: '"Space Grotesk Variable", "Space Grotesk", sans-serif'
-    fontSize: "clamp(42px, 5.45vw, 82px)"
-    fontWeight: 500
-    lineHeight: 0.94
-    letterSpacing: "-0.055em"
-  headline:
-    fontFamily: '"Space Grotesk Variable", "Space Grotesk", sans-serif'
-    fontSize: "clamp(31px, 3.4vw, 50px)"
-    fontWeight: 500
-    lineHeight: 0.99
-    letterSpacing: "-0.052em"
-  title:
-    fontFamily: '"Space Grotesk Variable", "Space Grotesk", sans-serif'
-    fontSize: "25px"
-    fontWeight: 500
-    lineHeight: 1.02
-    letterSpacing: "-0.05em"
-  body:
-    fontFamily: '"Geist Variable", Geist, sans-serif'
-    fontSize: "clamp(15px, 1.15vw, 18px)"
-    fontWeight: 400
-    lineHeight: 1.65
-    letterSpacing: "normal"
-  label:
-    fontFamily: '"JetBrains Mono Variable", "JetBrains Mono", monospace'
-    fontSize: "10px"
+    fontFamily: '"Geist Variable", Geist, system-ui, sans-serif'
+    fontSize: "clamp(30px, 4vw, 56px)"
     fontWeight: 500
     lineHeight: 1
-    letterSpacing: "0.08em"
+    letterSpacing: "-0.038em"
+  headline:
+    fontFamily: '"Geist Variable", Geist, system-ui, sans-serif'
+    fontSize: "clamp(24px, 2.9vw, 40px)"
+    fontWeight: 500
+    lineHeight: 1.04
+    letterSpacing: "-0.032em"
+  title:
+    fontFamily: '"Geist Variable", Geist, system-ui, sans-serif'
+    fontSize: "clamp(18px, 1.7vw, 24px)"
+    fontWeight: 500
+    lineHeight: 1.12
+    letterSpacing: "-0.026em"
+  lead:
+    fontFamily: '"Inter Variable", Inter, system-ui, sans-serif'
+    fontSize: "clamp(16px, 1.2vw, 18px)"
+    fontWeight: 400
+    lineHeight: 1.55
+    letterSpacing: "normal"
+  body:
+    fontFamily: '"Inter Variable", Inter, system-ui, sans-serif'
+    fontSize: "clamp(14px, 1vw, 16px)"
+    fontWeight: 400
+    lineHeight: 1.62
+    letterSpacing: "normal"
+  eyebrow:
+    fontFamily: '"Inter Variable", Inter, system-ui, sans-serif'
+    fontSize: "12px"
+    fontWeight: 600
+    lineHeight: 1.2
+    letterSpacing: "0.02em"
 rounded:
-  square: "0"
-  circular: "50%"
+  sm: "10px"
+  md: "14px"
+  lg: "20px"
+  xl: "28px"
+  pill: "999px"
 spacing:
   xs: "4px"
   sm: "8px"
-  md: "12px"
-  lg: "16px"
-  xl: "24px"
-  2xl: "32px"
-  3xl: "48px"
+  md: "14px"
+  lg: "20px"
+  xl: "26px"
+  2xl: "40px"
+  3xl: "68px"
 components:
   button-primary:
-    backgroundColor: "{colors.signal}"
-    textColor: "{colors.background}"
-    rounded: "{rounded.square}"
-    padding: "13px 18px"
-    height: "48px"
-  button-primary-hover:
-    backgroundColor: "{colors.signal-hover}"
-    textColor: "{colors.background}"
-  button-header:
-    backgroundColor: "rgb(94 232 255 / 0.055)"
-    textColor: "{colors.text-primary}"
-    rounded: "{rounded.square}"
-    padding: "11px 16px"
-    height: "44px"
-  card-instrument:
-    backgroundColor: "{colors.surface-1}"
-    textColor: "{colors.text-primary}"
-    rounded: "{rounded.square}"
-    padding: "21px"
+    backgroundColor: "{colors.accent}"
+    textColor: "#ffffff"
+    rounded: "{rounded.pill}"
+    padding: "13px 26px"
+    height: "50px"
+  button-secondary:
+    backgroundColor: "{colors.ink}"
+    textColor: "#ffffff"
+    rounded: "{rounded.pill}"
+    padding: "13px 26px"
+    height: "50px"
+  button-quiet:
+    backgroundColor: "rgb(12 16 36 / 0.06)"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.pill}"
+    padding: "13px 26px"
+    height: "50px"
+  product-card:
+    backgroundColor: "var(--card-soft)"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.lg}"
+    padding: "clamp(28px, 3.2vw, 54px)"
+  capability-card:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.md}"
+    padding: "clamp(24px, 2.2vw, 32px)"
 ---
 
-# Design System: Cube27 AI
+# Design System: CUBE27 AI
 
 ## Overview
 
-**Creative North Star: "The Inference Control Room"**
+**Creative North Star: "Surfaces, not boxes."**
 
-Cube27 AI reads as one traced production system, not a sequence of generic marketing bands. Midnight graphite, signal cyan, status colors, hairline routes, technical imagery, and compact telemetry create an instrumented environment; generous section height and plain-language headings keep it calm and legible.
+CUBE27 AI reads as a sequence of coloured planes. Structure comes from tonal
+shifts between adjacent surfaces and from generous space — never from hairline
+borders. A card is a card because it sits on a different surface than the thing
+behind it. Product interfaces, not AI symbolism, carry the meaning.
 
-The visual thesis is a vertical signal path. The fixed `.signal-rail`, section branches from `.section-shell[data-rail]`, ruled modules, and diagnostic labels connect evidence across the page. The fixed `.ambient-grid` is an intentional two-axis, 48px control-room reference—not accidental “graph paper” decoration—and remains subtle at `opacity: 0.2` under a vertical mask.
+The field is light: white canvas, pale blue-grey bands, and four muted product
+tints. It is punctuated by full-bleed near-black bands with rounded shoulders
+that mark the shift from explanation to conviction — the production philosophy,
+each product's closing statement, the final call, and the footer.
 
-**Key Characteristics:**
+**Key characteristics:**
 
-- Dark, flat operating field with translucent instruments only over imagery.
-- Square modules, one-pixel structure, and sparse cyan/chartreuse glow.
-- Large human-readable display type paired with mono telemetry.
-- Asymmetric rail-aligned gutters and decisive mobile stacking.
+- Light, borderless, generously spaced; depth is tonal, not shadowed.
+- One accent — the crimson of the CUBE27 `27` — reserved for action.
+- Four product hues, each drawn from a quadrant of the CUBE27 mark.
+- Large Geist headlines over calm Inter explanation. No third face.
+- Motion that is felt rather than watched, and which costs no JavaScript.
 
 ## Colors
 
-The palette assigns color by system meaning: cyan is the active path, chartreuse is verified health, lavender is assurance, and amber is learning. The frontmatter values map directly to the `--ai-*` properties in `src/styles/globals.css`.
+### Field
 
-### Primary
+- **Canvas** `#ffffff` — the default plane, and the surface of cards that sit on
+  a tinted band.
+- **Band** `#eef1f8` and **Band Deep** `#e2e8f4` — pale blue-grey planes that
+  separate sections without a rule.
+- **Dark** `#0a0d16`, with **Dark 2/3** for raised cards inside a dark band.
 
-- **Signal Cyan** (`signal`, `signal-hover`): primary actions, active paths, focus, linked geometry, and the single emphasized word in the hero.
+### Ink
 
-### Secondary
+`ink` for headings and emphasis, `ink-2` for paragraphs, `ink-3` for supporting
+detail. On dark bands, `dark-ink` and `dark-ink-2` take those roles.
 
-- **Verified Chartreuse** (`verified`): healthy state dots and completion marks; always paired with a label or icon.
-- **Assurance Lavender** (`assurance`) and **Learning Amber** (`learning`): category-only accents in production-pattern icons.
+**Every pairing in this system clears WCAG AA at its intended size.** `ink-3`
+was darkened specifically so it survives on `band`, not only on canvas. Check
+any new pairing against the surface it will actually sit on, not against white.
 
-### Neutral
+### Action
 
-- **Midnight Graphite** (`background`): global page field.
-- **Instrument Surfaces** (`surface-1` through `surface-3`): progressively stronger panels and calls to action.
-- **Primary / Secondary / Muted Text**: ordered reading hierarchy; paragraph copy uses secondary or muted, never instrumentation colors.
-- **Structural / Active Borders** (`border`, `border-active`): default rules and activated boundaries.
+**Accent** `#a91d4b` is the crimson of the `27` in the parent mark. On dark
+bands it lifts to `accent-dark` `#f2789f`, because the base crimson only reaches
+2.7:1 there.
 
-**The Signal Rarity Rule.** Cyan identifies action, routing, or active state; it is not a general fill color.
+**The Accent Rarity Rule.** Accent means action or active state: primary
+buttons, text links, eyebrows, focus rings. It is never a decorative fill and
+never carries paragraph text.
 
-**The Semantic Status Rule.** Chartreuse, lavender, and amber keep their implemented meanings and never carry paragraph text.
+### Product hues
+
+Each product owns one quadrant hue of the CUBE27 cube — `blue`, `green`,
+`indigo`, `purple` — exposed through `data-hue` as `--card-soft`, `--card-mid`
+and `--card-deep`. The soft tint is the card and hero surface, the mid is used
+in the product illustration, the deep is used for the product's name and links.
+
+**The Hue Ownership Rule.** A hue belongs to its product everywhere it appears:
+homepage card, page hero, capability hover, workflow pills. Crimson is never a
+product hue, so action never competes with identity.
 
 ## Typography
 
-**Display Font:** Space Grotesk Variable, with Space Grotesk and sans-serif fallbacks.  
-**Body Font:** Geist Variable, with Geist and sans-serif fallbacks.  
-**Label/Mono Font:** JetBrains Mono Variable, with JetBrains Mono and monospace fallbacks.
+**Display:** Geist Variable. **Body:** Inter Variable. There is no third face,
+no monospace, and no italic in the system.
 
-**Character:** Space Grotesk makes the proposition direct and contemporary; Geist keeps explanations neutral; JetBrains Mono makes navigation, IDs, labels, and traces feel measured. Fonts load locally through `src/styles/fonts.css`.
+### The ladder
 
-### Hierarchy
+Every size in the system comes from one ladder of even pixel values, declared as
+tokens in `:root`. **There are no ad-hoc font sizes** — `grep "font-size:"` over
+`globals.css` should return nothing but `var(--t-*)`.
 
-- **Display:** `hero-intro h1`; each responsive size is 4px below the original scale, using `clamp(34px, calc(5.45vw - 8px), 74px)` on desktop, `clamp(31px, calc(11.8vw - 8px), 46px)` on mobile, and 29px below 370px.
-- **Headline:** `.section-lead h2`; 32px at and below 760px.
-- **CTA headline:** `.final-cta h2`; `clamp(32px, 3.8vw, 54px)` with unit line height.
-- **Title:** component-specific Space Grotesk at 14–34px; product names use `clamp(26px, 2.35vw, 34px)`.
-- **Body:** hero copy uses the normative body token; section and card copy step down to 11–17px with 1.45–1.62 line height.
-- **Label:** `.eyebrow`, navigation, route IDs, and telemetry use 7–10px mono, usually uppercase with 0.055–0.1em tracking.
+| Token    | Value | Used for                                                |
+| -------- | ----- | ------------------------------------------------------- |
+| `--t-12` | 12px  | eyebrows, capability numbers, mobile nav labels         |
+| `--t-14` | 14px  | small print, tags, breadcrumbs, header CTA, footer base |
+| `--t-16` | 16px  | body base, nav links, buttons, text links, footer links |
+| `--t-18` | 18px  | top of the lead and h4 ranges                           |
+| `--t-20` | 20px  | the wordmark                                            |
+| `--t-24` | 24px  | top of the h3 range                                     |
+| `--t-40` | 40px  | top of the h2 range                                     |
+| `--t-56` | 56px  | top of the display range                                |
 
-**The Three-Voice Rule.** Space Grotesk speaks, Geist explains, and JetBrains Mono measures; do not swap those roles.
+Fluid steps interpolate between rungs: `--t-display` `clamp(30px, 4vw, 56px)`,
+`--t-h2` `clamp(24px, 2.9vw, 40px)`, `--t-h3` `clamp(18px, 1.7vw, 24px)`,
+`--t-h4` and `--t-lead` `clamp(16px, 1.2vw, 18px)`, `--t-body`
+`clamp(14px, 1vw, 16px)`.
+
+The display cap is 56px because the heroes are half-width columns: above that,
+a 45-character headline breaks to four lines. Any change to `--t-display`
+should be checked against the longest product headline, not the shortest.
+
+Geist states, Inter explains. Headings run 500 weight with tight negative
+tracking; body runs 400 at 1.6 line height. Eyebrows are Inter 600 at 13px with
+a short accent rule drawn by `::before` — the one place small type carries
+accent colour.
+
+**The Two-Voice Rule.** Do not introduce a third family, and do not set body
+copy in Geist or headings in Inter. The wordmark is the one deliberate
+exception: it is Inter 800, not Geist, so the lockup reads as a mark rather
+than as a heading.
 
 ## Layout
 
-`.site-shell` owns the isolated page field and clipped overflow. Desktop content aligns to asymmetric custom-property gutters: `--gutter-left: clamp(46px, 7vw, 124px)` and `--gutter-right: clamp(26px, 5.2vw, 88px)`. The fixed rail sits at `left: clamp(18px, 3.1vw, 58px)`; desktop sections connect to it with a branch and `data-rail` label. Sections use `clamp(84px, 10vw, 145px)` vertical padding and a one-pixel divider.
+`.shell` centres content at `1360px` with `--pad-x: clamp(20px, 5vw, 72px)`.
+`.band` supplies `clamp(72px, 8vw, 132px)` vertical rhythm and takes one of four
+surface modifiers: `--canvas`, `--tint`, `--deep`, `--dark`. `--round-top` and
+`--round-bottom` add the 28px shoulder where a dark band meets the light field.
 
-Responsive behavior is implemented at three max-width breakpoints:
+**The homepage runs a deepening ramp** — canvas, tint, deep, dark — so the page
+darkens as it moves from what we make, to how it works, to the call to act.
+Reordering bands should preserve that direction.
 
-- **1050px:** desktop navigation/CTA become native `<details>` navigation; the delivery split tightens while preserving its vertical path; final CTA becomes two columns.
-- **760px:** gutters become 35px/20px, header 68px, section branches hide, content becomes one column, sticky imagery becomes static, hero entry animations are removed, and primary CTAs expand full width.
-- **370px:** gutters tighten to 30px/16px and the hero display settles at 29px.
+**`SectionHead` is the only container for a heading + subtitle pair**, on every
+page and in every band. It owns the eyebrow, the headline measure (`26ch`, set
+in `ch` so it scales with the heading's own size), the lead, the alignment and
+the spacing between them. Anything that follows the pair — buttons, extra copy —
+goes in its default slot and inherits the same alignment. No page defines its
+own heading measure.
 
-Treat 1050px and 760px as inclusive boundaries. Preserve stability at 320px and zoom; connected diagrams reorient rather than simply shrink.
+It defaults to centred; `align="start"` is for the two heroes, the final call
+and each product's closing statement, whose copy is paired with something beside
+it rather than stacked above it. `.cap-outro` and `.p-flow` centre with the
+heads they follow. The lead is not metered — it fills the container, which is
+`92ch` by default and unbounded with `wide`.
+
+Breakpoints:
+
+- **1080px** — desktop nav and header CTA give way to the popover menu; the
+  hero, product hero, problem split, CTA and adapt blocks become one column;
+  the capability grid drops from four columns to two.
+- **940px** — product split cards stack, media first regardless of alternation.
+- **620px** — band rhythm tightens, buttons go full width, the capability grid
+  becomes one column, the footer stacks.
+
+Stability is required at 320px and at 200% zoom. No page may scroll
+horizontally at any width; this is asserted in the e2e suite across six
+viewports on all five routes.
 
 ## Elevation & Depth
 
-The system is flat by default. Depth comes from tonal surface shifts, one-pixel shared grids, image overlays, and sparse luminous nodes. `.hero-status-panel` is the main elevated instrument (`0 22px 70px rgb(0 0 0 / 0.3)` plus 12px backdrop blur); the open mobile menu uses `0 28px 50px rgb(0 0 0 / 0.38)`. Cyan glows belong to nodes, rail signals, and active geometry—not resting cards.
-
-**The Instrument-Only Blur Rule.** Backdrop blur is reserved for translucent controls laid over topology imagery or the fixed header.
+Flat by default. Shadows appear only in motion — the hover lift on cards and
+buttons, the header's scroll-driven hairline, the floating nav and mobile
+panels. Product illustrations sit as white cards inside a tinted product card,
+which is the primary depth cue in the system.
 
 ## Shapes
 
-The structural language is square: buttons, cards, panels, icon frames, diagnostic tags, and menu surfaces have zero radius. Circles are reserved for status dots and live signal nodes; the final CTA’s rotated squares form a diamond pulse. Borders are normally one pixel and cool-tinted. Do not introduce softly rounded containers or pills.
+Rounded throughout: `14px` on cards, `20px` on large panels, `28px` on band
+shoulders, and full pills on every button, tag and workflow step. The previous
+system's zero-radius square language is retired and must not return.
 
 ## Components
 
-### Shell, rail, and header
+### Shell
 
-- `.site-shell`, `.ambient-grid`, and `.signal-rail` are a required page-level trio for this world.
-- `Header.astro` has no props. It renders fixed desktop navigation and a semantic `<details>` mobile menu. Header height is 78px desktop / 68px mobile; interactive targets are at least 44px.
-- `Logo.astro` accepts `compact?: boolean` (default `false`). It preserves the transparent dark-surface Cube27 mark and adds `AI` as live Space Grotesk text.
+- `Layout.astro` owns head metadata, per-route canonical and JSON-LD, the two
+  font preloads, the skip link, `Header` and `Footer`. Pages supply only their
+  bands.
+- `Header.astro` takes no props. Desktop shows a hover/focus Products menu;
+  below 1080px a popover panel replaces it. **The mobile menu is a native
+  `popover`**, which supplies outside-click dismissal, Escape and focus handling
+  with no script.
+- `Footer.astro` closes the dark run that begins at the final CTA.
 
-### Section lead and icon
+### Primitives
 
-- `SectionLead.astro` accepts `eyebrow: string`, `title: string`, and optional `copy?: string`. It owns `.section-lead`, `.eyebrow`, `.section-crest`, H2, and `.section-copy`.
-- `SystemIcon.astro` accepts a typed `name` from `activity`, `bot`, `brain`, `clipboard`, `database`, `gauge`, `messages`, `search`, or `shield`, plus optional `size?: number` (default 18). Invalid names fail at build time. Icons use 1.65px strokes and are decorative.
+- `Button.astro` — `href`, `variant` (`primary`, `secondary`, `quiet`,
+  `on-dark`, `ghost-dark`), `arrow`. Minimum height 50px, 44px in the header.
+- `TextLink.astro` — `href`, `stretch`. The underline draws in from the left on
+  hover and the arrow travels up-right. `stretch` makes the whole card
+  clickable via `::after`, so the card needs no nested interactive elements.
+- `SectionHead.astro` — `eyebrow`, `title`, `lead`, `level`, `wide`.
+- `Icon.astro` — a typed `name` from `src/lib/icons.ts`. Unknown names fail at
+  build time. Icons are decorative and always `aria-hidden`.
 
-### Buttons and links
+### Product visuals
 
-- `.primary-button`: cyan field, dark text, Space Grotesk 700 at 13px, 13px/18px padding, 48px minimum height; hover lightens and rises 2px over 180ms.
-- `.primary-button-large`: raises minimum height to 54px and inline padding to 22px.
-- `.header-cta`: 44px cyan-tinted outline instrument; hover increases tint and border strength.
-- `.text-link`: containerless 44px action; hover changes to signal-hover and increases icon gap from 8px to 11px.
-- Global `:focus-visible` is a 2px signal outline with 4px offset. Do not remove it in component rules.
+`src/components/visuals/` holds four inline-SVG compositions — a visibility
+board, a change feed, a reconciliation ladder, a tender document with extracted
+requirements — plus `ProductVisual.astro`, which maps a product's `visual` key
+to one of them. They read the active `data-hue`, so each renders in its
+product's colour.
 
-### Instrument panels and evidence modules
+They carry no `label` on the homepage, where the adjacent copy already says
+everything, and take one on the product hero, where the illustration is the
+subject. **Never place essential copy only inside one of these.**
 
-- `.hero-status-panel` is a translucent three-part instrument: `.panel-topline`, ruled `.panel-routes`, and `.panel-footer`.
-- `.posture-system` is a connected three-node diagram plus `.posture-outcome`; below 760px the connection becomes vertical.
-- `.pattern-row` is a compact icon/title/detail/completion row. Category color stays on `.pattern-icon`; the completion mark stays verified.
-- `.product-readable-grid` is a shared one-pixel 2×2 grid that becomes one column below 760px. Each `.product-readable-card` keeps code/category, name, use case, audience, and outcome metric together.
-- `.method-layout` pairs the delivery statement with an ordered vertical signal path. `.delivery-track` keeps four stacked steps on desktop and mobile; below 760px the statement and path stack while the timeline remains intact.
+### Bands and cards
 
-### States, motion, and accessibility
+- `.product-card` is a full-width split; `--flip` alternates which side carries
+  the visual. Every product gets equal weight and no row is left with an orphan.
+- `.site-footer__top` puts the brand on the left and pushes both link columns to
+  the right, aligned to the shell edge so they line up with the base row.
+- `.cap-grid` is four columns with the first card spanning two and rendered
+  dark, so seven cards fill two rows exactly with one deliberate focal surface.
+  Its cards are white on the deep band — the one section where the cards, not
+  the band, carry the lightest surface — and each is numbered `01`–`07`.
+- `.p-caps` is `auto-fit` independent cards, because capability counts differ
+  per product and a part-filled last row must still look intentional.
 
-- Above 760px, entry motion is limited to hero content: `arrive` (650ms) and `arrive-right` (680ms with 180ms delay), both using `--ease-out`. Mobile renders the LCP-region content immediately. The rail node drifts over 5s.
-- Resting content remains visible. `prefers-reduced-motion: reduce` disables smooth scrolling and collapses animations/transitions to 0.01ms.
-- Keep semantic landmarks, logical headings, the skip link, native disclosure navigation, empty alt text for decorative imagery, text labels for status, and forced-color overrides for signal dots.
+## Motion
 
-### Images
+**The site ships no first-party JavaScript.** This is a load-bearing property,
+asserted in the e2e suite, and the reason the CSP needs no `unsafe-inline`.
 
-- `hero-topology.png` is the full-bleed LCP canvas: responsive AVIF/WebP, explicit intrinsic dimensions, preloaded, eager, and high priority; semantic content stays in HTML.
-- `patterns-assembly.png` is a local responsive, lazy-loaded decorative image with live HTML diagnostics. It becomes 220px-tall and non-sticky below 760px.
-- Never put essential copy in an image, add a remote demo dependency, or place the approved logo on a pale backing panel.
+- Section entry uses `animation-timeline: view()` behind an `@supports` guard.
+  Where the timeline is unsupported, content simply renders at rest — there is
+  no hidden state to get stuck in and no flash.
+- The header's hairline uses `animation-timeline: scroll()`.
+- `data-reveal-delay` staggers a group by shifting `animation-range`, not by
+  `animation-delay`, which has no meaning on a scroll timeline.
+- Hover lifts, the text-link underline draw, and the popover's
+  `@starting-style` entry are ordinary transitions.
+- `prefers-reduced-motion: reduce` collapses all of it to 0.01ms and disables
+  smooth scrolling. The reveal timelines are additionally scoped inside a
+  `no-preference` query, so they never run at all.
+
+## Accessibility
+
+Target is WCAG 2.2 AA, and the e2e suite runs axe against every route at those
+tags. Keep semantic landmarks, one `h1` per page, the skip link, visible
+`:focus-visible` rings (accent on light, `accent-dark` on dark), 44px minimum
+touch targets, empty `alt` on decorative imagery, and the `forced-colors`
+overrides that restore borders to borderless cards.
 
 ## Do's and Don'ts
 
-### Do:
+### Do
 
-- **Do** extend the existing `.site-shell` / rail / `SectionLead` / button / evidence-module vocabulary before adding a new primitive.
-- **Do** use semantic `--ai-*` properties for shared roles; local alpha overlays and gradients are allowed when they express image legibility or instrument translucency.
-- **Do** preserve square shared-grid construction and recompose connected systems at the implemented breakpoints.
-- **Do** keep the ambient two-axis grid; it is a pinned Inference Control Room exception and must stay low-contrast and non-interactive.
-- **Do** add new reusable components or tokens to both this file and `.impeccable/design.json`.
+- **Do** express structure with a surface change and space before reaching for
+  anything else.
+- **Do** check a new colour pairing against the surface it will actually sit on.
+- **Do** extend `.band`, `.shell`, `SectionHead`, `Button`, `TextLink` and the
+  card vocabulary before adding a new primitive.
+- **Do** keep new motion CSS-only, guarded by `@supports`, and inert under
+  reduced motion.
+- **Do** record new tokens and components in this file and in
+  `.impeccable/design.json`.
 
-### Don't:
+### Don't
 
-- **Don't** turn the system into a neon cyberpunk interface; glows remain sparse and functional.
-- **Don't** use cyan, chartreuse, lavender, or amber as arbitrary decoration or body text.
-- **Don't** round structural modules, add pill-shaped controls, or float independent generic cards inside sections.
-- **Don't** hide below-fold content behind JavaScript or motion, and don't bypass the global focus/reduced-motion behavior.
-- **Don't** change the Cube27 cube, magenta `27`, proportions, or transparent dark-surface treatment.
+- **Don't** add borders as a structural device, or return to zero-radius boxes.
+- **Don't** use crimson as decoration, or a product hue as an action colour.
+- **Don't** add an inline `style` attribute or an inline `<script>` — the CSP
+  blocks both, and `validate-build` fails the build on either.
+- **Don't** introduce a third font family, a monospace face, or italics.
+- **Don't** show brains, glowing network nodes, robots or generic purple AI
+  gradients. The imagery is material and the illustrations are interfaces.
+- **Don't** expose the internal build names behind the four product systems.

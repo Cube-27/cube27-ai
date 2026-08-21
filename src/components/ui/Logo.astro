@@ -1,25 +1,21 @@
 ---
 interface Props {
-  compact?: boolean;
+  href?: string;
 }
 
-const { compact = false } = Astro.props;
+const { href } = Astro.props;
+const Tag = href ? "a" : "span";
 ---
 
-<span
-  class:list={["brand-lockup", { "brand-lockup--compact": compact }]}
-  role="img"
-  aria-label="Cube27 AI"
->
+<Tag class="brand-lockup" href={href}>
   <img
     src="/cube27-mark.svg"
     alt=""
-    width="64"
-    height="64"
+    width="34"
+    height="34"
     loading="eager"
     decoding="async"
   />
-  <span class="brand-wordmark" aria-hidden="true"
-    >CUBE<span class="brand-number">27</span> AI</span
+  <span class="brand-wordmark">CUBE<span class="brand-number">27</span> AI</span
   >
-</span>
+</Tag>

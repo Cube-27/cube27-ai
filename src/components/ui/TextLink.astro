@@ -1,0 +1,22 @@
+---
+import Icon from "@/components/ui/Icon.astro";
+
+interface Props {
+  href: string;
+  /** Covers the whole positioned ancestor, making an entire card clickable. */
+  stretch?: boolean;
+  class?: string;
+}
+
+const { href, stretch = false, class: className } = Astro.props;
+const external = href.startsWith("http");
+---
+
+<a
+  class:list={["tlink", { stretch }, className]}
+  href={href}
+  rel={external ? "noopener" : undefined}
+>
+  <span class="tlink__label"><slot /></span>
+  <Icon name="arrowUpRight" size={16} stroke={2} />
+</a>

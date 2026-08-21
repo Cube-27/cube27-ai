@@ -8,70 +8,88 @@ web
 
 ## Stack
 
-Astro 7 static site, TypeScript, Tailwind CSS v4, and Cloudflare Pages.
+Astro 7 static site, TypeScript, Tailwind CSS v4, and Cloudflare Pages. No
+client framework and no first-party JavaScript in the shipped output.
 
 ## Users
 
-Teams evaluating Cube27 as an AI engineering partner for production workflows.
-The approved page addresses business, product, data, operations, and technical
-stakeholders without changing its existing copy for separate personas.
+Buyers evaluating whether CUBE27 can build or adapt an AI system for a specific
+operational workflow. Business, operations, commerce, marketing and technical
+stakeholders read the same pages; the copy does not fork by persona.
 
 ## Product Purpose
 
-Explain Cube27's production AI engineering posture, the reliable AI patterns it
-builds, the product systems that demonstrate that posture, and the delivery path
-from workflow mapping to operation. Success is a qualified visitor continuing
-to the parent Cube27 contact page.
+Show that CUBE27 builds AI products for complex operational work. Four product
+systems lead, seven production capabilities explain how they stay reliable, and
+one shared philosophy connects them. Success is a qualified visitor reaching the
+parent CUBE27 contact page with a workflow in mind.
 
 ## Positioning
 
-Cube27 designs AI systems that stay grounded, governed, observed, and useful in
-real daily workflows rather than stopping at a compelling prototype.
+CUBE27 builds focused AI systems for workflows where teams spend too much time
+collecting information, reconciling data, reviewing documents or figuring out
+what changed — and adapts those systems to how a customer's team already works.
 
 ## Operating Context
 
-The site presents production patterns spanning retrieval, fine-tuning, caching,
-guardrails, feedback loops, agentic evaluations, and LLM observability. Product
-proof covers commerce intelligence, search visibility, business operations, and
-bid/proposal workflows.
+Five routes: the homepage plus one page per product system. Capabilities and
+the production philosophy are homepage sections with stable anchors, so either
+can become a standalone page later without changing its link target.
 
 ## Capabilities and Constraints
 
-- English-only, single-page static microsite at `https://ai.cube27.com`.
-- No CMS, contact backend, authentication, user accounts, or request-time data.
-- Primary CTAs route to the parent Cube27 contact page.
-- Visible content and section order remain exactly aligned with the approved
-  demo; no new claims, FAQ content, or search landing pages are introduced.
-- Technical SEO/AEO outputs must derive from the same factual content source.
+- English-only static site at `https://ai.cube27.com`.
+- No CMS, contact backend, authentication, accounts, or request-time data.
+- All conversation CTAs route to the parent CUBE27 contact page with UTM
+  parameters. There is no on-site form.
+- The Content-Security-Policy in `public/_headers` allows neither inline styles
+  nor inline scripts. `validate-build` fails the build on either.
+- The site must remain fully usable with JavaScript disabled.
+- Technical SEO/AEO output (`llms.txt`, `llms-full.txt`, JSON-LD, sitemap) is
+  generated from the same typed content model as the pages.
 
 ## Brand Commitments
 
-- Cube27 AI is part of Cube27, not a separate legal organization.
-- Preserve the original Cube27 cube, magenta `27`, geometry, and proportions.
-- The approved Inference Control Room demo is the visual authority.
-- Space Grotesk is the display face, Geist is the body face, and JetBrains Mono
-  is the instrumentation face.
-- The logo must sit directly on the dark surface without a pale backing panel.
+- CUBE27 AI is part of CUBE27, not a separate legal organization.
+- The CUBE27 mark is used unmodified. Its crimson is the site's action colour
+  and its four quadrant hues are the four product hues.
+- Geist is the display face and Inter is the body face. There is no third face
+  and no monospace.
+- The four product systems are presented under generic names. The internal
+  build names behind them are never exposed; this is enforced in the unit
+  tests, the e2e suite, and `validate-build`.
 
 ## Evidence on Hand
 
-- Approved live demo: `https://cube27ai-uzuuheph.manus.space/#top`.
-- Approved reference source: `C:\Users\abhij\Downloads\cube27-ai-site`.
-- Parent brand, organization, SEO, and Cloudflare reference:
-  `C:\Projects\cube27`.
-- Approved named product proof: Invoro, CiteLadder, SalesERP, and RFPmanager.
-- Approved generated technical imagery: hero topology, production patterns, and
-  delivery proof assets used by the live demo.
+- Four shipped internal systems provide the capability lists, workflows and
+  operational detail behind the four public product systems.
+- Parent brand, organization, SEO and Cloudflare reference: `C:\Projects\cube27`.
+- Abstract imagery is generated in-repo by `scripts/generate-art.mjs` and is
+  deterministic by seed. External replacements can be dropped into
+  `src/assets/images/`; briefs are in `docs/image-briefs.md`.
 
 ## Product Principles
 
-- Preserve the approved design and content before optimizing implementation.
-- Make production readiness and operational evidence easy to scan.
-- Keep factual content, structured data, and crawler manifests synchronized.
-- Favor static, accessible, resilient delivery over unnecessary client runtime.
-- Build shared primitives so later pages can extend the same system consistently.
+- Lead with what we make, then explain how it stays reliable.
+- Show the workflow before describing it: every product carries an illustration
+  of its own interface.
+- Keep page copy, structured data and crawler manifests generated from one
+  source so they cannot drift.
+- Ship no client JavaScript unless a requirement genuinely cannot be met in
+  HTML and CSS.
+- Build shared primitives so a new page extends the system rather than
+  restating it.
+
+## Deferred
+
+**Proof** and **About** are not part of the site. There is no case-study or team
+content to put on them, and an empty page would weaken the story rather than
+complete it. Navigation links appear when the pages exist.
 
 ## Accessibility & Inclusion
 
-Target WCAG 2.2 AA, keyboard navigation, visible focus, reduced-motion support,
-touch-friendly targets, semantic HTML, and resilient mobile/zoom layouts.
+WCAG 2.2 AA, verified by axe across all five routes in the e2e suite and by
+Lighthouse at a required score of 100. Keyboard navigation, visible focus,
+reduced-motion support, 44px touch targets, semantic landmarks, one `h1` per
+page, no horizontal scroll at any width from 320px up, and stability at 200%
+zoom.

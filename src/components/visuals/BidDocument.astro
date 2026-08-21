@@ -1,0 +1,154 @@
+---
+interface Props {
+  label?: string;
+}
+
+const { label } = Astro.props;
+
+const requirements = [
+  { text: "ISO 27001 certification", state: "met" },
+  { text: "3 comparable references", state: "met" },
+  { text: "Local support presence", state: "open" },
+  { text: "Submission by 14 Mar", state: "met" },
+];
+
+// Text-line lengths for the document page, in px.
+const lines = [
+  268, 240, 256, 198, 264, 232, 250, 176, 262, 244, 210, 258, 226, 190,
+];
+---
+
+<svg
+  class="visual"
+  viewBox="0 0 800 500"
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+  font-family="var(--font-body)"
+>
+  <rect width="800" height="500" fill="#ffffff"></rect>
+
+  <text x="40" y="56" font-size="19" font-weight="600" fill="var(--c-ink)"
+    >Tender document · extracted requirements</text
+  >
+  <text x="40" y="80" font-size="13.5" fill="var(--c-ink-3)"
+    >Every requirement keeps a link back to its source page</text
+  >
+
+  <!-- source document -->
+  <rect x="40" y="110" width="304" height="356" rx="14" fill="var(--c-band)"
+  ></rect>
+  <rect
+    x="60"
+    y="134"
+    width="140"
+    height="12"
+    rx="6"
+    fill="var(--card-mid)"
+    opacity="0.5"></rect>
+  {
+    lines.map((width, index) => {
+      const y = 172 + index * 20;
+      const highlighted = index === 3 || index === 7 || index === 11;
+      return (
+        <g>
+          {highlighted && (
+            <rect
+              x="54"
+              y={y - 9}
+              width={width + 12}
+              height="16"
+              rx="4"
+              fill="var(--card-mid)"
+              opacity="0.16"
+            />
+          )}
+          <rect
+            x="60"
+            y={y - 5}
+            width={width}
+            height="7"
+            rx="3.5"
+            fill={highlighted ? "var(--card-deep)" : "var(--c-ink-3)"}
+            opacity={highlighted ? "0.55" : "0.28"}
+          />
+        </g>
+      );
+    })
+  }
+  <text x="60" y="452" font-size="12" fill="var(--c-ink-3)">Page 14 of 212</text
+  >
+
+  <!-- leader lines -->
+  {
+    [0, 1, 2].map((index) => {
+      const fromY = 167 + [3, 7, 11][index] * 20;
+      const toY = 152 + index * 92;
+      return (
+        <path
+          d={`M348 ${fromY}C378 ${fromY} 380 ${toY} 408 ${toY}`}
+          fill="none"
+          stroke="var(--card-mid)"
+          stroke-width="1.5"
+          opacity="0.4"
+        />
+      );
+    })
+  }
+
+  <!-- extracted requirement cards -->
+  {
+    requirements.map((requirement, index) => {
+      const y = 118 + index * 92;
+      const met = requirement.state === "met";
+      return (
+        <g>
+          <rect
+            x="416"
+            y={y}
+            width="344"
+            height="72"
+            rx="12"
+            fill="var(--card-soft)"
+          />
+          <circle
+            cx="450"
+            cy={y + 36}
+            r="13"
+            fill={met ? "var(--card-mid)" : "#ffffff"}
+            opacity={met ? "0.16" : "1"}
+          />
+          {met ? (
+            <path
+              d={`m444 ${y + 36} 4.5 4.5L457 ${y + 30}`}
+              fill="none"
+              stroke="var(--card-deep)"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          ) : (
+            <path
+              d={`M450 ${y + 29}v9M450 ${y + 43}v1`}
+              stroke="var(--c-accent)"
+              stroke-width="2.2"
+              stroke-linecap="round"
+            />
+          )}
+          <text
+            x="480"
+            y={y + 33}
+            font-size="14.5"
+            font-weight="600"
+            fill="var(--c-ink)"
+          >
+            {requirement.text}
+          </text>
+          <text x="480" y={y + 53} font-size="12.5" fill="var(--c-ink-3)">
+            {met ? "Evidence attached" : "Response incomplete"}
+          </text>
+        </g>
+      );
+    })
+  }
+</svg>

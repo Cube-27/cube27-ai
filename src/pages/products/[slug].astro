@@ -1,0 +1,155 @@
+---
+import type { GetStaticPaths } from "astro";
+import Button from "@/components/ui/Button.astro";
+import Icon from "@/components/ui/Icon.astro";
+import SectionHead from "@/components/ui/SectionHead.astro";
+import ProductVisual from "@/components/visuals/ProductVisual.astro";
+import { ADAPT_BLOCK } from "@/data/capabilities";
+import { PRODUCTS } from "@/data/products";
+import { CTA, SITE } from "@/data/site";
+import Layout from "@/layouts/Layout.astro";
+import { buildProductSchema } from "@/lib/schema";
+
+export const getStaticPaths = (() =>
+  PRODUCTS.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }))) satisfies GetStaticPaths;
+
+const { product } = Astro.props;
+const canonical = `${SITE.url}/products/${product.slug}/`;
+---
+
+<Layout
+  title={product.seo.title}
+  description={product.seo.description}
+  canonical={canonical}
+  jsonLd={buildProductSchema(product)}
+>
+  <section class="p-hero" data-hue={product.hue}>
+    <div class="shell">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span class="crumbs__sep" aria-hidden="true">/</span>
+        <a href="/#products">Products</a>
+        <span class="crumbs__sep" aria-hidden="true">/</span>
+        <span aria-current="page">{product.navLabel}</span>
+      </nav>
+
+      <div class="p-hero__grid">
+        <div>
+          <p class="eyebrow">{product.name}</p>
+          <h1 class="t-display p-hero__title">{product.hero.title}</h1>
+          <p class="t-lead p-hero__lead">{product.hero.lead}</p>
+          <div class="btn-row">
+            <Button href={SITE.contactUrl} variant="primary" arrow>
+              {product.hero.cta}
+            </Button>
+            <Button href="#capabilities" variant="quiet"> What it does </Button>
+          </div>
+        </div>
+
+        <div class="p-hero__art" data-reveal data-reveal-delay="1">
+          <ProductVisual
+            visual={product.visual}
+            label={`Illustration of the ${product.name} workflow.`}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--canvas">
+    <div class="shell p-problem__grid">
+      <SectionHead title={product.problem.title} align="start" flush />
+      <div class="p-problem__body" data-reveal data-reveal-delay="1">
+        {product.problem.body.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--tint" id="capabilities" data-hue={product.hue}>
+    <div class="shell">
+      <SectionHead eyebrow="What it does" title="Core capabilities" />
+      <ul class="p-caps">
+        {
+          product.capabilities.map((capability, index) => (
+            <li
+              class="p-cap"
+              data-reveal
+              data-reveal-delay={index % 3}
+            >
+              <span class="p-cap__marker" aria-hidden="true" />
+              <h3 class="t-h4">{capability.name}</h3>
+              <p class="t-body">{capability.detail}</p>
+            </li>
+          ))
+        }
+      </ul>
+
+      <SectionHead
+        eyebrow="Workflow"
+        title="How the system runs"
+        level={3}
+        class="p-flow__head"
+      />
+      <ol class="p-flow" data-reveal>
+        {
+          product.workflow.map((step, index) => (
+            <>
+              <li class="p-flow__step">{step}</li>
+              {index < product.workflow.length - 1 && (
+                <Icon
+                  name="arrowRight"
+                  size={20}
+                  stroke={1.8}
+                  class="p-flow__arrow"
+                />
+              )}
+            </>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="band band--canvas">
+    <div class="shell">
+      <div class="p-adapt" data-reveal>
+        <SectionHead
+          eyebrow={ADAPT_BLOCK.eyebrow}
+          size="h3"
+          title={ADAPT_BLOCK.title}
+          align="start"
+          flush
+        />
+        <div>
+          <p class="t-body">{ADAPT_BLOCK.body}</p>
+          <div class="btn-row btn-row--spaced">
+            <Button href={SITE.contactUrl} variant="secondary">
+              {ADAPT_BLOCK.cta}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--dark band--round-top on-dark">
+    <div class="shell">
+      <SectionHead
+        title={product.closing.title}
+        lead={product.closing.body}
+        align="start"
+        flush
+      >
+        <div class="btn-row btn-row--loose">
+          <Button href={SITE.contactUrl} variant="on-dark" arrow>
+            {CTA.primary}
+          </Button>
+          <Button href="/#products" variant="ghost-dark"> All products </Button>
+        </div>
+      </SectionHead>
+    </div>
+  </section>
+</Layout>

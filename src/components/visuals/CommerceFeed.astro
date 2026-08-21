@@ -1,0 +1,171 @@
+---
+interface Props {
+  label?: string;
+}
+
+const { label } = Astro.props;
+
+const changes = [
+  {
+    sku: "SKU-4417 · 1L Cold Press",
+    field: "Price",
+    from: "₹1,249",
+    to: "₹1,099",
+    dir: "down",
+  },
+  {
+    sku: "SKU-8802 · Refill Pack",
+    field: "Availability",
+    from: "In stock",
+    to: "Out of stock",
+    dir: "flat",
+  },
+  {
+    sku: "SKU-2310 · Starter Kit",
+    field: "Price",
+    from: "₹2,499",
+    to: "₹2,749",
+    dir: "up",
+  },
+];
+---
+
+<svg
+  class="visual"
+  viewBox="0 0 800 500"
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+  font-family="var(--font-body)"
+>
+  <rect width="800" height="500" fill="#ffffff"></rect>
+
+  <text x="40" y="56" font-size="19" font-weight="600" fill="var(--c-ink)"
+    >Change intelligence</text
+  >
+  <text x="40" y="80" font-size="13.5" fill="var(--c-ink-3)"
+    >Only what moved since the last snapshot</text
+  >
+
+  <g>
+    <circle cx="644" cy="49" r="5" fill="var(--card-mid)"></circle>
+    <text x="660" y="54" font-size="13" font-weight="500" fill="var(--c-ink-2)"
+      >4 monitors active</text
+    >
+  </g>
+
+  <!-- change rows -->
+  {
+    changes.map((change, index) => {
+      const y = 118 + index * 92;
+      return (
+        <g>
+          <rect
+            x="40"
+            y={y}
+            width="720"
+            height="76"
+            rx="14"
+            fill="var(--c-band)"
+          />
+          <rect
+            x="40"
+            y={y}
+            width="4"
+            height="76"
+            rx="2"
+            fill="var(--card-mid)"
+          />
+          <text
+            x="68"
+            y={y + 31}
+            font-size="14.5"
+            font-weight="600"
+            fill="var(--c-ink)"
+          >
+            {change.sku}
+          </text>
+          <text x="68" y={y + 54} font-size="13" fill="var(--c-ink-3)">
+            {change.field} changed
+          </text>
+
+          <text
+            x="500"
+            y={y + 46}
+            font-size="15"
+            text-anchor="end"
+            fill="var(--c-ink-3)"
+            text-decoration="line-through"
+          >
+            {change.from}
+          </text>
+          <path
+            d="M516 41h22"
+            transform={`translate(0 ${y})`}
+            stroke="var(--c-ink-3)"
+            stroke-width="1.6"
+            stroke-linecap="round"
+          />
+          <path
+            d="m532 35 6 6-6 6"
+            transform={`translate(0 ${y})`}
+            fill="none"
+            stroke="var(--c-ink-3)"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <text
+            x="736"
+            y={y + 46}
+            font-size="16"
+            font-weight="600"
+            text-anchor="end"
+            fill="var(--card-deep)"
+          >
+            {change.to}
+          </text>
+        </g>
+      );
+    })
+  }
+
+  <!-- pipeline stages -->
+  <g>
+    {
+      ["Discover", "Extract", "Normalize", "Compare"].map((stage, index) => {
+        const x = 40 + index * 186;
+        return (
+          <g>
+            <rect
+              x={x}
+              y="416"
+              width="166"
+              height="44"
+              rx="12"
+              fill="var(--card-soft)"
+            />
+            <text
+              x={x + 83}
+              y="443"
+              font-size="13.5"
+              font-weight="600"
+              text-anchor="middle"
+              fill="var(--card-deep)"
+            >
+              {stage}
+            </text>
+            {index < 3 && (
+              <path
+                d={`M${x + 172} 438h8`}
+                stroke="var(--c-ink-3)"
+                stroke-width="1.6"
+                stroke-linecap="round"
+              />
+            )}
+          </g>
+        );
+      })
+    }
+  </g>
+</svg>

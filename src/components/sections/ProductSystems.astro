@@ -1,41 +1,53 @@
 ---
-import { PRODUCT_PROOF } from "@/data/site";
-import SectionLead from "@/components/ui/SectionLead.astro";
+import SectionHead from "@/components/ui/SectionHead.astro";
+import TextLink from "@/components/ui/TextLink.astro";
+import ProductVisual from "@/components/visuals/ProductVisual.astro";
+import { PRODUCTS_INTRO } from "@/data/home";
+import { PRODUCTS } from "@/data/products";
 ---
 
-<section id="proof" class="section-shell proof-section" data-rail="PRODUCTS">
-  <div class="proof-heading">
-    <SectionLead
-      eyebrow="Product systems"
-      title="AI products for operational teams."
-      copy="Built around data, documents, decisions, and daily work."
+<section class="band band--tint" id="products">
+  <div class="shell">
+    <SectionHead
+      eyebrow={PRODUCTS_INTRO.eyebrow}
+      title={PRODUCTS_INTRO.title}
+      lead={PRODUCTS_INTRO.lead}
     />
-    <div class="product-key">
-      <span>4 PRODUCT SYSTEMS</span>
-      <b>Marketing · Commerce · Bids · Operations</b>
+
+    <div class="product-grid">
+      {
+        PRODUCTS.map((product, index) => (
+          <article
+            class:list={[
+              "product-card",
+              { "product-card--flip": index % 2 === 1 },
+            ]}
+            data-hue={product.hue}
+            data-reveal
+            data-reveal-delay={Math.min(index, 3)}
+          >
+            <div class="product-card__media">
+              <ProductVisual visual={product.visual} />
+            </div>
+            <div class="product-card__body">
+              <h3 class="t-h3 product-card__name">{product.name}</h3>
+              <p class="product-card__promise">{product.promise}</p>
+              <p class="t-body">{product.summary}</p>
+              <ul class="tags">
+                {product.tags.map((tag) => (
+                  <li class="tag">{tag}</li>
+                ))}
+              </ul>
+              <div class="product-card__foot">
+                <TextLink href={`/products/${product.slug}/`} stretch>
+                  Explore product
+                  <span class="sr-only">: {product.name}</span>
+                </TextLink>
+              </div>
+            </div>
+          </article>
+        ))
+      }
     </div>
-  </div>
-  <div class="product-readable-grid">
-    {
-      PRODUCT_PROOF.map((product) => (
-        <article class="product-readable-card">
-          <div class="product-readable-top">
-            <span>{product.code}</span>
-            <span>{product.label}</span>
-          </div>
-          <h3>{product.name}</h3>
-          <p>{product.useCase}</p>
-          <div class="product-fit">
-            <span>BEST FOR</span>
-            <b>{product.focus}</b>
-            <i aria-hidden="true" />
-          </div>
-          <div class="product-metric">
-            <span>OUTCOME METRIC</span>
-            <b>{product.metric}</b>
-          </div>
-        </article>
-      ))
-    }
   </div>
 </section>
