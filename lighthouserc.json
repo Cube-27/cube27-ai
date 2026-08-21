@@ -10,13 +10,14 @@
         "http://127.0.0.1:4322/products/supplier-operations/",
         "http://127.0.0.1:4322/products/bid-operations/"
       ],
-      "numberOfRuns": 1,
+      "numberOfRuns": 3,
       "settings": {
         "preset": "desktop",
         "chromeFlags": "--headless --no-sandbox"
       }
     },
     "assert": {
+      "aggregationMethod": "median",
       "assertions": {
         "categories:performance": [
           "error",

@@ -74,11 +74,7 @@ const canonical = `${SITE.url}/products/${product.slug}/`;
       <ul class="p-caps">
         {
           product.capabilities.map((capability, index) => (
-            <li
-              class="p-cap"
-              data-reveal
-              data-reveal-delay={index % 3}
-            >
+            <li class="p-cap" data-reveal data-reveal-delay={index % 3}>
               <span class="p-cap__marker" aria-hidden="true" />
               <h3 class="t-h4">{capability.name}</h3>
               <p class="t-body">{capability.detail}</p>

@@ -16,11 +16,7 @@ import { CAPABILITIES, CAPABILITIES_INTRO } from "@/data/capabilities";
     <ul class="cap-grid">
       {
         CAPABILITIES.map((capability, index) => (
-          <li
-            class="cap-card"
-            data-reveal
-            data-reveal-delay={index % 4}
-          >
+          <li class="cap-card" data-reveal data-reveal-delay={index % 4}>
             <div class="cap-card__top">
               <span class="cap-card__icon">
                 <Icon name={capability.icon} size={22} />
