@@ -1,4 +1,7 @@
 ---
+import Glyph from "@/components/visuals/Glyph.astro";
+import VisualFrame from "@/components/visuals/VisualFrame.astro";
+
 interface Props {
   label?: string;
 }
@@ -6,149 +9,232 @@ interface Props {
 const { label } = Astro.props;
 
 const requirements = [
-  { text: "ISO 27001 certification", state: "met" },
-  { text: "3 comparable references", state: "met" },
-  { text: "Local support presence", state: "open" },
-  { text: "Submission by 14 Mar", state: "met" },
+  {
+    text: "ISO 27001 certification",
+    source: "p. 14 · §3.2",
+    state: "Evidence attached",
+    owner: "AR",
+    met: true,
+  },
+  {
+    text: "3 comparable rail references",
+    source: "p. 27 · §4.1",
+    state: "Evidence attached",
+    owner: "SM",
+    met: true,
+  },
+  {
+    text: "Local support within 4 hours",
+    source: "p. 61 · §6.4",
+    state: "Awaiting SME input",
+    owner: "PK",
+    met: false,
+  },
+  {
+    text: "Bid bond, 2% of contract value",
+    source: "p. 88 · §9.1",
+    state: "Evidence attached",
+    owner: "AR",
+    met: true,
+  },
 ];
 
-// Text-line lengths for the document page, in px.
+// Text-line widths for the rendered page, in user units.
 const lines = [
-  268, 240, 256, 198, 264, 232, 250, 176, 262, 244, 210, 258, 226, 190,
+  216, 198, 208, 172, 212, 190, 204, 158, 210, 196, 182, 206, 174, 200, 188,
+  212, 166, 202,
 ];
+
+// The two lines the extractor pulled the first requirement from.
+const HIGHLIGHT = [3, 4];
 ---
 
-<svg
-  class="visual"
-  viewBox="0 0 800 500"
-  role={label ? "img" : undefined}
-  aria-label={label}
-  aria-hidden={label ? undefined : "true"}
-  font-family="var(--font-body)"
+<VisualFrame
+  label={label}
+  icon="file"
+  title="Metro Rail RFP · Volume 2"
+  subtitle="tender_metro_rail_vol2.pdf · 212 pages · added 06 Mar"
+  bleed
+  bleedX={24}
+  bleedWidth={300}
 >
-  <rect width="800" height="500" fill="#ffffff"></rect>
+  <Fragment slot="aside">
+    <text
+      x="752"
+      y="58"
+      font-size="11"
+      font-weight="600"
+      text-anchor="end"
+      fill="var(--c-ink-2)">18 of 24 requirements mapped</text
+    >
+    <rect x="596" y="68" width="156" height="6" rx="3" fill="var(--c-band)"
+    ></rect>
+    <rect x="596" y="68" width="117" height="6" rx="3" fill="var(--card-mid)"
+    ></rect>
+  </Fragment>
 
-  <text x="40" y="56" font-size="19" font-weight="600" fill="var(--c-ink)"
-    >Tender document · extracted requirements</text
-  >
-  <text x="40" y="80" font-size="13.5" fill="var(--c-ink-3)"
-    >Every requirement keeps a link back to its source page</text
-  >
-
-  <!-- source document -->
-  <rect x="40" y="110" width="304" height="356" rx="14" fill="var(--c-band)"
+  <!-- document viewer, running off the bottom edge -->
+  <rect x="48" y="118" width="272" height="410" rx="14" fill="var(--c-band)"
   ></rect>
   <rect
-    x="60"
-    y="134"
-    width="140"
-    height="12"
-    rx="6"
-    fill="var(--card-mid)"
-    opacity="0.5"></rect>
-  {
-    lines.map((width, index) => {
-      const y = 172 + index * 20;
-      const highlighted = index === 3 || index === 7 || index === 11;
-      return (
-        <g>
-          {highlighted && (
-            <rect
-              x="54"
-              y={y - 9}
-              width={width + 12}
-              height="16"
-              rx="4"
-              fill="var(--card-mid)"
-              opacity="0.16"
-            />
-          )}
-          <rect
-            x="60"
-            y={y - 5}
-            width={width}
-            height="7"
-            rx="3.5"
-            fill={highlighted ? "var(--card-deep)" : "var(--c-ink-3)"}
-            opacity={highlighted ? "0.55" : "0.28"}
-          />
-        </g>
-      );
-    })
-  }
-  <text x="60" y="452" font-size="12" fill="var(--c-ink-3)">Page 14 of 212</text
+    x="64"
+    y="132"
+    width="128"
+    height="24"
+    rx="12"
+    fill="#ffffff"
+    stroke="#0c1024"
+    stroke-opacity="0.08"></rect>
+  <text
+    x="128"
+    y="148"
+    font-size="10.5"
+    font-weight="600"
+    text-anchor="middle"
+    fill="var(--c-ink-2)">§3 Requirements</text
+  >
+  <text
+    x="304"
+    y="148"
+    font-size="10.5"
+    font-weight="600"
+    text-anchor="end"
+    fill="var(--c-ink-3)">p. 14 / 212</text
   >
 
-  <!-- leader lines -->
+  <rect
+    x="64"
+    y="168"
+    width="240"
+    height="360"
+    rx="8"
+    fill="#ffffff"
+    stroke="#0c1024"
+    stroke-opacity="0.07"></rect>
+  <rect
+    x="84"
+    y="190"
+    width="120"
+    height="10"
+    rx="5"
+    fill="var(--card-deep)"
+    opacity="0.5"></rect>
+  <rect
+    x="76"
+    y={214 + HIGHLIGHT[0] * 17 - 10}
+    width="220"
+    height={HIGHLIGHT.length * 17 + 4}
+    rx="5"
+    fill="var(--card-mid)"
+    opacity="0.14"></rect>
+  <rect
+    x="76"
+    y={214 + HIGHLIGHT[0] * 17 - 10}
+    width="3"
+    height={HIGHLIGHT.length * 17 + 4}
+    rx="1.5"
+    fill="var(--card-mid)"></rect>
   {
-    [0, 1, 2].map((index) => {
-      const fromY = 167 + [3, 7, 11][index] * 20;
-      const toY = 152 + index * 92;
+    lines.map((width, index) => {
+      const on = HIGHLIGHT.includes(index);
       return (
-        <path
-          d={`M348 ${fromY}C378 ${fromY} 380 ${toY} 408 ${toY}`}
-          fill="none"
-          stroke="var(--card-mid)"
-          stroke-width="1.5"
-          opacity="0.4"
+        <rect
+          x="84"
+          y={214 + index * 17}
+          width={width}
+          height="6"
+          rx="3"
+          fill={on ? "var(--card-deep)" : "var(--c-ink-3)"}
+          opacity={on ? "0.6" : "0.24"}
         />
       );
     })
   }
 
-  <!-- extracted requirement cards -->
+  <!-- requirements extracted from it -->
   {
     requirements.map((requirement, index) => {
-      const y = 118 + index * 92;
-      const met = requirement.state === "met";
+      const top = 118 + index * 97;
       return (
         <g>
           <rect
-            x="416"
-            y={y}
-            width="344"
-            height="72"
-            rx="12"
+            x="336"
+            y={top}
+            width="416"
+            height="84"
+            rx="14"
             fill="var(--card-soft)"
           />
-          <circle
-            cx="450"
-            cy={y + 36}
-            r="13"
-            fill={met ? "var(--card-mid)" : "#ffffff"}
-            opacity={met ? "0.16" : "1"}
+          <rect
+            x="356"
+            y={top + 17}
+            width="26"
+            height="26"
+            rx="9"
+            fill={requirement.met ? "var(--card-mid)" : "#ffffff"}
+            opacity={requirement.met ? "0.22" : "1"}
           />
-          {met ? (
-            <path
-              d={`m444 ${y + 36} 4.5 4.5L457 ${y + 30}`}
-              fill="none"
-              stroke="var(--card-deep)"
-              stroke-width="2.2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          ) : (
-            <path
-              d={`M450 ${y + 29}v9M450 ${y + 43}v1`}
-              stroke="var(--c-accent)"
-              stroke-width="2.2"
-              stroke-linecap="round"
-            />
-          )}
+          <Glyph
+            name={requirement.met ? "check" : "clock"}
+            x={360}
+            y={top + 21}
+            size={18}
+            color={requirement.met ? "var(--card-deep)" : "var(--c-ink-3)"}
+            stroke={requirement.met ? 2.4 : 1.9}
+          />
+
           <text
-            x="480"
-            y={y + 33}
-            font-size="14.5"
+            x={396}
+            y={top + 34}
+            font-size="13"
             font-weight="600"
+            letter-spacing="-0.012em"
             fill="var(--c-ink)"
           >
             {requirement.text}
           </text>
-          <text x="480" y={y + 53} font-size="12.5" fill="var(--c-ink-3)">
-            {met ? "Evidence attached" : "Response incomplete"}
+
+          <rect
+            x="396"
+            y={top + 46}
+            width="88"
+            height="20"
+            rx="10"
+            fill="#ffffff"
+          />
+          <text
+            x="440"
+            y={top + 60}
+            font-size="10"
+            font-weight="600"
+            text-anchor="middle"
+            fill="var(--c-ink-3)"
+          >
+            {requirement.source}
+          </text>
+          <text x="496" y={top + 60} font-size="10.5" fill="var(--c-ink-3)">
+            {requirement.state}
+          </text>
+
+          <circle
+            cx="722"
+            cy={top + 42}
+            r="14"
+            fill="var(--card-mid)"
+            opacity="0.18"
+          />
+          <text
+            x="722"
+            y={top + 46}
+            font-size="10.5"
+            font-weight="700"
+            text-anchor="middle"
+            fill="var(--card-deep)"
+          >
+            {requirement.owner}
           </text>
         </g>
       );
     })
   }
-</svg>
+</VisualFrame>

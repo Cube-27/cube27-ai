@@ -1138,11 +1138,16 @@ body:has(.hero) {
 }
 
 .product-card__media > * {
+  /* --visual-zoom is 1 everywhere the visual fits at a readable size, and is
+     raised on phones, where the same composition would otherwise render at
+     under half scale. Hover multiplies it rather than replacing it. */
+  --visual-zoom: 1;
+  transform: scale(var(--visual-zoom));
   transition: transform 700ms var(--ease);
 }
 
 .product-card:hover .product-card__media > * {
-  transform: scale(1.02);
+  transform: scale(calc(var(--visual-zoom) * 1.02));
 }
 
 .product-card--flip .product-card__media {
@@ -1370,6 +1375,13 @@ body:has(.hero) {
   border-radius: var(--r-lg);
   overflow: hidden;
   box-shadow: var(--lift);
+}
+
+/* The visual carries its own radius for the homepage grid, where nothing clips
+   it. Here the wrapper clips, and the two radii have to agree or the corners
+   show a sliver of the band between them. */
+.p-hero__art .visual {
+  border-radius: var(--r-lg);
 }
 
 .crumbs {
@@ -1687,6 +1699,26 @@ body:has(.hero) {
 
   .product-card__media > * {
     width: 100%;
+  }
+}
+
+/* Phones get a crop, not a shrink. Fitting the whole screen into 350px puts
+   its labels under 8px, so the media becomes a window onto the top-left of the
+   same screen instead — the region every visual leads with. */
+@media (max-width: 620px) {
+  .product-card__media {
+    aspect-ratio: 5 / 4;
+    padding: 0;
+    /* Softens the right crop edge, which otherwise slices a value in half and
+       reads as a rendering fault rather than as a window. */
+    -webkit-mask-image: linear-gradient(to right, #000 84%, transparent);
+    mask-image: linear-gradient(to right, #000 84%, transparent);
+  }
+
+  .product-card__media > * {
+    --visual-zoom: 1.5;
+    border-radius: 0;
+    transform-origin: left top;
   }
 }
 

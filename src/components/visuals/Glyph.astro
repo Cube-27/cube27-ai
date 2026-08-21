@@ -1,0 +1,30 @@
+---
+import { GLYPHS, type GlyphName } from "@/components/visuals/glyphs";
+
+interface Props {
+  name: GlyphName;
+  /** Top-left corner in the parent SVG's user units. */
+  x: number;
+  y: number;
+  size: number;
+  color: string;
+  stroke?: number;
+}
+
+const { name, x, y, size, color, stroke = 1.9 } = Astro.props;
+---
+
+<svg
+  x={x}
+  y={y}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke={color}
+  stroke-width={stroke}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  {GLYPHS[name].map((d) => <path d={d} />)}
+</svg>

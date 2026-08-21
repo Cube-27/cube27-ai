@@ -1,100 +1,203 @@
 ---
+import Glyph from "@/components/visuals/Glyph.astro";
+import VisualFrame from "@/components/visuals/VisualFrame.astro";
+
 interface Props {
   label?: string;
 }
 
 const { label } = Astro.props;
 
+const stats = [
+  { label: "ANSWER SHARE", value: "46%", delta: "6.2", dir: "up" },
+  { label: "CITATIONS WON", value: "128", delta: "24", dir: "up" },
+  { label: "SOURCES CITED", value: "37", delta: "5", dir: "up" },
+];
+
+// Ranked the way the product would rank it: by share, not by whose brand it is.
 const rows = [
-  { name: "Your brand", share: 0.46, own: true },
   { name: "Competitor A", share: 0.64, own: false },
+  { name: "Your brand", share: 0.46, own: true },
   { name: "Competitor B", share: 0.37, own: false },
   { name: "Competitor C", share: 0.19, own: false },
 ];
 
-const TRACK_X = 214;
-const TRACK_W = 452;
 const sources = [
-  { name: "docs.yoursite.com", weight: 0.72 },
-  { name: "industry-review.com", weight: 0.54 },
-  { name: "community thread", weight: 0.31 },
+  { initial: "D", host: "docs.yoursite.com", count: "42 citations" },
+  { initial: "I", host: "industry-review.com", count: "31 citations" },
+  { initial: "R", host: "r/procurement", count: "18 citations" },
 ];
+
+const TILE_W = 228;
+const TRACK_X = 222;
+const TRACK_W = 430;
+
+/** Small filled triangle used as a trend marker. */
+const caret = (cx: number, cy: number, up: boolean) =>
+  up ? `M${cx} ${cy - 3.6}l4.4 6.4h-8.8z` : `M${cx} ${cy + 3.6}l4.4-6.4h-8.8z`;
 ---
 
-<svg
-  class="visual"
-  viewBox="0 0 800 500"
-  role={label ? "img" : undefined}
-  aria-label={label}
-  aria-hidden={label ? undefined : "true"}
-  font-family="var(--font-body)"
+<VisualFrame
+  label={label}
+  icon="sparkle"
+  title="Answer share"
+  subtitle="4 answer engines · 340 tracked questions · updated 9 min ago"
 >
-  <rect width="800" height="500" fill="#ffffff"></rect>
+  <Fragment slot="aside">
+    <rect x="628" y="48" width="124" height="32" rx="16" fill="var(--c-band)"
+    ></rect>
+    <text
+      x="646"
+      y="68"
+      font-size="11.5"
+      font-weight="500"
+      fill="var(--c-ink-2)">Last 30 days</text
+    >
+    <Glyph
+      name="chevronDown"
+      x={728}
+      y={57}
+      size={14}
+      color="var(--c-ink-3)"
+      stroke={2}
+    />
+  </Fragment>
 
-  <!-- header -->
-  <text x="40" y="56" font-size="19" font-weight="600" fill="var(--c-ink)"
-    >Answer-engine visibility</text
-  >
-  <rect x="632" y="36" width="128" height="28" rx="14" fill="var(--card-soft)"
-  ></rect>
+  {
+    stats.map((stat, index) => {
+      const x = 48 + index * (TILE_W + 10);
+      return (
+        <g>
+          <rect
+            x={x}
+            y="118"
+            width={TILE_W}
+            height="76"
+            rx="14"
+            fill="var(--card-soft)"
+          />
+          <text
+            x={x + 16}
+            y="144"
+            font-size="10.5"
+            font-weight="600"
+            letter-spacing="0.07em"
+            fill="var(--c-ink-3)"
+          >
+            {stat.label}
+          </text>
+          <text
+            x={x + 16}
+            y="178"
+            font-size="26"
+            font-weight="600"
+            letter-spacing="-0.03em"
+            fill="var(--c-ink)"
+          >
+            {stat.value}
+          </text>
+          <rect
+            x={x + 150}
+            y="130"
+            width="62"
+            height="22"
+            rx="11"
+            fill="#ffffff"
+          />
+          <path
+            d={caret(x + 166, 141, stat.dir === "up")}
+            fill="var(--card-deep)"
+          />
+          <text
+            x={x + 176}
+            y="145"
+            font-size="11"
+            font-weight="600"
+            fill="var(--card-deep)"
+          >
+            {stat.delta}
+          </text>
+        </g>
+      );
+    })
+  }
+
   <text
-    x="696"
-    y="55"
-    font-size="13"
-    font-weight="500"
-    text-anchor="middle"
-    fill="var(--card-deep)">Last 30 days</text
-  >
-  <text x="40" y="80" font-size="13.5" fill="var(--c-ink-3)"
-    >Share of tracked questions where the brand is cited</text
+    x="48"
+    y="228"
+    font-size="10.5"
+    font-weight="600"
+    letter-spacing="0.07em"
+    fill="var(--c-ink-3)">SHARE OF TRACKED ANSWERS</text
   >
 
-  <!-- comparison rows -->
   {
     rows.map((row, index) => {
-      const y = 130 + index * 62;
+      const y = 254 + index * 38;
       return (
         <g>
           <text
-            x="40"
-            y={y + 5}
-            font-size="14.5"
-            font-weight={row.own ? "600" : "400"}
+            x="48"
+            y={y + 4.5}
+            font-size="11"
+            font-weight="600"
+            fill="var(--c-ink-3)"
+          >
+            {index + 1}
+          </text>
+          <text
+            x="70"
+            y={y + 4.5}
+            font-size="13.5"
+            font-weight={row.own ? "600" : "500"}
             fill={row.own ? "var(--c-ink)" : "var(--c-ink-2)"}
           >
             {row.name}
           </text>
+          {row.own && (
+            <g>
+              <rect
+                x="160"
+                y={y - 9}
+                width="38"
+                height="19"
+                rx="9.5"
+                fill="var(--card-mid)"
+                opacity="0.16"
+              />
+              <text
+                x="179"
+                y={y + 4}
+                font-size="10.5"
+                font-weight="600"
+                text-anchor="middle"
+                fill="var(--card-deep)"
+              >
+                You
+              </text>
+            </g>
+          )}
           <rect
             x={TRACK_X}
-            y={y - 7}
+            y={y - 5}
             width={TRACK_W}
-            height="12"
-            rx="6"
+            height="10"
+            rx="5"
             fill="var(--c-band)"
           />
           <rect
             x={TRACK_X}
-            y={y - 7}
+            y={y - 5}
             width={Math.round(TRACK_W * row.share)}
-            height="12"
-            rx="6"
-            fill={row.own ? "var(--card-mid)" : "var(--card-soft)"}
+            height="10"
+            rx="5"
+            fill="var(--card-mid)"
+            opacity={row.own ? "0.95" : "0.32"}
           />
-          {!row.own && (
-            <rect
-              x={TRACK_X}
-              y={y - 7}
-              width={Math.round(TRACK_W * row.share)}
-              height="12"
-              rx="6"
-              fill="var(--card-mid)"
-              opacity="0.34"
-            />
-          )}
           <text
-            x="760"
-            y={y + 5}
-            font-size="14.5"
+            x="752"
+            y={y + 4.5}
+            font-size="13.5"
             font-weight="600"
             text-anchor="end"
             fill={row.own ? "var(--card-deep)" : "var(--c-ink-3)"}
@@ -106,38 +209,54 @@ const sources = [
     })
   }
 
-  <!-- evidence strip -->
-  <rect x="40" y="380" width="720" height="86" rx="14" fill="var(--c-band)"
+  <rect x="48" y="396" width="704" height="100" rx="14" fill="var(--c-band)"
   ></rect>
   <text
-    x="62"
-    y="410"
-    font-size="12.5"
+    x="72"
+    y="424"
+    font-size="10.5"
     font-weight="600"
-    letter-spacing="0.04em"
-    fill="var(--c-ink-3)">SOURCES INFLUENCING THE ANSWER</text
+    letter-spacing="0.07em"
+    fill="var(--c-ink-3)">SOURCES BEHIND THOSE ANSWERS</text
   >
   {
     sources.map((source, index) => {
-      const x = 62 + index * 236;
+      const x = 72 + index * 234;
       return (
         <g>
-          <circle cx={x + 5} cy="437" r="4.5" fill="var(--card-mid)" />
-          <text x={x + 20} y="442" font-size="13.5" fill="var(--c-ink-2)">
-            {source.name}
-          </text>
-          <rect x={x} y="452" width="196" height="5" rx="2.5" fill="#ffffff" />
           <rect
             x={x}
-            y="452"
-            width={Math.round(196 * source.weight)}
-            height="5"
-            rx="2.5"
+            y="440"
+            width="22"
+            height="22"
+            rx="7"
             fill="var(--card-mid)"
-            opacity="0.6"
+            opacity="0.18"
           />
+          <text
+            x={x + 11}
+            y="455.5"
+            font-size="11"
+            font-weight="700"
+            text-anchor="middle"
+            fill="var(--card-deep)"
+          >
+            {source.initial}
+          </text>
+          <text
+            x={x + 32}
+            y="449"
+            font-size="11.5"
+            font-weight="500"
+            fill="var(--c-ink-2)"
+          >
+            {source.host}
+          </text>
+          <text x={x + 32} y="466" font-size="10.5" fill="var(--c-ink-3)">
+            {source.count}
+          </text>
         </g>
       );
     })
   }
-</svg>
+</VisualFrame>

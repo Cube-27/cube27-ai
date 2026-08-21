@@ -1,0 +1,135 @@
+---
+import Glyph from "@/components/visuals/Glyph.astro";
+import type { GlyphName } from "@/components/visuals/glyphs";
+import { uid } from "@/lib/uid";
+
+interface Props {
+  /** Set only where the visual is the subject; omitted it renders decorative. */
+  label?: string;
+  icon: GlyphName;
+  title: string;
+  subtitle: string;
+  /** Fades the bottom edge, so content running past it reads as continuing. */
+  bleed?: boolean;
+  /** Narrows the fade to one column, where the rest of the pane ends cleanly. */
+  bleedX?: number;
+  bleedWidth?: number;
+}
+
+const {
+  label,
+  icon,
+  title,
+  subtitle,
+  bleed = false,
+  bleedX = 24,
+  bleedWidth = 752,
+} = Astro.props;
+const id = uid("v");
+---
+
+<svg
+  class="visual"
+  viewBox="0 0 800 500"
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+  font-family="var(--font-body)"
+>
+  <defs>
+    <linearGradient id={`${id}-ground`} x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="var(--card-soft)"></stop>
+      <stop offset="0.5" stop-color="#ffffff"></stop>
+      <stop offset="1" stop-color="var(--card-soft)"></stop>
+    </linearGradient>
+
+    <radialGradient id={`${id}-bloom-a`} cx="0.88" cy="0.04" r="0.72">
+      <stop offset="0" stop-color="var(--card-mid)" stop-opacity="0.34"></stop>
+      <stop offset="1" stop-color="var(--card-mid)" stop-opacity="0"></stop>
+    </radialGradient>
+
+    <radialGradient id={`${id}-bloom-b`} cx="0.04" cy="1" r="0.7">
+      <stop offset="0" stop-color="var(--card-deep)" stop-opacity="0.2"></stop>
+      <stop offset="1" stop-color="var(--card-deep)" stop-opacity="0"></stop>
+    </radialGradient>
+
+    <linearGradient id={`${id}-fade`} x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"></stop>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.94"></stop>
+    </linearGradient>
+
+    <filter
+      id={`${id}-cast`}
+      x="-10%"
+      y="-10%"
+      width="120%"
+      height="130%"
+      color-interpolation-filters="sRGB"
+    >
+      <feDropShadow
+        dx="0"
+        dy="12"
+        stdDeviation="16"
+        flood-color="#0c1024"
+        flood-opacity="0.14"></feDropShadow>
+    </filter>
+
+    <clipPath id={`${id}-pane`}>
+      <rect x="24" y="26" width="752" height="500" rx="18"></rect>
+    </clipPath>
+  </defs>
+
+  <!-- ambient ground: the product hue, bloomed, never a flat fill -->
+  <rect width="800" height="500" fill={`url(#${id}-ground)`}></rect>
+  <rect width="800" height="500" fill={`url(#${id}-bloom-a)`}></rect>
+  <rect width="800" height="500" fill={`url(#${id}-bloom-b)`}></rect>
+
+  <!-- the pane. Shadow is cast by the rect alone so no text is rasterized. -->
+  <g filter={`url(#${id}-cast)`}>
+    <rect x="24" y="26" width="752" height="500" rx="18" fill="#ffffff"></rect>
+  </g>
+
+  <g clip-path={`url(#${id}-pane)`}>
+    <rect
+      x="24"
+      y="26"
+      width="752"
+      height="500"
+      rx="18"
+      fill="none"
+      stroke="#0c1024"
+      stroke-opacity="0.07"></rect>
+
+    <rect x="48" y="48" width="32" height="32" rx="10" fill="var(--card-deep)"
+    ></rect>
+    <Glyph name={icon} x={55} y={55} size={18} color="#ffffff" />
+
+    <text
+      x="94"
+      y="61"
+      font-size="16"
+      font-weight="600"
+      letter-spacing="-0.012em"
+      fill="var(--c-ink)">{title}</text
+    >
+    <text x="94" y="80" font-size="11.5" fill="var(--c-ink-3)">{subtitle}</text>
+
+    <slot name="aside" />
+
+    <path d="M48 102h704" stroke="#0c1024" stroke-opacity="0.08"></path>
+
+    <slot />
+
+    {
+      bleed && (
+        <rect
+          x={bleedX}
+          y="452"
+          width={bleedWidth}
+          height="48"
+          fill={`url(#${id}-fade)`}
+        />
+      )
+    }
+  </g>
+</svg>

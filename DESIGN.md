@@ -365,15 +365,42 @@ leaves the sheet showing on page load.
 
 ### Product visuals
 
-`src/components/visuals/` holds four inline-SVG compositions — a visibility
-board, a change feed, a reconciliation ladder, a tender document with extracted
-requirements — plus `ProductVisual.astro`, which maps a product's `visual` key
-to one of them. They read the active `data-hue`, so each renders in its
-product's colour.
+`src/components/visuals/` holds four inline-SVG compositions — an answer-share
+dashboard, a change monitor, a purchase-order reconciliation, a tender with its
+extracted requirements — plus `ProductVisual.astro`, which maps a product's
+`visual` key to one of them. They read the active `data-hue`, so each renders in
+its product's colour.
+
+Each is a **depiction of an application screen**, not a diagram of one. They
+share `VisualFrame.astro`, which draws the parts that must not drift: an ambient
+ground bloomed from the product hue, one white pane cast on it, the icon tile
+and title block, and the rule beneath. The pane runs past the bottom of the
+viewBox, so every visual is a window onto a screen that continues rather than a
+composition that happens to fit. `bleed` fades that lower edge where content
+actually crosses it.
+
+Two rules are deliberately inverted inside these files, and only inside them:
+
+- **They use hairlines.** Structure everywhere else on the site comes from
+  tonal shifts, but the thing being depicted is application chrome, and
+  application chrome has edges. A tinted pill with no border reads as this
+  site's own surface rather than as a screenshot of something else.
+- **They use their own glyph set,** `visuals/glyphs.ts`, not `lib/icons.ts`.
+  The icon list is the site's interface, audited and drawn at reading sizes;
+  these are 14px chrome and should be free to change without touching it.
+
+Ids for gradients, filters and clip paths come from `lib/uid.ts`, because inline
+SVG shares one document-wide id namespace and a second instance would otherwise
+reference the first one's defs.
+
+Phones get a crop, not a shrink: below 620px `--visual-zoom` scales the pane up
+and the media clips it to its top-left, with the right edge masked out. Fitting
+a whole screen into 350px would put its labels under 8px.
 
 They carry no `label` on the homepage, where the adjacent copy already says
 everything, and take one on the product hero, where the illustration is the
-subject. **Never place essential copy only inside one of these.**
+subject. **Never place essential copy only inside one of these** — every number
+in them is illustrative.
 
 ### Bands and cards
 

@@ -1,103 +1,244 @@
 ---
+import Glyph from "@/components/visuals/Glyph.astro";
+import VisualFrame from "@/components/visuals/VisualFrame.astro";
+
 interface Props {
   label?: string;
 }
 
 const { label } = Astro.props;
 
-const stages = [
-  { name: "Ordered", qty: 1200, share: 1 },
-  { name: "Dispatched", qty: 940, share: 0.783 },
-  { name: "Invoiced", qty: 940, share: 0.783 },
-  { name: "Received", qty: 880, share: 0.733 },
+const summary = [
+  { label: "ORDERED", value: "1,200" },
+  { label: "RECEIVED", value: "880" },
+  { label: "OPEN", value: "320" },
+  { label: "ON TIME", value: "96%" },
 ];
 
-const BAR_X = 210;
-const BAR_W = 470;
+const stages = [
+  { name: "Ordered", doc: "PO-2291", date: "04 Mar", qty: "1,200", share: 1 },
+  {
+    name: "Dispatched",
+    doc: "DN-4471 +2",
+    date: "09 Mar",
+    qty: "940",
+    share: 0.783,
+  },
+  {
+    name: "Invoiced",
+    doc: "INV-9903",
+    date: "11 Mar",
+    qty: "940",
+    share: 0.783,
+  },
+  {
+    name: "Received",
+    doc: "SRV-1184",
+    date: "13 Mar",
+    qty: "880",
+    share: 0.733,
+    open: true,
+  },
+];
+
+const TRACK_X = 402;
+const TRACK_W = 250;
 ---
 
-<svg
-  class="visual"
-  viewBox="0 0 800 500"
-  role={label ? "img" : undefined}
-  aria-label={label}
-  aria-hidden={label ? undefined : "true"}
-  font-family="var(--font-body)"
+<VisualFrame
+  label={label}
+  icon="box"
+  title="PO-2291"
+  subtitle="Meridian Foods · raised 04 Mar · 1,200 units committed"
 >
-  <rect width="800" height="500" fill="#ffffff"></rect>
+  <Fragment slot="aside">
+    <rect x="596" y="48" width="156" height="32" rx="16" fill="var(--card-soft)"
+    ></rect>
+    <circle cx="616" cy="64" r="4" fill="var(--card-mid)"></circle>
+    <text
+      x="628"
+      y="68"
+      font-size="11.5"
+      font-weight="600"
+      fill="var(--card-deep)">Partially received</text
+    >
+  </Fragment>
 
-  <text x="40" y="56" font-size="19" font-weight="600" fill="var(--c-ink)"
-    >PO-2291 · reconciliation</text
-  >
-  <text x="40" y="80" font-size="13.5" fill="var(--c-ink-3)"
-    >One commitment, four events, one outstanding balance</text
-  >
-
-  <!-- quantity ladder -->
+  <rect x="48" y="118" width="704" height="68" rx="14" fill="var(--c-band)"
+  ></rect>
   {
-    stages.map((stage, index) => {
-      const y = 138 + index * 64;
+    summary.map((item, index) => {
+      const x = 76 + index * 176;
       return (
         <g>
-          <circle cx="52" cy={y - 2} r="6" fill="var(--card-mid)" />
-          {index < stages.length - 1 && (
+          {index > 0 && (
             <path
-              d={`M52 ${y + 6}v44`}
-              stroke="var(--card-mid)"
-              stroke-width="1.8"
-              opacity="0.35"
-              stroke-linecap="round"
+              d={`M${x - 24} 136v34`}
+              stroke="#0c1024"
+              stroke-opacity="0.09"
             />
           )}
-          <text x="76" y={y + 3} font-size="14.5" fill="var(--c-ink-2)">
-            {stage.name}
-          </text>
-          <rect
-            x={BAR_X}
-            y={y - 11}
-            width={BAR_W}
-            height="18"
-            rx="9"
-            fill="var(--c-band)"
-          />
-          <rect
-            x={BAR_X}
-            y={y - 11}
-            width={Math.round(BAR_W * stage.share)}
-            height="18"
-            rx="9"
-            fill="var(--card-mid)"
-            opacity={index === 0 ? "0.28" : "0.72"}
-          />
           <text
-            x="760"
-            y={y + 4}
-            font-size="14.5"
+            x={x}
+            y="144"
+            font-size="10.5"
             font-weight="600"
-            text-anchor="end"
+            letter-spacing="0.07em"
+            fill="var(--c-ink-3)"
+          >
+            {item.label}
+          </text>
+          <text
+            x={x}
+            y="171"
+            font-size="20"
+            font-weight="600"
+            letter-spacing="-0.026em"
             fill="var(--c-ink)"
           >
-            {stage.qty.toLocaleString("en-IN")}
+            {item.value}
           </text>
         </g>
       );
     })
   }
 
-  <!-- exception callout -->
-  <rect x="40" y="398" width="720" height="72" rx="14" fill="var(--card-soft)"
+  <text
+    x="48"
+    y="220"
+    font-size="10.5"
+    font-weight="600"
+    letter-spacing="0.07em"
+    fill="var(--c-ink-3)">ORDER TIMELINE</text
+  >
+
+  {
+    stages.map((stage, index) => {
+      const y = 242 + index * 48;
+      return (
+        <g>
+          {index < stages.length - 1 && (
+            <path
+              d={`M60 ${y + 11}v26`}
+              stroke="var(--card-mid)"
+              stroke-opacity="0.32"
+              stroke-width="1.8"
+              stroke-linecap="round"
+            />
+          )}
+          <circle
+            cx="60"
+            cy={y}
+            r="10"
+            fill={stage.open ? "#ffffff" : "var(--card-mid)"}
+            stroke={stage.open ? "var(--card-mid)" : "none"}
+            stroke-width="2"
+          />
+          {stage.open ? (
+            <circle cx="60" cy={y} r="3.4" fill="var(--card-mid)" />
+          ) : (
+            <Glyph
+              name="check"
+              x={53}
+              y={y - 7}
+              size={14}
+              color="#ffffff"
+              stroke={2.6}
+            />
+          )}
+
+          <text
+            x="84"
+            y={y + 4.5}
+            font-size="13.5"
+            font-weight="600"
+            fill="var(--c-ink)"
+          >
+            {stage.name}
+          </text>
+
+          <rect
+            x="206"
+            y={y - 11}
+            width="100"
+            height="22"
+            rx="11"
+            fill="#ffffff"
+            stroke="#0c1024"
+            stroke-opacity="0.08"
+          />
+          <text
+            x="256"
+            y={y + 4}
+            font-size="10.5"
+            font-weight="600"
+            text-anchor="middle"
+            fill="var(--c-ink-2)"
+          >
+            {stage.doc}
+          </text>
+
+          <text x="322" y={y + 4.5} font-size="11.5" fill="var(--c-ink-3)">
+            {stage.date}
+          </text>
+
+          <rect
+            x={TRACK_X}
+            y={y - 5}
+            width={TRACK_W}
+            height="10"
+            rx="5"
+            fill="var(--c-band)"
+          />
+          <rect
+            x={TRACK_X}
+            y={y - 5}
+            width={Math.round(TRACK_W * stage.share)}
+            height="10"
+            rx="5"
+            fill="var(--card-mid)"
+            opacity="0.9"
+          />
+          <text
+            x="752"
+            y={y + 4.5}
+            font-size="13.5"
+            font-weight="600"
+            text-anchor="end"
+            fill="var(--c-ink)"
+          >
+            {stage.qty}
+          </text>
+        </g>
+      );
+    })
+  }
+
+  <rect x="48" y="410" width="704" height="74" rx="14" fill="var(--card-soft)"
   ></rect>
-  <circle cx="72" cy="434" r="14" fill="var(--card-mid)" opacity="0.18"
-  ></circle>
-  <path
-    d="M66 434h12M72 428v12"
-    stroke="var(--card-deep)"
-    stroke-width="2"
-    stroke-linecap="round"></path>
-  <text x="102" y="428" font-size="14.5" font-weight="600" fill="var(--c-ink)"
-    >60 units invoiced but not yet received</text
+  <circle cx="80" cy="447" r="15" fill="var(--card-mid)" opacity="0.2"></circle>
+  <Glyph
+    name="alert"
+    x={71}
+    y={438}
+    size={18}
+    color="var(--card-deep)"
+    stroke={2.2}
+  />
+  <text x="112" y="442" font-size="13.5" font-weight="600" fill="var(--c-ink)"
+    >60 units invoiced but not yet receipted</text
   >
-  <text x="102" y="450" font-size="13" fill="var(--c-ink-3)"
-    >Flagged automatically against SRV-1184 · awaiting store confirmation</text
+  <text x="112" y="462" font-size="11.5" fill="var(--c-ink-3)"
+    >INV-9903 against SRV-1184 · open 2 days · owner: Ops</text
   >
-</svg>
+  <rect x="636" y="431" width="96" height="32" rx="16" fill="var(--card-deep)"
+  ></rect>
+  <text
+    x="684"
+    y="451"
+    font-size="11.5"
+    font-weight="600"
+    text-anchor="middle"
+    fill="#ffffff">Reconcile</text
+  >
+</VisualFrame>
