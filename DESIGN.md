@@ -126,6 +126,8 @@ each product's closing statement, the final call, and the footer.
 - Four product hues, each drawn from a quadrant of the CUBE27 mark.
 - Large Geist headlines over calm Inter explanation. No third face.
 - Motion that is felt rather than watched, and which costs no JavaScript.
+- The landing page opens on a drawn field of drifting light rather than a
+  photograph, with the proposition centred on top of it.
 
 ## Colors
 
@@ -309,9 +311,17 @@ subject. **Never place essential copy only inside one of these.**
 
 ## Motion
 
-**The site ships no first-party JavaScript.** This is a load-bearing property,
-asserted in the e2e suite, and the reason the CSP needs no `unsafe-inline`.
+**First-party JavaScript is a budget, not a ban.** The site ships exactly one
+bundled module — six lines that close the mobile menu when a link inside it
+only changes the hash, which the popover API cannot do on its own. The e2e
+suite asserts that this module is the only one and that it stays under 1 KB.
+Nothing is ever inlined, so the CSP still needs no `unsafe-inline`.
 
+- The hero field is four bundles of drifting strands, each a layer holding two
+  tiles of a wave that repeats exactly once per tile. Sliding a layer left by
+  half its own width returns it to where it started, so the loop has no seam.
+  Only `transform` animates, so the compositor carries the whole field and no
+  frame repaints.
 - Section entry uses `animation-timeline: view()` behind an `@supports` guard.
   Where the timeline is unsupported, content simply renders at rest — there is
   no hidden state to get stuck in and no flash.
@@ -322,7 +332,8 @@ asserted in the e2e suite, and the reason the CSP needs no `unsafe-inline`.
   `@starting-style` entry are ordinary transitions.
 - `prefers-reduced-motion: reduce` collapses all of it to 0.01ms and disables
   smooth scrolling. The reveal timelines are additionally scoped inside a
-  `no-preference` query, so they never run at all.
+  `no-preference` query, so they never run at all, and the hero field settles
+  into the still composition it is drawn for.
 
 ## Accessibility
 

@@ -1,0 +1,203 @@
+---
+/**
+ * The hero field: the layered-light signature of the brand, drawn rather than
+ * photographed so it can breathe.
+ *
+ * Every ribbon is a sum of sines whose cycle counts are whole numbers, so the
+ * wave repeats exactly once per TILE. Each layer draws two tiles side by side
+ * and slides itself left by exactly one, which is why the drift never seams.
+ * Weight stays low because a layer defines two ribbons and stamps them with
+ * <use>: the fan, the crossings and the pinch points come from the vertical
+ * scale on each stamp, not from more path data. Motion is a transform on the
+ * layer, so the compositor carries it and no frame ever repaints.
+ */
+
+/** One cycle of the loop, in user units. */
+const TILE = 1200;
+const VIEW_W = TILE * 2;
+const VIEW_H = 700;
+
+interface Wave {
+  /** Whole cycles per tile. Fractions would break the seam. */
+  k: number;
+  amp: number;
+  phase: number;
+}
+
+const round = (value: number) => Math.round(value * 10) / 10;
+
+/**
+ * A ribbon centred on y=0, emitted as exact Hermite cubics at eight segments
+ * per tile — close enough to the true curve to be indistinguishable, short
+ * enough to keep the path data small.
+ */
+const ribbon = (waves: Wave[]) => {
+  const w = (k: number) => (2 * Math.PI * k) / TILE;
+  const at = (x: number) =>
+    waves.reduce(
+      (sum, wave) => sum + wave.amp * Math.sin(w(wave.k) * x + wave.phase),
+      0,
+    );
+  const slope = (x: number) =>
+    waves.reduce(
+      (sum, wave) =>
+        sum + wave.amp * w(wave.k) * Math.cos(w(wave.k) * x + wave.phase),
+      0,
+    );
+
+  const step = TILE / 8;
+  const handle = step / 3;
+  let d = `M0 ${round(at(0))}`;
+  for (let x = 0; x < VIEW_W; x += step) {
+    const next = x + step;
+    d +=
+      ` C${round(x + handle)} ${round(at(x) + slope(x) * handle)}` +
+      ` ${round(next - handle)} ${round(at(next) - slope(next) * handle)}` +
+      ` ${round(next)} ${round(at(next))}`;
+  }
+  return d;
+};
+
+interface Layer {
+  /** Suffix for the layer class and the ribbon ids. */
+  key: string;
+  ribbons: Wave[][];
+  strands: number;
+  /** Centre of the bundle, and how far the stamps spread around it. */
+  y: number;
+  spread: number;
+  hues: string[];
+  opacity: [number, number];
+  stroke: number;
+}
+
+const LAYERS: Layer[] = [
+  {
+    key: "a",
+    ribbons: [
+      [
+        { k: 1, amp: 192, phase: 0.35 },
+        { k: 2, amp: 52, phase: 2.2 },
+      ],
+      [
+        { k: 1, amp: 166, phase: 1.15 },
+        { k: 3, amp: 32, phase: 4.0 },
+      ],
+    ],
+    strands: 18,
+    y: 210,
+    spread: 100,
+    hues: ["var(--hue-indigo)", "var(--hue-blue)"],
+    opacity: [0.05, 0.17],
+    stroke: 1.4,
+  },
+  {
+    key: "b",
+    ribbons: [
+      [
+        { k: 1, amp: 148, phase: 2.6 },
+        { k: 2, amp: 66, phase: 0.9 },
+      ],
+      [
+        { k: 1, amp: 128, phase: 3.4 },
+        { k: 2, amp: 46, phase: 5.1 },
+      ],
+    ],
+    strands: 20,
+    y: 430,
+    spread: 90,
+    hues: ["var(--hue-blue)", "var(--hue-purple)"],
+    opacity: [0.05, 0.21],
+    stroke: 1.2,
+  },
+  {
+    key: "c",
+    ribbons: [
+      [
+        { k: 1, amp: 206, phase: 4.8 },
+        { k: 3, amp: 38, phase: 2.7 },
+      ],
+      [
+        { k: 1, amp: 176, phase: 5.6 },
+        { k: 2, amp: 44, phase: 1.2 },
+      ],
+    ],
+    strands: 16,
+    y: 330,
+    spread: 120,
+    hues: ["var(--c-accent)", "var(--hue-purple)"],
+    opacity: [0.05, 0.21],
+    stroke: 1.2,
+  },
+  {
+    key: "d",
+    ribbons: [
+      [
+        { k: 1, amp: 158, phase: 5.9 },
+        { k: 2, amp: 40, phase: 3.6 },
+      ],
+      [
+        { k: 1, amp: 118, phase: 1.1 },
+        { k: 3, amp: 30, phase: 4.4 },
+      ],
+    ],
+    strands: 15,
+    y: 575,
+    spread: 88,
+    hues: ["var(--c-accent)", "var(--hue-blue)"],
+    opacity: [0.07, 0.29],
+    stroke: 1.05,
+  },
+];
+
+/** Stamps for one layer: where each copy sits and how tall its wave stands. */
+const stamps = (layer: Layer) =>
+  Array.from({ length: layer.strands }, (_, index) => {
+    const t = index / (layer.strands - 1);
+    const fade =
+      layer.opacity[0] +
+      (layer.opacity[1] - layer.opacity[0]) * Math.sin(t * Math.PI);
+    return {
+      href: `#hf-${layer.key}-${index % layer.ribbons.length}`,
+      y: round(layer.y + (t - 0.5) * layer.spread),
+      /* Amplitudes that never repeat in step with the spread, so the strands
+         cross each other instead of running parallel. */
+      scale: round(0.55 + ((index * 3) % 7) * 0.15),
+      stroke: layer.hues[index % layer.hues.length],
+      opacity: Math.round(fade * 100) / 100,
+    };
+  });
+---
+
+<div class="hero-field" aria-hidden="true">
+  {
+    LAYERS.map((layer) => (
+      <span
+        class:list={["hero-field__layer", `hero-field__layer--${layer.key}`]}
+      >
+        <svg viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} preserveAspectRatio="none">
+          <defs>
+            {layer.ribbons.map((waves, index) => (
+              <path
+                id={`hf-${layer.key}-${index}`}
+                d={ribbon(waves)}
+                fill="none"
+                vector-effect="non-scaling-stroke"
+                stroke-linecap="round"
+              />
+            ))}
+          </defs>
+          {stamps(layer).map((stamp) => (
+            <use
+              href={stamp.href}
+              transform={`translate(0 ${stamp.y}) scale(1 ${stamp.scale})`}
+              stroke={stamp.stroke}
+              stroke-width={layer.stroke}
+              opacity={stamp.opacity}
+            />
+          ))}
+        </svg>
+      </span>
+    ))
+  }
+</div>

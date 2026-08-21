@@ -1,39 +1,21 @@
 ---
-import { Picture } from "astro:assets";
 import Button from "@/components/ui/Button.astro";
 import SectionHead from "@/components/ui/SectionHead.astro";
-import heroField from "@/assets/images/hero-field.jpg";
+import HeroField from "@/components/visuals/HeroField.astro";
 import { HERO } from "@/data/home";
 import { CTA, SITE } from "@/data/site";
 ---
 
 <section class="hero">
-  <div class="shell hero__grid">
-    <SectionHead
-      level={1}
-      title={HERO.title}
-      lead={HERO.lead}
-      align="start"
-      flush
-    >
+  <HeroField />
+
+  <div class="shell hero__inner">
+    <SectionHead level={1} title={HERO.title} lead={HERO.lead} flush>
       <p class="t-body hero__support">{HERO.support}</p>
-      <div class="btn-row">
+      <div class="btn-row btn-row--center">
         <Button href="#products" variant="primary">{CTA.products}</Button>
         <Button href={SITE.contactUrl} variant="quiet">{CTA.workflow}</Button>
       </div>
     </SectionHead>
-
-    <div class="hero__art">
-      <Picture
-        src={heroField}
-        alt=""
-        widths={[560, 840, 1120, 1600]}
-        sizes="(max-width: 1080px) 92vw, 46vw"
-        formats={["avif", "webp"]}
-        loading="eager"
-        fetchpriority="high"
-        decoding="sync"
-      />
-    </div>
   </div>
 </section>

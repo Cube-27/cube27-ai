@@ -142,11 +142,25 @@ for (const route of ROUTES) {
   );
 }
 
-// The homepage LCP image must be offered in a modern format.
+// The hero opens on the drawn field, not on a raster: nothing above the fold
+// may cost a round trip, and the four drifting bundles must all be present.
 const home = documents.find((doc) => doc.route.file === "index.html")?.html;
 expect(
-  home !== undefined && /<source[^>]+type="image\/avif"/.test(home),
-  "homepage hero is not served as AVIF",
+  home !== undefined && /<div class="hero-field"/.test(home),
+  "homepage hero field is missing",
+);
+expect(
+  home !== undefined && (home.match(/hero-field__layer--/g) ?? []).length === 4,
+  "homepage hero field does not carry its four layers",
+);
+const heroStart = home?.indexOf('<section class="hero">') ?? -1;
+const heroSection =
+  heroStart === -1
+    ? ""
+    : home.slice(heroStart, home.indexOf("</section>", heroStart));
+expect(
+  heroStart !== -1 && !/<(img|picture|source)[\s>]/.test(heroSection),
+  "the hero opens on a raster image again",
 );
 
 // Crawler and sitemap surfaces.

@@ -14,6 +14,12 @@ export default defineConfig({
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      // Never inline a bundled asset into the HTML: the CSP allows neither an
+      // inline <script> nor an inline <style>, so everything must be a file
+      // served from this origin.
+      assetsInlineLimit: 0,
+    },
     server: {
       strictPort: true,
     },

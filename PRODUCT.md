@@ -9,7 +9,8 @@ web
 ## Stack
 
 Astro 7 static site, TypeScript, Tailwind CSS v4, and Cloudflare Pages. No
-client framework and no first-party JavaScript in the shipped output.
+client framework, and a first-party JavaScript budget of a single sub-1 KB
+module in the shipped output.
 
 ## Users
 

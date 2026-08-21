@@ -81,10 +81,15 @@ workflow" → closing statement on a dark band. All copy is per-product content 
 
 ## Imagery
 
-**Abstract art** is generated in-repo by `scripts/generate-art.mjs`: bundles of
-fine bezier strands, fanned and pinched along a shared curve, composited with a
-screen blend so overlaps glow. Deterministic by seed — the committed hero is
-seed `8823`. `ART_SEED=<n>` renders alternatives.
+**The hero field** is drawn, not photographed: `HeroField.astro` emits four
+bundles of fine bezier strands, fanned and pinched along a shared curve, and
+lets them drift across the full width of the landing page behind the centred
+proposition. Each strand is a sum of sines with whole-number cycle counts, so a
+layer tiles seamlessly and the motion is one composited `transform`.
+
+**The social preview card** is still raster, generated in-repo by
+`scripts/generate-art.mjs` and deterministic by seed. The same script still
+writes the retired hero raster, which nothing imports.
 
 **Product illustrations** are inline SVG, not screenshots: a visibility board, a
 change feed, a reconciliation ladder, a tender document with extracted
@@ -95,28 +100,36 @@ If you would rather use externally generated renders, `docs/image-briefs.md`
 carries paste-ready prompts, the palette, the prohibitions and the swap
 procedure.
 
-## Zero JavaScript
+## Almost zero JavaScript
 
-The site ships no first-party JavaScript. This started as a CSP problem — the
-policy allows neither inline scripts nor inline styles, and Astro was inlining
-the header script — and became a better answer than the one it replaced:
+The site ships one bundled module, 147 bytes. This started as a CSP problem —
+the policy allows neither inline scripts nor inline styles, and Astro was
+inlining the header script — and became a better answer than the one it
+replaced:
 
 - **Section reveals** use `animation-timeline: view()` behind an `@supports`
   guard. Unsupported browsers render content at rest; there is no hidden state
   to get stuck in and no flash.
 - **The sticky header's hairline** uses `animation-timeline: scroll()`.
 - **The mobile menu** is a native `popover`, which supplies outside-click
-  dismissal, Escape, and focus handling for free.
+  dismissal, Escape, and focus handling for free. The one thing it cannot do is
+  close on a link that only changes the hash: that never unloads the document,
+  so the panel would stay in the top layer over the section it just jumped to.
+  `popovertarget` is not allowed on an anchor, so this is the single case that
+  earned a script. It is bundled, never inlined, and the CSP is untouched.
+- **The hero field** is four bundles of SVG strands drifting on `transform`
+  alone, each layer holding two tiles of a wave that repeats once per tile, so
+  translating it by exactly one tile loops without a seam.
 - **The products menu** opens on `:hover` and `:focus-within`.
 
 This is asserted, not assumed: one e2e test fails if any first-party script
-other than `analytics.js` is requested, and another exercises the site with
-JavaScript disabled.
+beyond `analytics.js` and that one module is requested, or if the module grows
+past 1 KB, and another exercises the site with JavaScript disabled.
 
 ## Verification
 
 `pnpm verify` runs format, lint, type check, unit tests, build, build
-validation, link check and dependency audit. `pnpm test:e2e` runs 19 Playwright
+validation, link check and dependency audit. `pnpm test:e2e` runs 20 Playwright
 tests. `pnpm lighthouse` runs all five routes.
 
 Current state: **all five routes score 100 for performance, accessibility,

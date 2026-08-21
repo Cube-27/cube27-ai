@@ -48,8 +48,11 @@ import { CTA, NAV_ITEMS, PRODUCT_LINKS, SITE } from "@/data/site";
       {
         /*
          * The popover API supplies light dismiss — outside click and Escape —
-         * plus focus handling, so the whole menu needs no JavaScript and no
-         * inline-script exception in the CSP.
+         * plus focus handling, so opening and closing the menu needs no
+         * JavaScript. The one case it cannot cover is a link to an anchor on
+         * the page already showing: that never unloads the document, so the
+         * panel would stay in the top layer over the section it just jumped
+         * to. The script at the foot of this file closes it for that case.
          */
       }
       <div class="mobile-nav">
@@ -90,3 +93,18 @@ import { CTA, NAV_ITEMS, PRODUCT_LINKS, SITE } from "@/data/site";
     </div>
   </div>
 </header>
+
+<script>
+  /*
+   * Bundled, never inline, so the CSP needs no script-src exception. Delegated
+   * from the panel so it survives however the links are rendered, and guarded
+   * on :popover-open because hidePopover() throws on a closed popover.
+   */
+  const panel = document.getElementById("mobile-menu");
+
+  panel?.addEventListener("click", (event) => {
+    const target = event.target as Element | null;
+    if (!target?.closest("a")) return;
+    if (panel.matches(":popover-open")) panel.hidePopover();
+  });
+</script>

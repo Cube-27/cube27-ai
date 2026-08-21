@@ -3,9 +3,11 @@
 Static Astro site for [ai.cube27.com](https://ai.cube27.com), deployed on
 Cloudflare Pages. Five routes: the homepage and one page per product system.
 
-The site ships **no first-party JavaScript**. Section reveals, the sticky
-header and the mobile menu are all CSS or native platform features. See
-[docs/rebuild.md](./docs/rebuild.md) for why.
+The site ships **one 147-byte module** of first-party JavaScript, and nothing
+else. Section reveals, the hero field, the sticky header and opening the mobile
+menu are all CSS or native platform features. See
+[docs/rebuild.md](./docs/rebuild.md) for why, and for the one case that needed
+a script.
 
 ## Local development
 
@@ -22,10 +24,13 @@ All page copy lives in typed modules under `src/data/` — `products.ts`,
 
 ## Imagery
 
-Abstract art is generated in-repo and is deterministic by seed:
+The homepage opens on a drawn, drifting field of light —
+`src/components/visuals/HeroField.astro`, pure CSS and SVG. The social preview
+card is raster, generated in-repo and deterministic by seed:
 
 ```sh
-node scripts/generate-art.mjs          # rewrites the hero and social preview
+node scripts/generate-art.mjs          # rewrites the social preview and the
+                                      # retired hero raster
 ART_SEED=1234 node scripts/generate-art.mjs   # sample a different composition
 ```
 

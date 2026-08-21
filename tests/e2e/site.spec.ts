@@ -161,20 +161,52 @@ test("mobile navigation opens, links out, and light-dismisses", async ({
   await expect(panel).toBeVisible();
   await page.mouse.click(200, 700);
   await expect(panel).toBeHidden();
+
+  // A link to an anchor on this same page never unloads the document, so the
+  // panel has to take itself out of the top layer or it covers the section it
+  // just jumped to.
+  await toggle.click();
+  await expect(panel).toBeVisible();
+  await panel.getByRole("link", { name: "Capabilities" }).click();
+  await expect(panel).toBeHidden();
+  await expect(page).toHaveURL(/#capabilities$/);
+  await expect(page.locator("#capabilities")).toBeInViewport();
 });
 
-test("ships no first-party JavaScript beyond analytics", async ({ page }) => {
+test("ships only the analytics loader and the menu module", async ({
+  page,
+}) => {
   const scripts: string[] = [];
   page.on("request", (request) => {
     if (request.resourceType() === "script") scripts.push(request.url());
   });
   await page.goto("/");
-  const firstParty = scripts.filter(
-    (url) => new URL(url).origin === new URL(page.url()).origin,
+  const firstParty = scripts
+    .filter((url) => new URL(url).origin === new URL(page.url()).origin)
+    .map((url) => new URL(url).pathname);
+
+  expect(firstParty).toContain("/analytics.js");
+  // Everything else must be the one bundled module that closes the mobile
+  // menu, and it must stay small enough to be beneath notice.
+  const bundled = firstParty.filter((path) => path !== "/analytics.js");
+  expect(bundled).toHaveLength(1);
+  expect(bundled[0]).toMatch(/^\/_astro\/.+\.js$/);
+
+  const response = await page.request.get(bundled[0]);
+  expect((await response.body()).byteLength).toBeLessThan(1024);
+});
+
+test("the hero opens on the drawn field, not on an image", async ({ page }) => {
+  await page.goto("/");
+  const hero = page.locator(".hero");
+  await expect(hero.locator(".hero-field")).toBeAttached();
+  await expect(hero.locator(".hero-field__layer")).toHaveCount(4);
+  await expect(hero.locator("img")).toHaveCount(0);
+  // The field is decoration: it must not reach the accessibility tree.
+  await expect(hero.locator(".hero-field")).toHaveAttribute(
+    "aria-hidden",
+    "true",
   );
-  expect(firstParty.map((url) => new URL(url).pathname)).toEqual([
-    "/analytics.js",
-  ]);
 });
 
 test("product pages carry their own canonical, title and breadcrumb", async ({
