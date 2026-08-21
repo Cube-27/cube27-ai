@@ -103,8 +103,27 @@ import { CTA, NAV_ITEMS, PRODUCT_LINKS, SITE } from "@/data/site";
   const panel = document.getElementById("mobile-menu");
 
   panel?.addEventListener("click", (event) => {
+    const click = event as MouseEvent;
     const target = event.target as Element | null;
-    if (!target?.closest("a")) return;
+    const link = target?.closest<HTMLAnchorElement>("a");
+    if (
+      !link ||
+      event.defaultPrevented ||
+      click.button !== 0 ||
+      click.metaKey ||
+      click.ctrlKey ||
+      click.shiftKey ||
+      click.altKey ||
+      link.hasAttribute("download") ||
+      (link.target && link.target !== "_self")
+    )
+      return;
+
+    event.preventDefault();
     if (panel.matches(":popover-open")) panel.hidePopover();
+    const delay = matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? 0
+      : 220;
+    window.setTimeout(() => location.assign(link.href), delay);
   });
 </script>

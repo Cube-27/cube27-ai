@@ -67,7 +67,7 @@ can become a standalone page later without changing its link target.
 - Parent brand, organization, SEO and Cloudflare reference: `C:\Projects\cube27`.
 - Abstract imagery is generated in-repo by `scripts/generate-art.mjs` and is
   deterministic by seed. External replacements can be dropped into
-  `src/assets/images/`; briefs are in `docs/image-briefs.md`.
+  `src/assets/images/`
 
 ## Product Principles
 

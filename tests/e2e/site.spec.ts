@@ -128,6 +128,17 @@ test("desktop products menu opens on hover and on keyboard focus", async ({
   await expect(panel).toBeVisible();
   await expect(panel.getByRole("link")).toHaveCount(4);
 
+  // The visual gap between trigger and panel remains part of the hover target,
+  // and a brief pointer slip does not collapse the menu immediately.
+  const panelBox = await panel.boundingBox();
+  if (!panelBox) throw new Error("Products panel has no bounding box");
+  await page.mouse.move(panelBox.x + panelBox.width / 2, panelBox.y - 5);
+  await expect(panel).toBeVisible();
+  await page.mouse.move(20, 500);
+  await page.waitForTimeout(75);
+  await expect(panel).toBeVisible();
+  await expect(panel).toBeHidden({ timeout: 1_000 });
+
   // Reload so the pointer is no longer over the menu, proving :focus-within
   // opens it on its own rather than riding on the previous :hover.
   await page.reload();

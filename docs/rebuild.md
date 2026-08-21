@@ -23,7 +23,7 @@ The new site leads with what CUBE27 makes.
 | Structure | 1px borders, zero radius               | Tinted surfaces, rounded |
 | Type      | Space Grotesk + Geist + JetBrains Mono | Geist + Inter            |
 | Accent    | Cyan `#5ee8ff`                         | CUBE27 crimson `#a91d4b` |
-| Client JS | Reveal + header + menu scripts         | None                     |
+| Client JS | Reveal + header + menu scripts         | One bundled menu module  |
 
 ## Decisions
 
@@ -95,10 +95,6 @@ writes the retired hero raster, which nothing imports.
 change feed, a reconciliation ladder, a tender document with extracted
 requirements. They read the active `data-hue`, weigh nothing, and stay crisp at
 any density. They are honest compositions of real workflow shapes.
-
-If you would rather use externally generated renders, `docs/image-briefs.md`
-carries paste-ready prompts, the palette, the prohibitions and the swap
-procedure.
 
 ## Almost zero JavaScript
 

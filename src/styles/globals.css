@@ -679,9 +679,21 @@ svg {
   opacity: 0;
   visibility: hidden;
   transition:
-    opacity 200ms var(--ease),
-    transform 240ms var(--ease),
+    opacity 220ms ease-in,
+    transform 240ms ease-in,
     visibility 240ms;
+  transition-delay: 100ms;
+}
+
+/* Keep the hover target continuous while the pointer crosses the visual gap
+   between the trigger and the panel. */
+.nav-menu__panel::before {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  left: 0;
+  height: 10px;
+  content: "";
 }
 
 .nav-menu:hover .nav-menu__panel,
@@ -689,6 +701,14 @@ svg {
   opacity: 1;
   visibility: visible;
   transform: translate(-50%, 0);
+  transition-delay: 0ms;
+  transition-timing-function: var(--ease);
+}
+
+.nav-menu:hover > .nav-link,
+.nav-menu:focus-within > .nav-link {
+  background: rgb(12 16 36 / 0.055);
+  color: var(--c-ink);
 }
 
 .nav-menu__item {
@@ -746,6 +766,7 @@ svg {
 }
 
 .mobile-nav__toggle {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -758,18 +779,29 @@ svg {
   color: var(--c-ink);
 }
 
+.mobile-nav__toggle .icon-open,
 .mobile-nav__toggle .icon-close {
-  display: none;
+  position: absolute;
+  transition:
+    opacity 180ms var(--ease),
+    transform 220ms var(--ease);
+}
+
+.mobile-nav__toggle .icon-close {
+  opacity: 0;
+  transform: rotate(-70deg) scale(0.82);
 }
 
 /* The panel stays a DOM sibling even while it is in the top layer, so the
    toggle can reflect its open state without script. */
 .mobile-nav:has(> [popover]:popover-open) .icon-open {
-  display: none;
+  opacity: 0;
+  transform: rotate(70deg) scale(0.82);
 }
 
 .mobile-nav:has(> [popover]:popover-open) .icon-close {
-  display: block;
+  opacity: 1;
+  transform: none;
 }
 
 .mobile-nav__panel[popover] {
@@ -794,7 +826,11 @@ svg {
 }
 
 .mobile-nav__panel[popover]::backdrop {
-  background: rgb(12 16 36 / 0.32);
+  background: transparent;
+}
+
+.mobile-nav__panel[popover]:popover-open::backdrop {
+  background-color: rgb(12 16 36 / 0.32);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -802,8 +838,8 @@ svg {
     opacity: 0;
     transform: translateY(-10px);
     transition:
-      opacity 200ms var(--ease),
-      transform 260ms var(--ease),
+      opacity 220ms ease-in,
+      transform 260ms ease-in,
       overlay 260ms allow-discrete,
       display 260ms allow-discrete;
   }
@@ -811,12 +847,28 @@ svg {
   .mobile-nav__panel[popover]:popover-open {
     opacity: 1;
     transform: none;
+    transition-timing-function: var(--ease);
+  }
+
+  .mobile-nav__panel[popover]::backdrop {
+    transition:
+      background-color 220ms ease-in,
+      overlay 260ms allow-discrete,
+      display 260ms allow-discrete;
+  }
+
+  .mobile-nav__panel[popover]:popover-open::backdrop {
+    transition-timing-function: var(--ease);
   }
 
   @starting-style {
     .mobile-nav__panel[popover]:popover-open {
       opacity: 0;
       transform: translateY(-10px);
+    }
+
+    .mobile-nav__panel[popover]:popover-open::backdrop {
+      background-color: transparent;
     }
   }
 }
@@ -1601,12 +1653,6 @@ svg {
 @media (max-width: 620px) {
   :root {
     --band-y: clamp(56px, 13vw, 80px);
-  }
-
-  /* Small screens get three bundles, not four: the fourth reads as noise at
-     this size and costs a composited layer on the weakest hardware. */
-  .hero-field__layer--c {
-    display: none;
   }
 
   .hero-field__layer {

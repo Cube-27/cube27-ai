@@ -34,10 +34,6 @@ node scripts/generate-art.mjs          # rewrites the social preview and the
 ART_SEED=1234 node scripts/generate-art.mjs   # sample a different composition
 ```
 
-To use externally generated renders instead, see
-[docs/image-briefs.md](./docs/image-briefs.md) for paste-ready prompts, the
-palette, and the swap procedure.
-
 ## Verification
 
 `pnpm verify` runs formatting, linting, Astro type checks, unit tests, the
@@ -46,7 +42,8 @@ production dependency audit.
 
 `pnpm test:e2e` runs the Playwright suite: axe accessibility audits and
 horizontal-overflow checks on every route across six viewports, navigation
-behaviour, a no-JavaScript pass, and a guard that no first-party script ships.
+behaviour, a no-JavaScript pass, and a guard that only `analytics.js` and the
+menu module ship as first-party scripts.
 
 `pnpm lighthouse` runs all five routes and requires 100 for accessibility,
 best practices and SEO, and 95+ for performance.
@@ -68,4 +65,3 @@ nor inline scripts; `validate-build` fails the build on either.
 - [DESIGN.md](./DESIGN.md) — the design system and its rules
 - [PRODUCT.md](./PRODUCT.md) — product constraints and commitments
 - [docs/rebuild.md](./docs/rebuild.md) — what was rebuilt and why
-- [docs/image-briefs.md](./docs/image-briefs.md) — prompts for external imagery
