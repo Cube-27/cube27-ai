@@ -217,9 +217,13 @@ test("the hero opens on a flat plane the header rests on", async ({ page }) => {
   await page.goto("/");
   const hero = page.locator(".hero");
   // No image, and no decorative layer either: the hero is one tinted surface,
-  // the same treatment the product heroes get from their own hue.
+  // the same treatment the product heroes get from their own hue. The SVGs a
+  // control carries are not a layer, so the check is for artwork sitting on
+  // the plane, not for the absence of every vector on the section.
   await expect(hero.locator("img")).toHaveCount(0);
-  await expect(hero.locator("svg")).toHaveCount(0);
+  await expect(hero.locator("svg:not(.btn svg):not(.tlink svg)")).toHaveCount(
+    0,
+  );
 
   const plane = await hero.evaluate(
     (el) => getComputedStyle(el).backgroundColor,

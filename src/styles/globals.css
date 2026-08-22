@@ -1104,6 +1104,118 @@ body:has(.hero) {
   margin-top: 36px;
 }
 
+/* One button and one link, so the row centres on the type baseline rather than
+   on two equal blocks. */
+.hero__actions {
+  align-items: center;
+  gap: clamp(14px, 2.4vw, 28px);
+}
+
+/* The four domains, as the entrance to the product section. Surfaces, not
+   boxes: each one is a plate raised off the band, and the raise — a soft
+   shadow at rest, a real lift under the pointer — is the whole affordance.
+   -------------------------------------------------------------------------- */
+
+.hero__domains {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: clamp(28px, 3.4vw, 44px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero__domain {
+  position: relative;
+  /* The hue wash is a z-index -1 pseudo-element, which needs a stacking
+     context of its own or it paints through the plate to the band below. */
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 9px 20px 9px 16px;
+  border-radius: var(--r-pill);
+  background: var(--s-0);
+  box-shadow: var(--lift-soft);
+  color: var(--ink-2);
+  font-size: var(--t-15);
+  font-weight: 500;
+  transition:
+    color 260ms var(--ease),
+    transform 260ms var(--ease),
+    box-shadow 260ms var(--ease);
+}
+
+/* The product's own quadrant of the CUBE27 mark, in its hue. At rest it is the
+   only colour on the plate; on hover it grows into the dot the wash sweeps out
+   from, so the mark and the fill are visibly the same gesture. */
+.hero__domain::before {
+  content: "";
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 3px;
+  background: var(--card-mid);
+  transition:
+    transform 260ms var(--ease),
+    border-radius 260ms var(--ease);
+}
+
+/* The wash. Scaled from the dot's edge rather than faded in: a fill that
+   arrives with direction reads as the plate answering the pointer, where a
+   cross-fade would just be a colour change. */
+.hero__domain::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--card-soft);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 380ms var(--ease);
+}
+
+.hero__domain:hover,
+.hero__domain:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: var(--lift);
+  color: var(--card-deep);
+}
+
+.hero__domain:hover::before,
+.hero__domain:focus-visible::before {
+  transform: scale(1.35);
+  border-radius: 999px;
+}
+
+.hero__domain:hover::after,
+.hero__domain:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Reduced motion keeps the state change — the wash is information, not
+   decoration — and drops the travel that carries it. */
+@media (prefers-reduced-motion: reduce) {
+  .hero__domain,
+  .hero__domain::before,
+  .hero__domain::after {
+    transition-duration: 1ms;
+  }
+
+  .hero__domain:hover,
+  .hero__domain:focus-visible {
+    transform: none;
+  }
+
+  .hero__domain:hover::before,
+  .hero__domain:focus-visible::before {
+    transform: none;
+  }
+}
+
 /* --------------------------------------------------------------------------
    Product cards (homepage)
    Every product gets a full-width split card, alternating which side carries

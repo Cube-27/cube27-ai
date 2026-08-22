@@ -1,8 +1,9 @@
 ---
 import Button from "@/components/ui/Button.astro";
 import SectionHead from "@/components/ui/SectionHead.astro";
+import TextLink from "@/components/ui/TextLink.astro";
 import { HERO } from "@/data/home";
-import { CTA, SITE } from "@/data/site";
+import { CTA, PRODUCT_LINKS, SITE } from "@/data/site";
 ---
 
 <section class="hero">
@@ -13,6 +14,13 @@ import { CTA, SITE } from "@/data/site";
        * than the scroll reveal. The proposition opens the wave; the lead and
        * the support line sit close enough together on screen to read as one
        * arrival, so they share a ring; the actions land last.
+       *
+       * One button, not two. The three actions that used to compete here —
+       * two of them pointing at the same contact page — read as a choice the
+       * visitor has to make before they know anything. The page's own answer
+       * is the products, so that is the button; bringing us a workflow stays
+       * available as a link beside it and as the header's standing action,
+       * and gets its own section at the foot of the page.
        */
     }
     <SectionHead
@@ -23,14 +31,43 @@ import { CTA, SITE } from "@/data/site";
       rings={{ title: 0, lead: 1 }}
     >
       <p class="t-body hero__support" data-ring={1}>{HERO.support}</p>
-      <div class="btn-row btn-row--center">
+      <div class="btn-row btn-row--center hero__actions">
         <Button href="#products" variant="primary" ring={2}>
           {CTA.products}
         </Button>
-        <Button href={SITE.contactUrl} variant="quiet" ring={2}>
-          {CTA.workflow}
-        </Button>
+        <TextLink href={SITE.contactUrl} ring={2}>{CTA.workflow}</TextLink>
       </div>
+
+      {
+        /*
+         * The four domains the support paragraph used to list in one run-on
+         * sentence. As links they do the same work the sentence did and one
+         * more besides: they are the shortest path from the first viewport
+         * into the product that matches why the visitor came.
+         *
+         * Each plate carries its product's hue, so the strip is a legend for
+         * the cards further down the page: the colour a visitor picks up here
+         * is the colour of the card they land on. The hue arrives on hover
+         * rather than at rest — four saturated pills under the proposition
+         * would out-shout the one button beside them.
+         */
+      }
+      <ul class="hero__domains">
+        {
+          PRODUCT_LINKS.map((product) => (
+            <li>
+              <a
+                class="hero__domain"
+                href={product.href}
+                data-hue={product.hue}
+                data-ring={3}
+              >
+                {product.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </SectionHead>
   </div>
 </section>

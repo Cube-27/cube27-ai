@@ -5,7 +5,7 @@ export const SITE = {
   brand: "CUBE27 AI",
   url: "https://ai.cube27.com",
   description:
-    "CUBE27 builds production AI systems that turn fragmented data, documents and workflows into intelligence teams can act on.",
+    "CUBE27 builds production AI systems that turn fragmented data, documents and workflows into intelligence that teams can act on.",
   email: "contact@cube27.com",
   analyticsId: "G-B2GPL54QD9",
   contactUrl:
@@ -41,6 +41,7 @@ export const PRODUCT_LINKS = PRODUCTS.map((product) => ({
   label: product.navLabel,
   href: `/products/${product.slug}/`,
   promise: product.promise,
+  hue: product.hue,
 }));
 
 export const NAV_ITEMS = [
