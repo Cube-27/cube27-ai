@@ -142,17 +142,10 @@ for (const route of ROUTES) {
   );
 }
 
-// The hero opens on the drawn field, not on a raster: nothing above the fold
-// may cost a round trip, and the four drifting bundles must all be present.
+// Nothing above the fold may cost a round trip, so the hero stays typographic:
+// the drawn field it used to open on was removed in 9ebc6fb, and the checks for
+// that field went stale with it.
 const home = documents.find((doc) => doc.route.file === "index.html")?.html;
-expect(
-  home !== undefined && /<div class="hero-field"/.test(home),
-  "homepage hero field is missing",
-);
-expect(
-  home !== undefined && (home.match(/hero-field__layer--/g) ?? []).length === 4,
-  "homepage hero field does not carry its four layers",
-);
 const heroStart = home?.indexOf('<section class="hero">') ?? -1;
 const heroSection =
   heroStart === -1

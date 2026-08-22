@@ -17,11 +17,13 @@ import Layout from "@/layouts/Layout.astro";
         size="h2"
         title="We could not find that page."
         lead="The link may be out of date. Our product systems and capabilities are all reachable from the homepage."
+        rings={{ eyebrow: 0, title: 0, lead: 1 }}
       >
         <div class="btn-row btn-row--center">
-          <Button href="/" variant="primary">Back to CUBE27 AI</Button>
-          <Button href="/#products" variant="quiet">Explore our products</Button
-          >
+          <Button href="/" variant="primary" ring={2}>Back to CUBE27 AI</Button>
+          <Button href="/#products" variant="quiet" ring={2}>
+            Explore our products
+          </Button>
         </div>
       </SectionHead>
     </div>

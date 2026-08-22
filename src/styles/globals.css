@@ -159,6 +159,11 @@
 
   /* Motion */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Load-in. This curve leaves fast and settles for a long time, so a wave of
+     elements reads as one arrival rather than a row of counters. */
+  --ease-ripple: cubic-bezier(0.25, 1, 0.5, 1);
+
   --lift: 0 18px 40px -18px rgb(12 16 36 / 0.28);
   --lift-soft: 0 10px 30px -16px rgb(12 16 36 / 0.22);
 }
@@ -1368,6 +1373,14 @@ body:has(.hero) {
   align-items: center;
 }
 
+/* The product hero sets its own heading pair rather than using .section-head,
+   and the pair's rhythm never came with it: the lead sat flush against the
+   headline, since both elements reset their margins. Same step as the section
+   head uses, so the two heading pairs on the site share one rhythm. */
+.p-hero__lead {
+  margin-top: clamp(18px, 1.8vw, 26px);
+}
+
 .p-hero .btn-row {
   margin-top: 32px;
 }
@@ -1633,6 +1646,68 @@ body:has(.hero) {
     [data-reveal-delay="3"] {
       animation-range: entry 16% cover 32%;
     }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Load-in ripple
+
+   The first viewport arrives in waves. Every element carries a ring number —
+   data-ring="0", "1", "2" — hand-set from where it lands on screen, roughly by
+   distance from the top-left, never from its place in the markup. A ring is a
+   shared delay, not a per-element one: everything in ring 2 starts at exactly
+   the same moment, so the eye reads three or four arrivals instead of a
+   counter ticking through a list.
+
+   Rings go on leaves only. Fading a wrapper would composite its children as
+   one plane and flatten the stagger back into a single fade, which is the
+   thing this is here to avoid.
+
+   There is no script behind any of this. The rest state is the plain,
+   unanimated one and the animation is the departure from it, so reduced motion
+   and a browser that has never heard of it both land on settled content.
+   -------------------------------------------------------------------------- */
+
+@keyframes ripple-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-ring] {
+    /* Fill "both" holds the element at ring zero through its delay and at rest
+       after the curve ends, so nothing flashes in unstyled at either edge. */
+    animation: ripple-in 1000ms var(--ease-ripple) both;
+  }
+
+  [data-ring="1"] {
+    animation-delay: 100ms;
+  }
+
+  [data-ring="2"] {
+    animation-delay: 200ms;
+  }
+
+  [data-ring="3"] {
+    animation-delay: 300ms;
+  }
+
+  [data-ring="4"] {
+    animation-delay: 400ms;
+  }
+
+  [data-ring="5"] {
+    animation-delay: 500ms;
+  }
+
+  [data-ring="6"] {
+    animation-delay: 600ms;
   }
 }
 

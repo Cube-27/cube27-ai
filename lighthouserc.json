@@ -13,7 +13,7 @@
       "numberOfRuns": 3,
       "settings": {
         "preset": "desktop",
-        "chromeFlags": "--headless --no-sandbox"
+        "chromeFlags": "--headless --no-sandbox --force-prefers-reduced-motion"
       }
     },
     "assert": {

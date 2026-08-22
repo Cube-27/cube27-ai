@@ -17,6 +17,14 @@ interface Props {
   wide?: boolean;
   /** Drop the bottom margin when the head is not introducing a grid. */
   flush?: boolean;
+  /**
+   * Load-in rings for the head's own leaves, hand-set from where each line
+   * lands on screen. Passing them opts the head out of the scroll reveal: a
+   * head in the first viewport is already on screen at load, so it rides the
+   * load-in ripple instead, and its lines ripple individually rather than as
+   * one faded block.
+   */
+  rings?: { eyebrow?: number; title?: number; lead?: number };
   class?: string;
 }
 
@@ -29,6 +37,7 @@ const {
   align = "center",
   wide = false,
   flush = false,
+  rings,
   class: className,
 } = Astro.props;
 
@@ -45,10 +54,27 @@ const sizeClass =
     { "section-head--wide": wide, "section-head--flush": flush },
     className,
   ]}
-  data-reveal
+  data-reveal={rings ? undefined : ""}
 >
-  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-  <Heading class:list={[sizeClass, "section-head__title"]}>{title}</Heading>
-  {lead && <p class="t-lead section-head__lead">{lead}</p>}
+  {
+    eyebrow && (
+      <p class="eyebrow" data-ring={rings?.eyebrow}>
+        {eyebrow}
+      </p>
+    )
+  }
+  <Heading
+    class:list={[sizeClass, "section-head__title"]}
+    data-ring={rings?.title}
+  >
+    {title}
+  </Heading>
+  {
+    lead && (
+      <p class="t-lead section-head__lead" data-ring={rings?.lead}>
+        {lead}
+      </p>
+    )
+  }
   <slot />
 </div>

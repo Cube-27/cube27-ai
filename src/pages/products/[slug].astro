@@ -26,9 +26,19 @@ const canonical = `${SITE.url}/products/${product.slug}/`;
   canonical={canonical}
   jsonLd={buildProductSchema(product)}
 >
+  {
+    /*
+     * First viewport, so the load-in ripple runs it and the scroll reveal
+     * stays out. Rings follow the eye down the left column, and the art rides
+     * ring 2 with the lead rather than the ring its place in the markup would
+     * suggest: its top edge sits level with them, so arriving with the copy
+     * below it would read as a straggler. The crumbs are the one group given
+     * a ring as a group — every child of them shares it anyway.
+     */
+  }
   <section class="p-hero" data-hue={product.hue}>
     <div class="shell">
-      <nav class="crumbs" aria-label="Breadcrumb">
+      <nav class="crumbs" aria-label="Breadcrumb" data-ring={0}>
         <a href="/">Home</a>
         <span class="crumbs__sep" aria-hidden="true">/</span>
         <a href="/#products">Products</a>
@@ -38,18 +48,22 @@ const canonical = `${SITE.url}/products/${product.slug}/`;
 
       <div class="p-hero__grid">
         <div>
-          <p class="eyebrow">{product.name}</p>
-          <h1 class="t-display p-hero__title">{product.hero.title}</h1>
-          <p class="t-lead p-hero__lead">{product.hero.lead}</p>
+          <p class="eyebrow" data-ring={1}>{product.name}</p>
+          <h1 class="t-display p-hero__title" data-ring={1}>
+            {product.hero.title}
+          </h1>
+          <p class="t-lead p-hero__lead" data-ring={2}>{product.hero.lead}</p>
           <div class="btn-row">
-            <Button href={SITE.contactUrl} variant="primary" arrow>
+            <Button href={SITE.contactUrl} variant="primary" arrow ring={3}>
               {product.hero.cta}
             </Button>
-            <Button href="#capabilities" variant="quiet"> What it does </Button>
+            <Button href="#capabilities" variant="quiet" ring={3}>
+              What it does
+            </Button>
           </div>
         </div>
 
-        <div class="p-hero__art" data-reveal data-reveal-delay="1">
+        <div class="p-hero__art" data-ring={2}>
           <ProductVisual
             visual={product.visual}
             label={`Illustration of the ${product.name} workflow.`}

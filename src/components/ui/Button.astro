@@ -5,6 +5,8 @@ interface Props {
   href: string;
   variant?: "primary" | "secondary" | "quiet" | "on-dark" | "ghost-dark";
   arrow?: boolean;
+  /** Load-in ring, when the button sits in the first viewport. */
+  ring?: number;
   class?: string;
 }
 
@@ -12,6 +14,7 @@ const {
   href,
   variant = "primary",
   arrow = false,
+  ring,
   class: className,
 } = Astro.props;
 const external = href.startsWith("http");
@@ -21,6 +24,7 @@ const external = href.startsWith("http");
   class:list={["btn", `btn--${variant}`, className]}
   href={href}
   rel={external ? "noopener" : undefined}
+  data-ring={ring}
 >
   <slot />
   {arrow && <Icon name="arrowUpRight" size={17} stroke={2} />}

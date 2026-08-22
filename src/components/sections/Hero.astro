@@ -7,11 +7,29 @@ import { CTA, SITE } from "@/data/site";
 
 <section class="hero">
   <div class="shell hero__inner">
-    <SectionHead level={1} title={HERO.title} lead={HERO.lead} flush>
-      <p class="t-body hero__support">{HERO.support}</p>
+    {
+      /*
+       * The hero is the first viewport, so it rides the load-in ripple rather
+       * than the scroll reveal. The proposition opens the wave; the lead and
+       * the support line sit close enough together on screen to read as one
+       * arrival, so they share a ring; the actions land last.
+       */
+    }
+    <SectionHead
+      level={1}
+      title={HERO.title}
+      lead={HERO.lead}
+      flush
+      rings={{ title: 0, lead: 1 }}
+    >
+      <p class="t-body hero__support" data-ring={1}>{HERO.support}</p>
       <div class="btn-row btn-row--center">
-        <Button href="#products" variant="primary">{CTA.products}</Button>
-        <Button href={SITE.contactUrl} variant="quiet">{CTA.workflow}</Button>
+        <Button href="#products" variant="primary" ring={2}>
+          {CTA.products}
+        </Button>
+        <Button href={SITE.contactUrl} variant="quiet" ring={2}>
+          {CTA.workflow}
+        </Button>
       </div>
     </SectionHead>
   </div>
