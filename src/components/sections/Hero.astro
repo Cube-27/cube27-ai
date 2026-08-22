@@ -2,15 +2,8 @@
 import Button from "@/components/ui/Button.astro";
 import SectionHead from "@/components/ui/SectionHead.astro";
 import TextLink from "@/components/ui/TextLink.astro";
-import ProductVisual from "@/components/visuals/ProductVisual.astro";
 import { HERO } from "@/data/home";
-import { PRODUCTS } from "@/data/products";
 import { CTA, PRODUCT_LINKS, SITE } from "@/data/site";
-
-/* The pane at the foot of the hero. The first product, so the strip above it
-   and the stage below it agree, and so the featured product is a property of
-   the product order rather than a name copied into the markup. */
-const FEATURED = PRODUCTS[0];
 ---
 
 <section class="hero">
@@ -76,24 +69,5 @@ const FEATURED = PRODUCTS[0];
         }
       </ul>
     </SectionHead>
-  </div>
-
-  {
-    /*
-     * The stage. A real product surface in the first viewport, cropped by the
-     * foot of the section so only its head shows: the pane reads as rising
-     * into the fold rather than sitting in it, and the crop is what says there
-     * is more below. The height is fixed rather than left to the viewport, so
-     * the cut lands on the pane's header and first rows at every size instead
-     * of wherever the fold happens to fall.
-     *
-     * Outside the shell's centred column but inside the section, so it can
-     * carry its own width and sit flush to the bottom edge.
-     */
-  }
-  <div class="hero__stage" data-hue={FEATURED.hue} data-ring={4}>
-    <div class="hero__stage-pane">
-      <ProductVisual visual={FEATURED.visual} />
-    </div>
   </div>
 </section>

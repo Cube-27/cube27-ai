@@ -10,9 +10,7 @@
   display: grid;
   align-content: center;
   min-height: min(720px, 78vh);
-  /* No bottom padding: the stage is the section's bottom edge, and the crop
-     only reads as deliberate if the pane runs into it. */
-  padding-block: clamp(72px, 9vw, 128px) 0;
+  padding-block: clamp(72px, 9vw, 128px);
   overflow: hidden;
   background: var(--c-hero);
 }
@@ -36,41 +34,6 @@
 .hero__actions {
   align-items: center;
   gap: clamp(14px, 2.4vw, 28px);
-}
-
-/* The stage: the head of a real product pane, cropped by the foot of the
-   section. The crop is the point — a whole pane sitting in the fold is
-   decoration, a pane running out of the bottom of it is a reason to scroll.
-   -------------------------------------------------------------------------- */
-
-.hero__stage {
-  width: 100%;
-  max-width: var(--shell);
-  /* The pane's own head is 26 units into an 800x500 frame and its first rows
-     run to about 300; showing 30vh of it lands the cut below those rows at
-     every viewport this ships to, which is what makes the crop look chosen. */
-  height: clamp(150px, 30vh, 320px);
-  margin: clamp(44px, 5vw, 76px) auto 0;
-  padding-inline: var(--pad-x);
-}
-
-/* The pane clips, the stage does not: the shadow has to escape the crop at the
-   top and sides while the bottom edge stays hard against the section. */
-.hero__stage-pane {
-  height: 100%;
-  overflow: hidden;
-  border-start-start-radius: var(--r-xl);
-  border-start-end-radius: var(--r-xl);
-  box-shadow: var(--lift);
-}
-
-/* Held at the top so the crop takes the foot of the pane, never its header,
-   and scaled a little past its frame so the surface reads as near rather than
-   as a thumbnail that happens to be cut. */
-.hero__stage-pane .visual {
-  transform-origin: top center;
-  transform: scale(1.04);
-  border-radius: 0;
 }
 
 /* The four domains, as the entrance to the product section. Type on the band,

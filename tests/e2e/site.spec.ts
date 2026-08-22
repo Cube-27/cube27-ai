@@ -275,34 +275,6 @@ test("the hero opens on a flat plane the header rests on", async ({ page }) => {
     .toBe("rgb(255, 255, 255)");
 });
 
-test("the hero stage shows a cropped product pane, not a whole one", async ({
-  page,
-}) => {
-  await page.goto("/");
-  const stage = page.locator(".hero__stage");
-  await expect(stage.locator("svg.visual")).toHaveCount(1);
-
-  // The crop is the idea: the pane has to be taller than the window it is
-  // shown through, or it is decoration sitting in the fold rather than a
-  // surface running out of it.
-  const [shown, drawn] = await Promise.all([
-    stage.locator(".hero__stage-pane").evaluate((el) => el.clientHeight),
-    stage
-      .locator("svg.visual")
-      .evaluate((el) => el.getBoundingClientRect().height),
-  ]);
-  expect(drawn).toBeGreaterThan(shown * 1.5);
-
-  // And it is cut at the section's own edge, so the cut reads as the fold.
-  const [stageBottom, heroBottom] = await Promise.all([
-    stage.evaluate((el) => Math.round(el.getBoundingClientRect().bottom)),
-    page
-      .locator(".hero")
-      .evaluate((el) => Math.round(el.getBoundingClientRect().bottom)),
-  ]);
-  expect(Math.abs(stageBottom - heroBottom)).toBeLessThanOrEqual(1);
-});
-
 test("product pages carry their own canonical, title and breadcrumb", async ({
   page,
 }) => {
