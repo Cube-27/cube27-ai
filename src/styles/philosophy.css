@@ -1,0 +1,48 @@
+/* --------------------------------------------------------------------------
+   Philosophy (dark band)
+   -------------------------------------------------------------------------- */
+
+.phil-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: clamp(16px, 1.8vw, 24px);
+}
+
+.phil-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: clamp(24px, 2.2vw, 34px);
+  border-radius: var(--r-md);
+  background: var(--s-1);
+  transition: background-color 320ms var(--ease);
+}
+
+.phil-card:hover {
+  background: var(--s-2);
+}
+
+.phil-card__step {
+  color: var(--c-accent-current);
+  font-size: var(--t-14);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* --------------------------------------------------------------------------
+   Final CTA
+   -------------------------------------------------------------------------- */
+
+.cta-band__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+}
+
+.cta-band__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}

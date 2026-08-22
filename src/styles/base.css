@@ -1,0 +1,189 @@
+/* --------------------------------------------------------------------------
+   Reset and base
+   -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--c-canvas);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  /* clip, not hidden: hidden makes body a scroll container, which breaks the
+     sticky header's viewport-relative behaviour. */
+  overflow-x: clip;
+  background: var(--c-canvas);
+  color: var(--c-ink);
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body,
+button,
+input,
+a {
+  font-synthesis: none;
+}
+
+/* 500 is the only heading weight. Size, colour and the surface a heading sits
+   on carry the hierarchy; a second heading weight only blurs it. */
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: var(--ls-h3);
+  line-height: var(--lh-h3);
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+button:not(:disabled),
+a[href],
+summary {
+  cursor: pointer;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  background: rgb(169 29 75 / 0.16);
+  color: var(--c-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-accent-current);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 200;
+  top: 12px;
+  left: 12px;
+  padding: 12px 18px;
+  transform: translateY(-200%);
+  border-radius: var(--r-pill);
+  background: var(--c-ink);
+  color: #fff;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   Layout primitives
+   -------------------------------------------------------------------------- */
+
+.shell {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--pad-x);
+}
+
+.band {
+  position: relative;
+  padding-block: var(--band-y);
+}
+
+.band--canvas {
+  background: var(--c-canvas);
+}
+
+.band--tint {
+  background: var(--c-band);
+}
+
+.band--deep {
+  background: var(--c-band-deep);
+}
+
+/* One place rebinds every ground-dependent token. Anything nested inside a
+   dark band then resolves correctly without naming a dark colour itself. */
+.band--dark,
+.on-dark {
+  --s-0: var(--s-dark-0);
+  --s-1: var(--s-dark-1);
+  --s-2: var(--s-dark-2);
+  --s-3: var(--s-dark-3);
+  --fill-1: rgb(255 255 255 / 0.08);
+  --fill-2: rgb(255 255 255 / 0.14);
+  --c-accent-current: var(--c-accent-dark);
+  --ink-1: var(--c-dark-ink);
+  --ink-2: var(--c-dark-ink-2);
+  --ink-3: var(--c-dark-ink-3);
+}
+
+.band--dark {
+  background: var(--c-dark);
+  color: var(--c-dark-ink);
+}
+
+.band--dark h1,
+.band--dark h2,
+.band--dark h3 {
+  color: var(--c-dark-ink);
+}
+
+/* Rounded shoulders where a dark band meets the light field. */
+.band--round-top {
+  border-start-start-radius: var(--r-xl);
+  border-start-end-radius: var(--r-xl);
+}
+
+.band--round-bottom {
+  border-end-start-radius: var(--r-xl);
+  border-end-end-radius: var(--r-xl);
+}

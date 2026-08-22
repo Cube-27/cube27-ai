@@ -1,0 +1,387 @@
+/* --------------------------------------------------------------------------
+   Header
+   -------------------------------------------------------------------------- */
+
+/* At rest the header is the page's own ground, so there is no bar across the
+   top of the first viewport; it resolves to canvas as soon as content starts
+   passing beneath it. Pages without a tinted first section set --header-rest
+   to canvas, which makes the animation a no-op on colour and a hairline only. */
+.site-header {
+  position: sticky;
+  z-index: 90;
+  top: 0;
+  padding-block: 14px;
+  background: var(--c-canvas);
+}
+
+/* The hero is the only tinted first section, so it is what shifts the resting
+   colour. Scoped by presence, not by a page flag, so a page that grows a hero
+   picks this up on its own. */
+body:has(.hero) {
+  --header-rest: var(--c-hero);
+}
+
+/* The lift on scroll is a scroll() timeline, so the header needs no script.
+   Non-supporting browsers keep the canvas background above, which is the safe
+   end of the animation rather than the transient one. */
+@keyframes header-lift {
+  from {
+    background-color: var(--header-rest, var(--c-canvas));
+    box-shadow: 0 1px 0 rgb(12 16 36 / 0);
+  }
+  to {
+    background-color: var(--c-canvas);
+    box-shadow: 0 1px 0 rgb(12 16 36 / 0.08);
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .site-header {
+    animation-name: header-lift;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: scroll();
+    animation-range: 0 48px;
+  }
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.brand-lockup img {
+  width: 34px;
+  height: 34px;
+}
+
+.brand-wordmark {
+  font-family: var(--font-body);
+  font-size: var(--t-20);
+  font-weight: 800;
+  letter-spacing: 0.005em;
+  color: var(--c-ink);
+}
+
+.brand-number {
+  color: var(--c-accent-current);
+}
+
+.on-dark .brand-wordmark {
+  color: #fff;
+}
+
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 44px;
+  padding-inline: 16px;
+  border-radius: var(--r-pill);
+  font-size: var(--t-16);
+  font-weight: 500;
+  color: var(--c-ink-2);
+  transition:
+    background-color 200ms var(--ease),
+    color 200ms var(--ease);
+}
+
+.nav-link:hover,
+.nav-link[aria-current="page"] {
+  background: var(--fill-1);
+  color: var(--c-ink);
+}
+
+/* Products dropdown — hover and focus driven, no JS */
+.nav-menu {
+  position: relative;
+}
+
+.nav-menu__panel {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 10px);
+  left: 50%;
+  width: min(560px, calc(100vw - 40px));
+  padding: 12px;
+  transform: translate(-50%, 8px);
+  border-radius: var(--r-lg);
+  background: #fff;
+  box-shadow:
+    0 2px 8px rgb(12 16 36 / 0.06),
+    0 24px 56px -20px rgb(12 16 36 / 0.28);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 220ms ease-in,
+    transform 240ms ease-in,
+    visibility 240ms;
+  transition-delay: 100ms;
+}
+
+/* Keep the hover target continuous while the pointer crosses the visual gap
+   between the trigger and the panel. */
+.nav-menu__panel::before {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  left: 0;
+  height: 10px;
+  content: "";
+}
+
+.nav-menu:hover .nav-menu__panel,
+.nav-menu:focus-within .nav-menu__panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+  transition-delay: 0ms;
+  transition-timing-function: var(--ease);
+}
+
+.nav-menu:hover > .nav-link,
+.nav-menu:focus-within > .nav-link {
+  background: var(--fill-1);
+  color: var(--c-ink);
+}
+
+.nav-menu__item {
+  display: block;
+  padding: 13px 15px;
+  border-radius: var(--r-md);
+  transition: background-color 180ms var(--ease);
+}
+
+.nav-menu__item:hover {
+  background: var(--c-band);
+}
+
+.nav-menu__name {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--t-16);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--c-ink);
+}
+
+.nav-menu__promise {
+  display: block;
+  margin-top: 4px;
+  font-size: var(--t-14);
+  line-height: 1.45;
+  color: var(--ink-3);
+}
+
+.nav-menu__chevron {
+  transition: transform 240ms var(--ease);
+}
+
+.nav-menu:hover .nav-menu__chevron,
+.nav-menu:focus-within .nav-menu__chevron {
+  transform: rotate(180deg);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-actions .btn {
+  min-height: 44px;
+  padding: 11px 22px;
+  font-size: var(--t-14);
+}
+
+/* Mobile disclosure navigation */
+.mobile-nav {
+  display: none;
+}
+
+.mobile-nav__toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--fill-1);
+  color: var(--c-ink);
+}
+
+/* A sheet that owns the whole viewport. A dropdown card has to fight the page
+   behind it with a shadow and a scrim; a full surface simply replaces it, which
+   is what leaves room for the larger tap targets below. */
+.mobile-nav__panel[popover] {
+  position: fixed;
+  inset: 0;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 14px var(--pad-x) calc(24px + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 0;
+  border-radius: 0;
+  background: var(--c-canvas);
+  color: var(--c-ink);
+}
+
+/* Only while open: an author `display` on [popover] would beat the UA sheet's
+   closed-state `display: none` and leave the sheet showing on load. */
+.mobile-nav__panel[popover]:popover-open {
+  display: flex;
+}
+
+/* Mirrors .site-header__inner so the lockup and the 46px control do not shift
+   by a pixel between closed and open. */
+.mobile-nav__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex: none;
+}
+
+.mobile-nav__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--fill-1);
+  color: var(--c-ink);
+}
+
+.mobile-nav__body {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.mobile-nav__links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobile-nav__panel[popover]::backdrop {
+  background: transparent;
+}
+
+.mobile-nav__panel[popover]:popover-open::backdrop {
+  background-color: rgb(12 16 36 / 0.32);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The surface fades; the contents rise into it. Sliding a full-viewport
+     sheet from off-canvas reads as a page transition, which this is not. */
+  .mobile-nav__panel[popover] {
+    opacity: 0;
+    transition:
+      opacity 200ms ease-in,
+      overlay 260ms allow-discrete,
+      display 260ms allow-discrete;
+  }
+
+  .mobile-nav__panel[popover]:popover-open {
+    opacity: 1;
+    transition-timing-function: var(--ease);
+  }
+
+  .mobile-nav__panel[popover] .mobile-nav__head,
+  .mobile-nav__panel[popover] .mobile-nav__body {
+    transform: translateY(14px);
+    transition: transform 320ms var(--ease);
+  }
+
+  .mobile-nav__panel[popover]:popover-open .mobile-nav__head,
+  .mobile-nav__panel[popover]:popover-open .mobile-nav__body {
+    transform: none;
+  }
+
+  .mobile-nav__panel[popover]::backdrop {
+    transition:
+      background-color 220ms ease-in,
+      overlay 260ms allow-discrete,
+      display 260ms allow-discrete;
+  }
+
+  .mobile-nav__panel[popover]:popover-open::backdrop {
+    transition-timing-function: var(--ease);
+  }
+
+  @starting-style {
+    .mobile-nav__panel[popover]:popover-open {
+      opacity: 0;
+    }
+
+    .mobile-nav__panel[popover]:popover-open .mobile-nav__head,
+    .mobile-nav__panel[popover]:popover-open .mobile-nav__body {
+      transform: translateY(14px);
+    }
+
+    .mobile-nav__panel[popover]:popover-open::backdrop {
+      background-color: transparent;
+    }
+  }
+}
+
+/* The group label steps down and the destination steps up: on a sheet the
+   links are the content, so they carry the size and the label just files
+   them. Hover is not a state a thumb can reach, so the feedback is on
+   :active instead of a hover rectangle. */
+.mobile-nav__label {
+  margin: 0 0 16px;
+  color: var(--ink-3);
+  font-size: var(--t-14);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.mobile-nav__link {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--t-20);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--c-ink);
+  transition: color 160ms var(--ease);
+}
+
+.mobile-nav__link:active {
+  color: var(--c-accent-current);
+}
+
+.mobile-nav__panel .btn {
+  width: 100%;
+  margin-top: auto;
+  flex: none;
+}

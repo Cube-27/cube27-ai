@@ -1,0 +1,138 @@
+/* --------------------------------------------------------------------------
+   Scroll reveal
+
+   Driven entirely by a CSS view() timeline, so there is no script, no CSP
+   exception and no flash of hidden content. Where the timeline is unsupported
+   the guard simply never applies and every element renders at rest.
+   -------------------------------------------------------------------------- */
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The flow draws itself as it arrives: each connector wipes out from the card
+   it leaves, the arrowhead lands once the line has reached it, and the return
+   edge unrolls from the centre after the last row. Same view() timeline as the
+   reveal, so the diagram assembles in step with the cards rather than on a
+   timer of its own — and, like everything else here, the settled state is the
+   plain one, so a browser without the timeline simply renders the finished
+   diagram. */
+
+/* The rule running out of a phase label, drawn rather than faded: a line that
+   fades in has no length, and the length is what makes it read as the phase
+   claiming the row beneath it. */
+@keyframes rule-draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* The phase's rule follows its label in, one beat behind it, so the three
+       phase headings each land as a small event of their own rather than as
+       three identical fades. */
+    .cap-phase__label::after {
+      animation: rule-draw 1ms linear both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 24%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    [data-reveal] {
+      animation-name: reveal;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 4% cover 20%;
+    }
+
+    [data-reveal-delay="1"] {
+      animation-range: entry 8% cover 24%;
+    }
+
+    [data-reveal-delay="2"] {
+      animation-range: entry 12% cover 28%;
+    }
+
+    [data-reveal-delay="3"] {
+      animation-range: entry 16% cover 32%;
+    }
+
+    [data-reveal-delay="4"] {
+      animation-range: entry 20% cover 36%;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Load-in ripple
+
+   The first viewport arrives in waves. Every element carries a ring number —
+   data-ring="0", "1", "2" — hand-set from where it lands on screen, roughly by
+   distance from the top-left, never from its place in the markup. A ring is a
+   shared delay, not a per-element one: everything in ring 2 starts at exactly
+   the same moment, so the eye reads three or four arrivals instead of a
+   counter ticking through a list.
+
+   Rings go on leaves only. Fading a wrapper would composite its children as
+   one plane and flatten the stagger back into a single fade, which is the
+   thing this is here to avoid.
+
+   There is no script behind any of this. The rest state is the plain,
+   unanimated one and the animation is the departure from it, so reduced motion
+   and a browser that has never heard of it both land on settled content.
+   -------------------------------------------------------------------------- */
+
+@keyframes ripple-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-ring] {
+    /* Fill "both" holds the element at ring zero through its delay and at rest
+       after the curve ends, so nothing flashes in unstyled at either edge. */
+    animation: ripple-in 1000ms var(--ease-ripple) both;
+  }
+
+  [data-ring="1"] {
+    animation-delay: 100ms;
+  }
+
+  [data-ring="2"] {
+    animation-delay: 200ms;
+  }
+
+  [data-ring="3"] {
+    animation-delay: 300ms;
+  }
+
+  [data-ring="4"] {
+    animation-delay: 400ms;
+  }
+
+  [data-ring="5"] {
+    animation-delay: 500ms;
+  }
+
+  [data-ring="6"] {
+    animation-delay: 600ms;
+  }
+}

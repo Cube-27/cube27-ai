@@ -1,0 +1,69 @@
+/* --------------------------------------------------------------------------
+   Type scale
+   -------------------------------------------------------------------------- */
+
+.t-display {
+  font-size: var(--t-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+}
+
+.t-h2 {
+  font-size: var(--t-h2);
+  line-height: var(--lh-h2);
+  letter-spacing: var(--ls-h2);
+}
+
+.t-h3 {
+  font-size: var(--t-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--ls-h3);
+}
+
+.t-h4 {
+  font-size: var(--t-h4);
+  line-height: var(--lh-h4);
+  letter-spacing: var(--ls-h4);
+}
+
+.t-lead {
+  font-size: var(--t-lead);
+  line-height: var(--lh-lead);
+  letter-spacing: var(--ls-lead);
+  color: var(--ink-2);
+}
+
+.t-body {
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  color: var(--ink-2);
+}
+
+/* --------------------------------------------------------------------------
+   Eyebrow
+   -------------------------------------------------------------------------- */
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 20px;
+  color: var(--c-accent-current);
+  font-family: var(--font-body);
+  font-size: var(--t-meta);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+/* Handled by --c-accent-current; the rule survives only for the ::before rule,
+   which inherits currentColor. */

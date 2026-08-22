@@ -1,0 +1,11 @@
+/* --------------------------------------------------------------------------
+   Product visuals (inline SVG compositions)
+   -------------------------------------------------------------------------- */
+
+.visual {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--r-md);
+  background: var(--c-canvas);
+}

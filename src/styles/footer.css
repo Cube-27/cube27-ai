@@ -1,0 +1,81 @@
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+
+.site-footer {
+  padding-block: clamp(56px, 6vw, 88px) 40px;
+  background: var(--c-dark);
+  color: var(--c-dark-ink);
+}
+
+/* The brand holds the left; both link columns are pushed to the right and
+   align to the shell edge, matching the right-hand item in the base row. */
+.site-footer__top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: clamp(32px, 6vw, 96px);
+}
+
+.site-footer__top .footer-col {
+  text-align: right;
+}
+
+.site-footer__blurb {
+  max-width: 40ch;
+  margin-top: 20px;
+}
+
+.footer-col__title {
+  margin-bottom: 18px;
+  font-size: var(--t-14);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--c-dark-ink);
+}
+
+.footer-col ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.footer-col a {
+  display: inline-block;
+  padding-block: 10px;
+  font-size: var(--t-16);
+  color: var(--c-dark-ink-2);
+  transition: color 200ms var(--ease);
+}
+
+.footer-col a:hover {
+  color: #fff;
+}
+
+.site-footer__base {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: clamp(44px, 5vw, 72px);
+  padding-top: 26px;
+  background: linear-gradient(rgb(255 255 255 / 0.11), rgb(255 255 255 / 0.11))
+    top / 100% 1px no-repeat;
+  font-size: var(--t-14);
+  color: var(--c-dark-ink-2);
+}
+
+/* --------------------------------------------------------------------------
+   404
+   -------------------------------------------------------------------------- */
+
+.nf {
+  display: grid;
+  place-items: center;
+  min-height: 64vh;
+  text-align: center;
+}
+
+.nf .btn-row {
+  margin-top: 32px;
+}

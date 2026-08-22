@@ -2,62 +2,106 @@ import type { IconName } from "@/lib/icons";
 
 export interface Capability {
   name: string;
+  /** The promise, in one line. Carries the card; `detail` explains it. */
+  tagline: string;
   detail: string;
   icon: IconName;
 }
 
+/**
+ * The three stages a system passes through, in order. The capabilities are
+ * grouped under them rather than listed flat: seven equal tiles say nothing
+ * about how the seven relate, and the numbering they already carried implied
+ * a sequence the grid then contradicted.
+ */
+export interface Phase {
+  id: string;
+  label: string;
+  capabilities: readonly Capability[];
+}
+
 export const CAPABILITIES_INTRO = {
-  eyebrow: "Capabilities",
-  title: "Seven capabilities behind every CUBE27 AI system.",
-  lead: "Products solve different problems. The engineering underneath them is reusable: reliable context, controlled automation, measurable quality and systems that improve from actual use.",
-  outro:
-    "These are not standalone AI experiments. They are the production building blocks used across our products.",
+  eyebrow: "AI systems, built for production",
+  title:
+    "Seven capabilities that turn models into reliable systems that improve over time.",
 } as const;
 
-export const CAPABILITIES: readonly Capability[] = [
+export const PHASES: readonly Phase[] = [
   {
-    name: "Grounded Retrieval",
-    detail:
-      "Give models the right business context at the moment it is needed—with traceable source evidence.",
-    icon: "layers",
+    id: "build",
+    label: "Build",
+    capabilities: [
+      {
+        name: "Grounded Retrieval",
+        tagline: "Context you can trace.",
+        detail:
+          "Give models the right business context at the moment it is needed — with traceable source evidence.",
+        icon: "layers",
+      },
+      {
+        name: "Model Adaptation",
+        tagline: "Behaviour you can shape.",
+        detail:
+          "Adapt model behaviour when prompting and retrieval alone cannot reliably deliver the required behaviour.",
+        icon: "sliders",
+      },
+    ],
   },
   {
-    name: "Model Adaptation",
-    detail:
-      "Adapt model behaviour when prompting and retrieval alone cannot reliably deliver the required behaviour.",
-    icon: "sliders",
+    id: "operate",
+    label: "Operate",
+    capabilities: [
+      {
+        name: "Controlled Automation",
+        tagline: "Actions within boundaries.",
+        detail:
+          "Define what AI can do, what requires approval and how uncertainty or failure is exposed to users.",
+        icon: "shield",
+      },
+      {
+        name: "Performance & Cost Control",
+        tagline: "Efficient at production scale.",
+        detail:
+          "Reduce repeated inference, latency and model spend without sacrificing freshness where it matters.",
+        icon: "gauge",
+      },
+    ],
   },
   {
-    name: "Performance & Cost Control",
-    detail:
-      "Reduce repeated inference, latency and model spend without sacrificing freshness where it matters.",
-    icon: "gauge",
-  },
-  {
-    name: "Controlled Automation",
-    detail:
-      "Define what AI can do, what requires approval and how uncertainty or failure is exposed to users.",
-    icon: "shield",
-  },
-  {
-    name: "Human Feedback Loops",
-    detail:
-      "Capture corrections and outcomes so systems become more useful through real operational use.",
-    icon: "loop",
-  },
-  {
-    name: "Agent Evaluation",
-    detail:
-      "Test multi-step AI behaviour against known scenarios before trusting it with important workflows.",
-    icon: "check",
-  },
-  {
-    name: "AI Observability",
-    detail:
-      "Measure quality, latency, cost, failures, tool calls and model behaviour in production.",
-    icon: "pulse",
+    id: "improve",
+    label: "Improve",
+    capabilities: [
+      {
+        name: "Human Feedback",
+        tagline: "Learn.",
+        detail:
+          "Capture corrections and outcomes so systems become more useful through real operational use.",
+        icon: "loop",
+      },
+      {
+        name: "Agent Evaluation",
+        tagline: "Verify.",
+        detail:
+          "Test multi-step AI behaviour against known scenarios before trusting it with important workflows.",
+        icon: "check",
+      },
+      {
+        name: "AI Observability",
+        tagline: "Understand.",
+        detail:
+          "Measure quality, latency, cost, failures, tool calls and model behaviour in production.",
+        icon: "pulse",
+      },
+    ],
   },
 ];
+
+/* The flat list the schema, the llms routes and the content tests read from.
+   Derived, so the page and the machine-readable surfaces can never disagree
+   about how many capabilities there are or what they are called. */
+export const CAPABILITIES: readonly Capability[] = PHASES.flatMap(
+  (phase) => phase.capabilities,
+);
 
 export const PHILOSOPHY_INTRO = {
   eyebrow: "How we build",

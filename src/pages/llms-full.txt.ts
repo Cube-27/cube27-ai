@@ -1,8 +1,8 @@
 import type { APIRoute } from "astro";
 import {
   ADAPT_BLOCK,
-  CAPABILITIES,
   CAPABILITIES_INTRO,
+  PHASES,
   PHILOSOPHY_INTRO,
   PHILOSOPHY_STEPS,
 } from "@/data/capabilities";
@@ -59,14 +59,17 @@ export const GET: APIRoute = () => {
     "",
     `## ${CAPABILITIES_INTRO.title}`,
     "",
-    CAPABILITIES_INTRO.lead,
-    "",
-    ...CAPABILITIES.map(
-      (capability) => `- ${capability.name}: ${capability.detail}`,
-    ),
-    "",
-    CAPABILITIES_INTRO.outro,
-    "",
+    /* Grouped by phase here too: the order is the argument, and a flat list
+       would hand a reader the same seven names with the sequence stripped
+       out — the thing the page was redesigned to stop doing. */
+    ...PHASES.flatMap((phase) => [
+      `### ${phase.label}`,
+      "",
+      ...phase.capabilities.map(
+        (capability) => `- ${capability.name}: ${capability.detail}`,
+      ),
+      "",
+    ]),
     `## ${PHILOSOPHY_INTRO.title}`,
     "",
     PHILOSOPHY_INTRO.lead,

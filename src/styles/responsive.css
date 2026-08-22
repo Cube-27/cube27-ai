@@ -1,0 +1,189 @@
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1080px) {
+  .desktop-nav,
+  .header-actions .btn--desktop {
+    display: none;
+  }
+
+  .mobile-nav {
+    display: block;
+  }
+
+  .p-hero__grid,
+  .p-problem__grid,
+  .cta-band__inner,
+  .p-adapt {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .site-footer__top {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(32px, 4vw, 64px);
+  }
+
+  .site-footer__brand {
+    grid-column: 1 / -1;
+  }
+
+  /* Stacked columns read left-to-right again. */
+  .site-footer__top .footer-col {
+    text-align: left;
+  }
+
+  .cta-band__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+/* Three columns side by side need width to open into. Below that they stack,
+   every phase opens at once, and the hover behaviour stops applying — there is
+   nothing to trade width with, and on a touch screen there is no hover to
+   trade it on. */
+@media (max-width: 860px) {
+  .cap-cols {
+    flex-direction: column;
+    gap: clamp(26px, 3.4vw, 40px);
+  }
+
+  .cap-phase,
+  .cap-cols:has(.cap-phase:hover) .cap-phase:hover,
+  .cap-cols:has(.cap-phase:focus-within) .cap-phase:focus-within,
+  .cap-cols:not(:has(.cap-phase:hover)):not(:has(.cap-phase:focus-within))
+    .cap-phase:first-child {
+    flex-grow: 0;
+  }
+
+  .cap-item__more {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 940px) {
+  .product-card,
+  .product-card--flip {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .product-card--flip .product-card__media {
+    order: 0;
+  }
+
+  .product-card__media {
+    aspect-ratio: 16 / 10;
+    padding: 18px;
+  }
+
+  .product-card__media > * {
+    width: 100%;
+  }
+}
+
+/* Phones get a crop, not a shrink. Fitting the whole screen into 350px puts
+   its labels under 8px, so the media becomes a window onto the top-left of the
+   same screen instead — the region every visual leads with. */
+@media (max-width: 620px) {
+  .product-card__media {
+    aspect-ratio: 5 / 4;
+    padding: 0;
+    /* Softens the right crop edge, which otherwise slices a value in half and
+       reads as a rendering fault rather than as a window. */
+    -webkit-mask-image: linear-gradient(to right, #000 84%, transparent);
+    mask-image: linear-gradient(to right, #000 84%, transparent);
+  }
+
+  .product-card__media > * {
+    --visual-zoom: 1.5;
+
+    border-radius: 0;
+    transform-origin: left top;
+  }
+}
+
+@media (max-width: 620px) {
+  :root {
+    --band-y: clamp(56px, 13vw, 80px);
+  }
+
+  .hero .section-head__title {
+    max-width: none;
+  }
+
+  /* One row of four with separators only works while the four fit on one row.
+     Wrapped, a separator lands at the start of the second line with nothing to
+     its left, and two columns are not wide enough here for the longer labels
+     to stay on one line — a wrapped label leaves its dot stranded beside a
+     two-line block. So phones get a single column, left-aligned inside a
+     centred block: every label on its own line, with a shared edge to read
+     down and a full-width row to hit. */
+  .hero__domains {
+    display: grid;
+    grid-template-columns: max-content;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .hero__domains li + li::before {
+    content: none;
+  }
+
+  /* The section is centred, so the rows inherit centred text and each dot
+     lands at a different offset. The column is already centred as a block;
+     inside it the rows align left, which is what gives the four dots one
+     edge to sit on. */
+  .hero__domains li {
+    text-align: left;
+  }
+
+  .hero__domain {
+    min-height: 40px;
+    white-space: nowrap;
+  }
+
+  .btn-row .btn {
+    width: 100%;
+  }
+
+  .site-footer__top {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 34px;
+  }
+
+  .p-flow {
+    gap: 8px;
+  }
+
+  .p-flow__step {
+    padding: 10px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .product-card,
+  .phil-card,
+  .p-cap,
+  .nav-menu__panel,
+  .mobile-nav__panel {
+    border: 1px solid CanvasText;
+  }
+}

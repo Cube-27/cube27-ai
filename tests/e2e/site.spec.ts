@@ -78,12 +78,49 @@ test("homepage tells the product-first story in order", async ({ page }) => {
     .allInnerTexts();
   expect(headings).toEqual([
     "Products built around real business workflows.",
-    "Seven capabilities behind every CUBE27 AI system.",
+    "Seven capabilities that turn models into reliable systems that improve over time.",
     "Different workflows. One production philosophy.",
     "Bring us a workflow.",
     "Products",
     "Company",
   ]);
+});
+
+test("the capability flow reads as three ordered phases", async ({ page }) => {
+  await page.goto("/");
+
+  // The phases are the argument, so they have to arrive in order and carry the
+  // seven capabilities between them — no card outside a phase, none doubled.
+  const phases = page.locator(".cap-phase");
+  await expect(phases).toHaveCount(3);
+  // textContent, not innerText: two of the three phases are visibility-hidden
+  // at any scroll position once the flip is running, and innerText reports
+  // hidden elements as empty.
+  expect(
+    (await phases.locator(".cap-phase__label").allTextContents()).map((text) =>
+      text.trim(),
+    ),
+  ).toEqual(["Build", "Operate", "Improve"]);
+  await expect(page.locator(".cap-item")).toHaveCount(7);
+
+  // Numbering runs across the whole flow rather than restarting per phase:
+  // that continuity is what makes the three rows one sequence.
+  expect(
+    (await page.locator(".cap-item__num").allTextContents()).map((text) =>
+      text.trim(),
+    ),
+  ).toEqual(["01", "02", "03", "04", "05", "06", "07"]);
+
+  // Nothing is singled out, and nothing is boxed: the capabilities are rows of
+  // type on the band, so not one of them may carry a surface of its own. The
+  // old grid promoted its first card to fill an orphan slot; there are no
+  // cards left to promote.
+  const grounds = await page
+    .locator(".cap-item")
+    .evaluateAll((items) =>
+      items.map((item) => getComputedStyle(item).backgroundColor),
+    );
+  expect(new Set(grounds)).toEqual(new Set(["rgba(0, 0, 0, 0)"]));
 });
 
 test("no internal build name reaches the rendered pages", async ({ page }) => {
@@ -216,14 +253,9 @@ test("ships only the analytics loader and the menu module", async ({
 test("the hero opens on a flat plane the header rests on", async ({ page }) => {
   await page.goto("/");
   const hero = page.locator(".hero");
-  // No image, and no decorative layer either: the hero is one tinted surface,
-  // the same treatment the product heroes get from their own hue. The SVGs a
-  // control carries are not a layer, so the check is for artwork sitting on
-  // the plane, not for the absence of every vector on the section.
+  // The plane is still one tinted surface carrying no imagery: the stage at
+  // its foot is drawn, not loaded, so the section ships no image request.
   await expect(hero.locator("img")).toHaveCount(0);
-  await expect(hero.locator("svg:not(.btn svg):not(.tlink svg)")).toHaveCount(
-    0,
-  );
 
   const plane = await hero.evaluate(
     (el) => getComputedStyle(el).backgroundColor,
@@ -241,6 +273,34 @@ test("the hero opens on a flat plane the header rests on", async ({ page }) => {
   await expect
     .poll(() => header.evaluate((el) => getComputedStyle(el).backgroundColor))
     .toBe("rgb(255, 255, 255)");
+});
+
+test("the hero stage shows a cropped product pane, not a whole one", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const stage = page.locator(".hero__stage");
+  await expect(stage.locator("svg.visual")).toHaveCount(1);
+
+  // The crop is the idea: the pane has to be taller than the window it is
+  // shown through, or it is decoration sitting in the fold rather than a
+  // surface running out of it.
+  const [shown, drawn] = await Promise.all([
+    stage.locator(".hero__stage-pane").evaluate((el) => el.clientHeight),
+    stage
+      .locator("svg.visual")
+      .evaluate((el) => el.getBoundingClientRect().height),
+  ]);
+  expect(drawn).toBeGreaterThan(shown * 1.5);
+
+  // And it is cut at the section's own edge, so the cut reads as the fold.
+  const [stageBottom, heroBottom] = await Promise.all([
+    stage.evaluate((el) => Math.round(el.getBoundingClientRect().bottom)),
+    page
+      .locator(".hero")
+      .evaluate((el) => Math.round(el.getBoundingClientRect().bottom)),
+  ]);
+  expect(Math.abs(stageBottom - heroBottom)).toBeLessThanOrEqual(1);
 });
 
 test("product pages carry their own canonical, title and breadcrumb", async ({

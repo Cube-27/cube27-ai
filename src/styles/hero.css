@@ -1,0 +1,168 @@
+/* --------------------------------------------------------------------------
+   Hero
+
+   The field is the page ground, not a picture beside the copy: it runs the
+   full width of the section and the proposition sits centred on top of it.
+   -------------------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  display: grid;
+  align-content: center;
+  min-height: min(720px, 78vh);
+  /* No bottom padding: the stage is the section's bottom edge, and the crop
+     only reads as deliberate if the pane runs into it. */
+  padding-block: clamp(72px, 9vw, 128px) 0;
+  overflow: hidden;
+  background: var(--c-hero);
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 2;
+}
+
+.hero__support {
+  max-width: 62ch;
+  margin: 18px auto 0;
+}
+
+.hero .btn-row {
+  margin-top: 36px;
+}
+
+/* One button and one link, so the row centres on the type baseline rather than
+   on two equal blocks. */
+.hero__actions {
+  align-items: center;
+  gap: clamp(14px, 2.4vw, 28px);
+}
+
+/* The stage: the head of a real product pane, cropped by the foot of the
+   section. The crop is the point — a whole pane sitting in the fold is
+   decoration, a pane running out of the bottom of it is a reason to scroll.
+   -------------------------------------------------------------------------- */
+
+.hero__stage {
+  width: 100%;
+  max-width: var(--shell);
+  /* The pane's own head is 26 units into an 800x500 frame and its first rows
+     run to about 300; showing 30vh of it lands the cut below those rows at
+     every viewport this ships to, which is what makes the crop look chosen. */
+  height: clamp(150px, 30vh, 320px);
+  margin: clamp(44px, 5vw, 76px) auto 0;
+  padding-inline: var(--pad-x);
+}
+
+/* The pane clips, the stage does not: the shadow has to escape the crop at the
+   top and sides while the bottom edge stays hard against the section. */
+.hero__stage-pane {
+  height: 100%;
+  overflow: hidden;
+  border-start-start-radius: var(--r-xl);
+  border-start-end-radius: var(--r-xl);
+  box-shadow: var(--lift);
+}
+
+/* Held at the top so the crop takes the foot of the pane, never its header,
+   and scaled a little past its frame so the surface reads as near rather than
+   as a thumbnail that happens to be cut. */
+.hero__stage-pane .visual {
+  transform-origin: top center;
+  transform: scale(1.04);
+  border-radius: 0;
+}
+
+/* The four domains, as the entrance to the product section. Type on the band,
+   not four plates sitting on it: pills under the proposition read as a second
+   row of buttons competing with the one button beside them, and at phone width
+   they wrapped into a ragged stack of lozenges with nothing holding them in
+   line. Each one keeps its product's hue as a dot, which is the legend for the
+   cards further down — the colour picked up here is the colour landed on.
+   -------------------------------------------------------------------------- */
+
+.hero__domains {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2px clamp(4px, 1.4vw, 14px);
+  margin: clamp(26px, 3.2vw, 40px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Hairline separators between the four, drawn on the list item so the link
+   itself keeps a clean hit area. Only between — never before the first. */
+.hero__domains li + li::before {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 13px;
+  margin-inline-end: clamp(4px, 1.4vw, 14px);
+  background: rgb(12 16 36 / 0.16);
+  vertical-align: -1px;
+}
+
+.hero__domain {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  /* Full tap target height without a plate to carry it. */
+  min-height: 44px;
+  padding-inline: 4px;
+  color: var(--ink-2);
+  font-size: var(--t-15);
+  font-weight: 500;
+  transition: color 200ms var(--ease);
+}
+
+/* The product's own quadrant of the CUBE27 mark, in its hue. The only colour
+   the link carries at rest, and what makes the row read as four things rather
+   than one run-on line. */
+.hero__domain::before {
+  content: "";
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--card-mid);
+  transition:
+    transform 200ms var(--ease),
+    border-radius 200ms var(--ease);
+}
+
+.hero__domain-label {
+  position: relative;
+}
+
+/* The same underline the site's text links draw, so a link that is not a
+   button still announces itself as one of them. */
+.hero__domain-label::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 260ms var(--ease);
+}
+
+.hero__domain:hover,
+.hero__domain:focus-visible {
+  color: var(--card-deep);
+}
+
+.hero__domain:hover::before,
+.hero__domain:focus-visible::before {
+  transform: scale(1.3);
+  border-radius: 999px;
+}
+
+.hero__domain:hover .hero__domain-label::after,
+.hero__domain:focus-visible .hero__domain-label::after {
+  transform: scaleX(1);
+}

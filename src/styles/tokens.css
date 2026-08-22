@@ -1,0 +1,208 @@
+/* ==========================================================================
+   CUBE27 AI — design tokens
+   Surfaces, not boxes. Structure comes from tonal shifts between adjacent
+   planes, never from hairline borders.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* Field */
+  --c-canvas: #ffffff;
+  --c-band: #eef1f8;
+  --c-band-deep: #e2e8f4;
+
+  /* The home hero's plane. Product heroes use their own --card-soft; this is
+     the brand-level equivalent, and the header rests on it at scroll top. */
+  --c-hero: var(--c-band);
+
+  /* Ink on light: primary, secondary, tertiary. */
+  --c-ink: #0c1024;
+  --c-ink-2: #414a63;
+  --c-ink-3: #5f6884;
+
+  /* Ink on dark, one role for one role with the light side. The third rung is
+     what card numbers, labels and captions on a dark band use; without it they
+     get picked by hand and drift. */
+  --c-dark-ink: #f2f4fa;
+  --c-dark-ink-2: #a8b0c6;
+  --c-dark-ink-3: #767f99;
+
+  /* Dark bands */
+  --c-dark: #0a0d16;
+  --c-dark-2: #151a2a;
+  --c-dark-3: #1e2436;
+
+  /* Surface elevation. A component asks for a height above its ground, not for
+     a colour, so the same card works on either ground. --s-* is rebound by
+     .on-dark below; nothing outside this block should name a plane directly. */
+  --s-0: var(--c-canvas);
+  --s-1: var(--c-band);
+  --s-2: var(--c-band-deep);
+  --s-3: #d6def0;
+
+  /* Dark-ground equivalents, one rung for one rung. */
+  --s-dark-0: var(--c-dark);
+  --s-dark-1: #232733;
+  --s-dark-2: #2f3442;
+  --s-dark-3: #3a4054;
+
+  /* Tint fills for quiet controls. Alpha, not a mixed colour, so one token
+     works on any ground once .on-dark flips the channel. */
+  --fill-1: rgb(12 16 36 / 0.06);
+  --fill-2: rgb(12 16 36 / 0.1);
+
+  /* The accent for the current ground. Components reference this, never the
+     light/dark pair directly — crimson on a dark band is 1.6:1 and unreadable,
+     and pairing it by hand is how that ships. */
+  --c-accent-current: var(--c-accent);
+
+  /* Ground-relative ink, one rung for one rung with --s-*. Components address
+     these; the light/dark pairs above are only their source values. */
+  --ink-1: var(--c-ink);
+  --ink-2: var(--c-ink-2);
+  --ink-3: var(--c-ink-3);
+
+  /* Action — the magenta of the CUBE27 mark. Action or active state only. */
+  --c-accent: #a91d4b;
+  --c-accent-hover: #87153c;
+  --c-accent-soft: #fbecf1;
+  --c-accent-dark: #f2789f;
+
+  /* Product hues, drawn from the quadrants of the CUBE27 mark */
+  --hue-blue: #0872ba;
+  --hue-blue-soft: #e6eff8;
+  --hue-blue-deep: #05568c;
+  --hue-green: #0b7a3c;
+  --hue-green-soft: #e6f2ea;
+  --hue-green-deep: #08592c;
+  --hue-indigo: #33348f;
+  --hue-indigo-soft: #eaeaf6;
+  --hue-indigo-deep: #26276b;
+  --hue-purple: #6d3d80;
+  --hue-purple-soft: #f1eaf4;
+  --hue-purple-deep: #522e60;
+
+  /* Type. One family: at the sizes this site uses, a second grotesque reads as
+     a mismatch rather than a contrast, and weight carries the distinction. */
+  --font-display: "Geist Variable", Geist, system-ui, sans-serif;
+  --font-body: var(--font-display);
+
+  /* Type ladder. Every size in the system comes from here, each rung roughly
+     1.12x the one below it, with no gap anywhere along its length. */
+  --t-13: 13px;
+  --t-14: 14px;
+  --t-15: 15px;
+  --t-16: 16px;
+  --t-17: 17px;
+  --t-18: 18px;
+  --t-20: 20px;
+  --t-23: 23px;
+  --t-26: 26px;
+  --t-30: 30px;
+  --t-34: 34px;
+  --t-40: 40px;
+  --t-44: 44px;
+  --t-54: 54px;
+
+  /* Roles, at phone width. Sizes step between breakpoints rather than
+     interpolating, so no viewport ever renders a size that is off the ladder;
+     a clamp does the opposite, and its floor also pins the small roles at
+     their phone size across every laptop width.
+
+     Line heights are absolute and land on a 4px grid, so text in adjacent
+     cards shares a baseline instead of drifting by a fraction of a pixel. */
+  --t-display: var(--t-34);
+  --lh-display: 40px;
+  --ls-display: -0.04em;
+
+  --t-h2: var(--t-26);
+  --lh-h2: 32px;
+  --ls-h2: -0.034em;
+
+  --t-h3: var(--t-20);
+  --lh-h3: 24px;
+  --ls-h3: -0.028em;
+
+  /* A lead sits under a display heading; an h4 titles a card. The lead is the
+     larger of the two — they were previously the same size, which left weight
+     and colour to carry a distinction they could not. */
+  --t-lead: var(--t-18);
+  --lh-lead: 28px;
+  --ls-lead: -0.018em;
+
+  --t-h4: var(--t-16);
+  --lh-h4: 24px;
+  --ls-h4: -0.02em;
+
+  --t-body: var(--t-15);
+  --lh-body: 24px;
+  --ls-body: -0.011em;
+
+  --t-meta: var(--t-13);
+  --lh-meta: 20px;
+  --ls-meta: 0em;
+
+  /* Shape */
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-pill: 999px;
+
+  /* Rhythm */
+  --shell: 1360px;
+  --pad-x: clamp(20px, 5vw, 72px);
+  --band-y: clamp(72px, 8vw, 132px);
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Load-in. This curve leaves fast and settles for a long time, so a wave of
+     elements reads as one arrival rather than a row of counters. */
+  --ease-ripple: cubic-bezier(0.25, 1, 0.5, 1);
+
+  --lift: 0 18px 40px -18px rgb(12 16 36 / 0.28);
+  --lift-soft: 0 10px 30px -16px rgb(12 16 36 / 0.22);
+}
+
+/* Tablet. Every role moves up the same ladder; nothing new is introduced. */
+@media (min-width: 640px) {
+  :root {
+    --t-display: var(--t-44);
+    --lh-display: 48px;
+
+    --t-h2: var(--t-30);
+    --lh-h2: 36px;
+
+    --t-h3: var(--t-23);
+    --lh-h3: 28px;
+
+    --t-lead: var(--t-20);
+    --lh-lead: 28px;
+
+    --t-h4: var(--t-17);
+
+    --t-body: var(--t-16);
+
+    --t-meta: var(--t-14);
+  }
+}
+
+/* Desktop. Only the three display roles keep climbing: past this width the
+   reading sizes are already right, and growing them just shortens the measure. */
+@media (min-width: 1080px) {
+  :root {
+    --t-display: var(--t-54);
+    --lh-display: 56px;
+    --ls-display: -0.045em;
+
+    --t-h2: var(--t-40);
+    --lh-h2: 44px;
+
+    --t-h3: var(--t-26);
+    --lh-h3: 32px;
+
+    --t-h4: var(--t-18);
+  }
+}

@@ -1,0 +1,155 @@
+/* --------------------------------------------------------------------------
+   Product page
+   -------------------------------------------------------------------------- */
+
+.p-hero {
+  position: relative;
+  padding-block: clamp(44px, 4.6vw, 76px) clamp(64px, 7vw, 108px);
+  background: var(--card-soft);
+}
+
+.p-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(36px, 4.5vw, 68px);
+  align-items: center;
+}
+
+/* The product hero sets its own heading pair rather than using .section-head,
+   and the pair's rhythm never came with it: the lead sat flush against the
+   headline, since both elements reset their margins. Same step as the section
+   head uses, so the two heading pairs on the site share one rhythm. */
+.p-hero__lead {
+  margin-top: clamp(18px, 1.8vw, 26px);
+}
+
+.p-hero .btn-row {
+  margin-top: 32px;
+}
+
+.p-hero__art {
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--lift);
+}
+
+/* The visual carries its own radius for the homepage grid, where nothing clips
+   it. Here the wrapper clips, and the two radii have to agree or the corners
+   show a sliver of the band between them. */
+.p-hero__art .visual {
+  border-radius: var(--r-lg);
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: var(--t-14);
+  color: var(--ink-3);
+}
+
+.crumbs a {
+  display: inline-block;
+  padding-block: 11px;
+}
+
+.crumbs a:hover {
+  color: var(--c-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.crumbs__sep {
+  opacity: 0.5;
+}
+
+.p-problem__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: clamp(30px, 4vw, 72px);
+  align-items: start;
+}
+
+.p-problem__body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: var(--t-lead);
+  line-height: 1.6;
+  color: var(--c-ink-2);
+}
+
+/* Independent cards rather than a seamed slab: capability counts differ per
+   product, and a part-filled last row must still read as intentional. */
+.p-caps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: clamp(14px, 1.5vw, 20px);
+}
+
+.p-cap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: clamp(24px, 2.2vw, 32px);
+  border-radius: var(--r-md);
+  background: var(--c-canvas);
+  transition:
+    transform 300ms var(--ease),
+    box-shadow 300ms var(--ease);
+}
+
+.p-cap:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--lift-soft);
+}
+
+.p-cap__marker {
+  width: 24px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--card-mid);
+}
+
+.p-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.p-flow__head {
+  margin-top: clamp(52px, 5.5vw, 84px);
+  margin-bottom: 26px;
+}
+
+.p-flow__step {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 22px;
+  border-radius: var(--r-pill);
+  background: var(--c-canvas);
+  color: var(--card-deep);
+  font-family: var(--font-display);
+  font-size: var(--t-body);
+  font-weight: 600;
+  letter-spacing: -0.016em;
+}
+
+.p-flow__arrow {
+  color: var(--ink-3);
+  flex-shrink: 0;
+}
+
+.p-adapt {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(26px, 3.4vw, 56px);
+  align-items: center;
+  padding: clamp(30px, 3.4vw, 56px);
+  border-radius: var(--r-lg);
+  background: var(--c-band);
+}

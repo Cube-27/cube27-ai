@@ -1,0 +1,107 @@
+/* --------------------------------------------------------------------------
+   Product cards (homepage)
+   Every product gets a full-width split card, alternating which side carries
+   the visual, so no product is demoted and no row is left with an orphan.
+   -------------------------------------------------------------------------- */
+
+.product-grid {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 2vw, 28px);
+}
+
+.product-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 1fr);
+  border-radius: var(--r-lg);
+  background: var(--card-soft);
+  overflow: hidden;
+  transition:
+    transform 340ms var(--ease),
+    box-shadow 340ms var(--ease);
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--lift);
+}
+
+.product-card__media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: clamp(20px, 2vw, 34px);
+  overflow: hidden;
+  background: var(--card-soft);
+}
+
+.product-card__media > * {
+  /* --visual-zoom is 1 everywhere the visual fits at a readable size, and is
+     raised on phones, where the same composition would otherwise render at
+     under half scale. Hover multiplies it rather than replacing it. */
+  --visual-zoom: 1;
+
+  transform: scale(var(--visual-zoom));
+  transition: transform 700ms var(--ease);
+}
+
+.product-card:hover .product-card__media > * {
+  transform: scale(calc(var(--visual-zoom) * 1.02));
+}
+
+.product-card--flip .product-card__media {
+  order: 2;
+}
+
+.product-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  padding: clamp(28px, 3.2vw, 54px);
+}
+
+.product-card__name {
+  color: var(--card-deep);
+}
+
+.product-card__promise {
+  font-size: var(--t-lead);
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--c-ink);
+}
+
+.product-card__foot {
+  padding-top: 6px;
+}
+
+.product-card .tlink {
+  color: var(--card-deep);
+}
+
+/* Hue assignment */
+[data-hue="blue"] {
+  --card-soft: var(--hue-blue-soft);
+  --card-mid: var(--hue-blue);
+  --card-deep: var(--hue-blue-deep);
+}
+
+[data-hue="green"] {
+  --card-soft: var(--hue-green-soft);
+  --card-mid: var(--hue-green);
+  --card-deep: var(--hue-green-deep);
+}
+
+[data-hue="indigo"] {
+  --card-soft: var(--hue-indigo-soft);
+  --card-mid: var(--hue-indigo);
+  --card-deep: var(--hue-indigo-deep);
+}
+
+[data-hue="purple"] {
+  --card-soft: var(--hue-purple-soft);
+  --card-mid: var(--hue-purple);
+  --card-deep: var(--hue-purple-deep);
+}

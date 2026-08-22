@@ -1,7 +1,19 @@
 ---
 import Icon from "@/components/ui/Icon.astro";
 import SectionHead from "@/components/ui/SectionHead.astro";
-import { CAPABILITIES, CAPABILITIES_INTRO } from "@/data/capabilities";
+import { CAPABILITIES_INTRO, PHASES } from "@/data/capabilities";
+
+/* The numbers run 01–07 across the whole flow, not within each phase: they are
+   the reading order of the sequence, which is the one thing a plain grid of
+   seven tiles could not express. Counted here so no number is hand-written. */
+let step = 0;
+const phases = PHASES.map((phase) => ({
+  ...phase,
+  capabilities: phase.capabilities.map((capability) => ({
+    ...capability,
+    num: String(++step).padStart(2, "0"),
+  })),
+}));
 ---
 
 <section class="band band--deep" id="capabilities">
@@ -9,33 +21,59 @@ import { CAPABILITIES, CAPABILITIES_INTRO } from "@/data/capabilities";
     <SectionHead
       eyebrow={CAPABILITIES_INTRO.eyebrow}
       title={CAPABILITIES_INTRO.title}
-      lead={CAPABILITIES_INTRO.lead}
       wide
     />
 
-    <ul class="cap-grid">
+    {
+      /*
+       * Three columns, one per phase, and the one you point at opens. Nothing
+       * is boxed and nothing is highlighted by default beyond the open column:
+       * a capability's weight comes from where it sits in the sequence, and
+       * the sequence is left to right across the phases and top to bottom
+       * inside them.
+       *
+       * Every detail stays in the document whether its column is open or not —
+       * the collapse is a grid row measuring 0fr, not display:none — so the
+       * page reads whole to a screen reader and to anything without hover.
+       */
+    }
+    <div class="cap-cols">
       {
-        CAPABILITIES.map((capability, index) => (
-          <li
-            class:list={["cap-card", index === 0 && "on-dark"]}
+        phases.map((phase) => (
+          <section
+            class="cap-phase"
+            data-phase={phase.id}
+            aria-labelledby={`phase-${phase.id}`}
             data-reveal
-            data-reveal-delay={index % 4}
+            tabindex="0"
           >
-            <div class="cap-card__top">
-              <span class="cap-card__icon">
-                <Icon name={capability.icon} size={22} />
-              </span>
-              <span class="cap-card__num" aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-            </div>
-            <h3 class="t-h4">{capability.name}</h3>
-            <p class="t-body">{capability.detail}</p>
-          </li>
+            <h3 class="cap-phase__label" id={`phase-${phase.id}`}>
+              <span class="cap-phase__rule" aria-hidden="true" />
+              {phase.label}
+            </h3>
+
+            <ol class="cap-phase__row">
+              {phase.capabilities.map((capability) => (
+                <li class="cap-item">
+                  <span class="cap-item__mark">
+                    <Icon name={capability.icon} size={17} />
+                    <span class="cap-item__num" aria-hidden="true">
+                      {capability.num}
+                    </span>
+                  </span>
+                  <h4 class="cap-item__name">{capability.name}</h4>
+                  <div class="cap-item__more">
+                    <div class="cap-item__more-inner">
+                      <p class="cap-item__tagline">{capability.tagline}</p>
+                      <p class="cap-item__detail">{capability.detail}</p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
         ))
       }
-    </ul>
-
-    <p class="cap-outro" data-reveal>{CAPABILITIES_INTRO.outro}</p>
+    </div>
   </div>
 </section>
