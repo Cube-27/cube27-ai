@@ -24,15 +24,13 @@ All page copy lives in typed modules under `src/data/` — `products.ts`,
 
 ## Imagery
 
-The homepage opens on a drawn, drifting field of light —
-`src/components/visuals/HeroField.astro`, pure CSS and SVG. The social preview
-card is raster, generated in-repo and deterministic by seed:
+The homepage opens on a full-bleed architectural photograph,
+`src/assets/images/hero-architecture.jpg`, served through Astro's `<Picture>`
+in AVIF and WebP. `public/social-preview.jpg` is a 1200x630 crop of the same
+frame, so the share card and the first viewport show one image.
 
-```sh
-node scripts/generate-art.mjs          # rewrites the social preview and the
-                                      # retired hero raster
-ART_SEED=1234 node scripts/generate-art.mjs   # sample a different composition
-```
+Replacing the hero means replacing both: drop the new frame into
+`src/assets/images/`, point `Hero.astro` at it, and re-crop the preview.
 
 ## Verification
 

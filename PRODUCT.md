@@ -65,9 +65,8 @@ can become a standalone page later without changing its link target.
 - Four shipped internal systems provide the capability lists, workflows and
   operational detail behind the four public product systems.
 - Parent brand, organization, SEO and Cloudflare reference: `C:\Projects\cube27`.
-- Abstract imagery is generated in-repo by `scripts/generate-art.mjs` and is
-  deterministic by seed. External replacements can be dropped into
-  `src/assets/images/`
+- The hero photograph and the social preview cropped from it live in
+  `src/assets/images/` and `public/`. Replacements can be dropped in directly.
 
 ## Product Principles
 

@@ -250,29 +250,55 @@ test("ships only the analytics loader and the menu module", async ({
   expect((await response.body()).byteLength).toBeLessThan(1024);
 });
 
-test("the hero opens on a flat plane the header rests on", async ({ page }) => {
+test("the hero opens on a dark image plane the header floats over", async ({
+  page,
+}) => {
   await page.goto("/");
   const hero = page.locator(".hero");
-  // The plane is still one tinted surface carrying no imagery: the stage at
-  // its foot is drawn, not loaded, so the section ships no image request.
-  await expect(hero.locator("img")).toHaveCount(0);
+  // One full-bleed decorative background, cropped to the section.
+  const art = hero.locator(".hero__media img");
+  await expect(art).toHaveCount(1);
+  await expect(art).toHaveAttribute("alt", "");
+  // complete alone is also true for an image that failed to load, so the
+  // decoded width is what proves the artwork actually painted.
+  await expect(art).toHaveJSProperty("complete", true);
+  expect(
+    await art.evaluate((el: HTMLImageElement) => el.naturalWidth),
+  ).toBeGreaterThan(0);
 
-  const plane = await hero.evaluate(
-    (el) => getComputedStyle(el).backgroundColor,
-  );
-  expect(plane).toBe("rgb(238, 241, 248)");
+  // The section's own ground stays the dark plane behind the art, so the
+  // proposition keeps its contrast even if the image never paints.
+  expect(
+    await hero.evaluate((el) => getComputedStyle(el).backgroundColor),
+  ).toBe("rgb(10, 13, 22)");
 
-  // At scroll top the header is that same plane, so the first viewport has no
-  // bar across it; it resolves to canvas once content passes beneath.
+  // The header overlaps the hero rather than stacking above it: its box is
+  // pulled back over the section, so the hero's top edge starts underneath.
+  const [headerBox, heroBox] = await Promise.all([
+    page.locator(".site-header").boundingBox(),
+    hero.boundingBox(),
+  ]);
+  if (!headerBox || !heroBox) throw new Error("header or hero has no box");
+  expect(heroBox.y).toBeLessThanOrEqual(headerBox.y + 1);
+
+  // At scroll top the header carries no ground of its own — transparent over
+  // the hero, with light ink — so the first viewport has no bar across it; it
+  // resolves to a solid canvas bar with dark ink once content passes beneath.
   const header = page.locator(".site-header");
   expect(
     await header.evaluate((el) => getComputedStyle(el).backgroundColor),
-  ).toBe(plane);
+  ).toBe("rgba(0, 0, 0, 0)");
+  expect(await header.evaluate((el) => getComputedStyle(el).color)).toBe(
+    "rgb(242, 244, 250)",
+  );
 
   await page.evaluate(() => window.scrollTo(0, 400));
   await expect
     .poll(() => header.evaluate((el) => getComputedStyle(el).backgroundColor))
     .toBe("rgb(255, 255, 255)");
+  await expect
+    .poll(() => header.evaluate((el) => getComputedStyle(el).color))
+    .toBe("rgb(12, 16, 36)");
 });
 
 test("product pages carry their own canonical, title and breadcrumb", async ({
@@ -298,6 +324,6 @@ test("the site is usable with JavaScript disabled", async ({ browser }) => {
   await page.goto("/");
   await expect(page.locator("h1")).toBeVisible();
   await expect(page.locator(".product-card").first()).toBeVisible();
-  await expect(page.locator(".cap-card").first()).toBeVisible();
+  await expect(page.locator(".cap-item").first()).toBeVisible();
   await context.close();
 });

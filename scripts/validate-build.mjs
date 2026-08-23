@@ -142,18 +142,32 @@ for (const route of ROUTES) {
   );
 }
 
-// Nothing above the fold may cost a round trip, so the hero stays typographic:
-// the drawn field it used to open on was removed in 9ebc6fb, and the checks for
-// that field went stale with it.
+// The hero opens on a full-bleed background image again. It is the largest
+// contentful paint on the site, so it must be served in modern formats, be
+// eagerly fetched at high priority rather than lazily discovered, and stay
+// decorative — the proposition is real text over it, never baked into it.
 const home = documents.find((doc) => doc.route.file === "index.html")?.html;
 const heroStart = home?.indexOf('<section class="hero">') ?? -1;
 const heroSection =
   heroStart === -1
     ? ""
     : home.slice(heroStart, home.indexOf("</section>", heroStart));
+expect(heroStart !== -1, "the hero section is missing");
+expect(/<img[\s>]/.test(heroSection), "the hero background image is missing");
 expect(
-  heroStart !== -1 && !/<(img|picture|source)[\s>]/.test(heroSection),
-  "the hero opens on a raster image again",
+  heroSection.includes('type="image/avif"') &&
+    heroSection.includes('type="image/webp"'),
+  "the hero image is not served in avif and webp",
+);
+expect(
+  heroSection.includes('fetchpriority="high"') &&
+    heroSection.includes('loading="eager"'),
+  "the hero image is not eagerly fetched at high priority",
+);
+// Astro serializes an empty alt as the bare attribute `alt`, not `alt=""`.
+expect(
+  /<img[^>]*\salt(=""|[\s>])/.test(heroSection),
+  "the hero image is not marked decorative",
 );
 
 // Crawler and sitemap surfaces.

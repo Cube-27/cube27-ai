@@ -4,6 +4,17 @@
    planes, never from hairline borders.
    ========================================================================== */
 
+/* Typed so the header's scroll-driven ground swap (header.css) can animate it
+   smoothly instead of cutting over partway through the range — an
+   unregistered custom property cannot interpolate. Every assignment across
+   the system is already a literal colour, so typing it changes nothing at
+   rest. */
+@property --c-accent-current {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #a91d4b;
+}
+
 :root {
   color-scheme: light;
 
@@ -12,9 +23,10 @@
   --c-band: #eef1f8;
   --c-band-deep: #e2e8f4;
 
-  /* The home hero's plane. Product heroes use their own --card-soft; this is
-     the brand-level equivalent, and the header rests on it at scroll top. */
-  --c-hero: var(--c-band);
+  /* The home hero's plane — a full-bleed dark band, the one place the light
+     field opens on the dark ground instead of it. Product heroes use their
+     own --card-soft; this is the brand-level equivalent. */
+  --c-hero: var(--c-dark);
 
   /* Ink on light: primary, secondary, tertiary. */
   --c-ink: #0c1024;
@@ -27,6 +39,12 @@
   --c-dark-ink: #f2f4fa;
   --c-dark-ink-2: #a8b0c6;
   --c-dark-ink-3: #767f99;
+
+  /* The secondary rung, lifted for text that sits over imagery rather than
+     over a flat plane. The art beneath carries its own light and texture, so
+     the plain rung reads as washed out against it where a flat band would
+     have held it perfectly well. */
+  --c-dark-ink-2-over-media: #ccd3e6;
 
   /* Dark bands */
   --c-dark: #0a0d16;
@@ -62,6 +80,10 @@
   --ink-1: var(--c-ink);
   --ink-2: var(--c-ink-2);
   --ink-3: var(--c-ink-3);
+
+  /* Text selection, ground-relative for the same reason the ink is. */
+  --c-selection: rgb(169 29 75 / 0.16);
+  --c-selection-ink: var(--c-ink);
 
   /* Action — the magenta of the CUBE27 mark. Action or active state only. */
   --c-accent: #a91d4b;
@@ -154,6 +176,10 @@
   --shell: 1360px;
   --pad-x: clamp(20px, 5vw, 72px);
   --band-y: clamp(72px, 8vw, 132px);
+  /* Roughly the header's rendered height. Only reserves the hero's top
+     padding on pages where the header floats over it — nothing is positioned
+     against it, so it does not have to be exact. */
+  --header-h: 74px;
 
   /* Motion */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);

@@ -109,34 +109,21 @@
     --band-y: clamp(56px, 13vw, 80px);
   }
 
-  .hero .section-head__title {
-    max-width: none;
-  }
-
   /* One row of four with separators only works while the four fit on one row.
      Wrapped, a separator lands at the start of the second line with nothing to
      its left, and two columns are not wide enough here for the longer labels
      to stay on one line — a wrapped label leaves its dot stranded beside a
-     two-line block. So phones get a single column, left-aligned inside a
-     centred block: every label on its own line, with a shared edge to read
-     down and a full-width row to hit. */
+     two-line block. So phones get a single column instead: every label on its
+     own line, with a shared left edge to read down and a full-width row to
+     hit. */
   .hero__domains {
     display: grid;
     grid-template-columns: max-content;
-    justify-content: center;
     gap: 0;
   }
 
   .hero__domains li + li::before {
     content: none;
-  }
-
-  /* The section is centred, so the rows inherit centred text and each dot
-     lands at a different offset. The column is already centred as a block;
-     inside it the rows align left, which is what gives the four dots one
-     edge to sit on. */
-  .hero__domains li {
-    text-align: left;
   }
 
   .hero__domain {

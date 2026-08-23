@@ -2,46 +2,86 @@
    Header
    -------------------------------------------------------------------------- */
 
-/* At rest the header is the page's own ground, so there is no bar across the
-   top of the first viewport; it resolves to canvas as soon as content starts
-   passing beneath it. Pages without a tinted first section set --header-rest
-   to canvas, which makes the animation a no-op on colour and a hairline only. */
+/* At rest the header carries no ground of its own — it is part of whatever
+   section sits beneath it, transparent over the hero so there is no bar
+   across the top of the first viewport — and resolves to canvas, with dark
+   ink and a hairline, as soon as content starts passing beneath it. Pages
+   without a tinted first section set every --header-*-rest token to its
+   canvas-ground equivalent, which makes the animation a no-op on colour. */
 .site-header {
   position: sticky;
   z-index: 90;
   top: 0;
   padding-block: 14px;
   background: var(--c-canvas);
+  color: var(--c-ink);
+  /* Derived from the header's own ink rather than animated alongside it, so
+     the quiet control fills follow the ground swap for free and stay legible
+     on either end of it. */
+  --fill-1: color-mix(in srgb, currentColor 8%, transparent);
+  --fill-2: color-mix(in srgb, currentColor 14%, transparent);
 }
 
-/* The hero is the only tinted first section, so it is what shifts the resting
-   colour. Scoped by presence, not by a page flag, so a page that grows a hero
-   picks this up on its own. */
+/* The hero is the only dark first section, so it is what the header rests
+   transparent over and reads light against. Scoped by presence, not by a page
+   flag, so a page that grows a hero picks this up on its own. */
 body:has(.hero) {
-  --header-rest: var(--c-hero);
+  --header-rest: transparent;
+  --header-ink-rest: var(--c-dark-ink);
+  --header-accent-rest: var(--c-accent-dark);
+}
+
+/* A sticky header still reserves its own box in normal flow, so the hero would
+   otherwise start below it as a second, stacked band instead of the header
+   floating over its top edge. Taking it out of flow is what makes the two
+   overlap — and it must be `fixed` rather than a negative margin, because a
+   margin has to name the header's height as a number and that number goes
+   stale the moment a control inside it changes size, leaving a strip of
+   canvas above the hero. Nothing here depends on --header-h being exact; it
+   only reserves the hero's top padding. */
+body:has(.hero) .site-header {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
 }
 
 /* The lift on scroll is a scroll() timeline, so the header needs no script.
-   Non-supporting browsers keep the canvas background above, which is the safe
-   end of the animation rather than the transient one. */
+   Non-supporting browsers keep the canvas-ground values above, the safe end
+   of the animation rather than the transient one. --c-accent-current is typed
+   in tokens.css so it cross-fades with the background instead of cutting over
+   partway through the range; the fills need no keyframe of their own, since
+   they are mixed from the colour this already animates. */
 @keyframes header-lift {
   from {
     background-color: var(--header-rest, var(--c-canvas));
+    color: var(--header-ink-rest, var(--c-ink));
+    --c-accent-current: var(--header-accent-rest, var(--c-accent));
     box-shadow: 0 1px 0 rgb(12 16 36 / 0);
   }
   to {
     background-color: var(--c-canvas);
+    color: var(--c-ink);
+    --c-accent-current: var(--c-accent);
     box-shadow: 0 1px 0 rgb(12 16 36 / 0.08);
   }
 }
 
-@supports (animation-timeline: scroll()) {
-  .site-header {
-    animation-name: header-lift;
-    animation-timing-function: linear;
-    animation-fill-mode: both;
-    animation-timeline: scroll();
-    animation-range: 0 48px;
+/* Scoped inside no-preference, like every other scroll/view timeline in the
+   system: responsive.css forces animation-duration to 0.01ms under reduced
+   motion, but a scroll()-driven timeline given a near-zero duration does not
+   reliably settle every animated property on the same keyframe — background
+   and ink could resolve to opposite ends of the range, which is a contrast
+   failure rather than a merely-unanimated one. Disabling the animation
+   outright leaves the header on its always-safe static values instead. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .site-header {
+      animation-name: header-lift;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: scroll();
+      animation-range: 0 48px;
+    }
   }
 }
 
@@ -63,20 +103,20 @@ body:has(.hero) {
   height: 34px;
 }
 
+/* Inherits rather than naming an ink: the header animates its own `color`
+   between the hero's light-on-dark rest state and canvas, and the footer's
+   dark band sets its own `color` directly — the wordmark just follows
+   whichever ground it lands in. */
 .brand-wordmark {
   font-family: var(--font-body);
   font-size: var(--t-20);
   font-weight: 800;
   letter-spacing: 0.005em;
-  color: var(--c-ink);
+  color: inherit;
 }
 
 .brand-number {
   color: var(--c-accent-current);
-}
-
-.on-dark .brand-wordmark {
-  color: #fff;
 }
 
 .desktop-nav {
@@ -85,6 +125,10 @@ body:has(.hero) {
   gap: 4px;
 }
 
+/* Inherits the header's own animated colour rather than naming an ink, and
+   sits below full strength at rest so it still reads as secondary next to
+   the wordmark — on either ground, since opacity dims relative to whatever
+   colour it inherits. */
 .nav-link {
   display: inline-flex;
   align-items: center;
@@ -94,16 +138,17 @@ body:has(.hero) {
   border-radius: var(--r-pill);
   font-size: var(--t-16);
   font-weight: 500;
-  color: var(--c-ink-2);
+  color: inherit;
+  opacity: 0.88;
   transition:
     background-color 200ms var(--ease),
-    color 200ms var(--ease);
+    opacity 200ms var(--ease);
 }
 
 .nav-link:hover,
 .nav-link[aria-current="page"] {
   background: var(--fill-1);
-  color: var(--c-ink);
+  opacity: 1;
 }
 
 /* Products dropdown — hover and focus driven, no JS */
@@ -156,7 +201,7 @@ body:has(.hero) {
 .nav-menu:hover > .nav-link,
 .nav-menu:focus-within > .nav-link {
   background: var(--fill-1);
-  color: var(--c-ink);
+  opacity: 1;
 }
 
 .nav-menu__item {
@@ -224,12 +269,17 @@ body:has(.hero) {
   border: 0;
   border-radius: var(--r-pill);
   background: var(--fill-1);
-  color: var(--c-ink);
+  color: inherit;
 }
 
 /* A sheet that owns the whole viewport. A dropdown card has to fight the page
    behind it with a shadow and a scrim; a full surface simply replaces it, which
-   is what leaves room for the larger tap targets below. */
+   is what leaves room for the larger tap targets below.
+
+   It is always a plain canvas sheet, wherever the toggle that opened it sits
+   in the header's scroll animation. Its own `color` below already pulls the
+   fills back to the light ground; the accent has to be named, or the "27"
+   opens in the hero's pink on white. */
 .mobile-nav__panel[popover] {
   position: fixed;
   inset: 0;
@@ -247,6 +297,7 @@ body:has(.hero) {
   border-radius: 0;
   background: var(--c-canvas);
   color: var(--c-ink);
+  --c-accent-current: var(--c-accent);
 }
 
 /* Only while open: an author `display` on [popover] would beat the UA sheet's

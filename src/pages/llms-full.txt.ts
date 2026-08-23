@@ -49,8 +49,6 @@ export const GET: APIRoute = () => {
     "",
     HERO.lead,
     "",
-    HERO.support,
-    "",
     `## ${PRODUCTS_INTRO.title}`,
     "",
     PRODUCTS_INTRO.lead,

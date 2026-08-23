@@ -1,18 +1,57 @@
 /* --------------------------------------------------------------------------
    Hero
 
-   The field is the page ground, not a picture beside the copy: it runs the
-   full width of the section and the proposition sits centred on top of it.
+   The one full-bleed dark band that opens the page instead of punctuating
+   it further down — the same near-black ground as the philosophy, final-call
+   and footer bands, so the page's darkest colour is also its first. The
+   proposition sits left-aligned on top of it, and the header floats
+   transparent over the same plane until the visitor scrolls past it.
    -------------------------------------------------------------------------- */
 
 .hero {
   position: relative;
   display: grid;
   align-content: center;
-  min-height: min(720px, 78vh);
-  padding-block: clamp(72px, 9vw, 128px);
+  min-height: min(760px, 84vh);
+  padding-block: calc(var(--header-h) + clamp(96px, 11vw, 160px))
+    clamp(72px, 9vw, 128px);
   overflow: hidden;
   background: var(--c-hero);
+  color: var(--ink-1);
+  /* Everything in the hero sits over artwork, so the secondary rung steps up
+     for the whole section rather than per element. */
+  --ink-2: var(--c-dark-ink-2-over-media);
+}
+
+/* The art sits behind everything, cropped to the section rather than framed
+   beside it. A scrim on top of it — not on the content layer — carries the
+   actual contrast guarantee, heaviest where the proposition sits, so the
+   text's legibility never depends on the artwork loading or on where its
+   lines happen to fall. */
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero__media picture,
+.hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgb(10 13 22 / 0.94) 0%,
+    rgb(10 13 22 / 0.86) 32%,
+    rgb(10 13 22 / 0.5) 62%,
+    rgb(10 13 22 / 0.22) 100%
+  );
 }
 
 .hero__inner {
@@ -20,16 +59,19 @@
   z-index: 2;
 }
 
-.hero__support {
-  max-width: 62ch;
-  margin: 18px auto 0;
+/* The copy holds the left of the frame rather than running the width of the
+   shell: the artwork needs the right half to read, and a lead that stretches
+   to the far edge loses the column the headline above it establishes. Metered
+   in `ch` so the measure tracks the type size across breakpoints. */
+.hero .section-head__lead {
+  max-width: 50ch;
 }
 
 .hero .btn-row {
   margin-top: 36px;
 }
 
-/* One button and one link, so the row centres on the type baseline rather than
+/* One button and one link, so the row aligns on the type baseline rather than
    on two equal blocks. */
 .hero__actions {
   align-items: center;
@@ -47,7 +89,6 @@
 .hero__domains {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
   gap: 2px clamp(4px, 1.4vw, 14px);
   margin: clamp(26px, 3.2vw, 40px) 0 0;
@@ -56,14 +97,16 @@
 }
 
 /* Hairline separators between the four, drawn on the list item so the link
-   itself keeps a clean hit area. Only between — never before the first. */
+   itself keeps a clean hit area. Only between — never before the first.
+   currentColor rather than a hand-picked ink keeps this legible on the
+   hero's dark ground without a second rule. */
 .hero__domains li + li::before {
   content: "";
   display: inline-block;
   width: 1px;
   height: 13px;
   margin-inline-end: clamp(4px, 1.4vw, 14px);
-  background: rgb(12 16 36 / 0.16);
+  background: color-mix(in srgb, currentColor 22%, transparent);
   vertical-align: -1px;
 }
 
@@ -114,9 +157,12 @@
   transition: transform 260ms var(--ease);
 }
 
+/* The hue itself is too dark to read reliably against the hero's near-black
+   ground, so the label brightens to full ink on hover and the dot carries
+   the hue instead. */
 .hero__domain:hover,
 .hero__domain:focus-visible {
-  color: var(--card-deep);
+  color: var(--ink-1);
 }
 
 .hero__domain:hover::before,

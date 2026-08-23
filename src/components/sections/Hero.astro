@@ -1,19 +1,32 @@
 ---
+import { Picture } from "astro:assets";
 import Button from "@/components/ui/Button.astro";
 import SectionHead from "@/components/ui/SectionHead.astro";
 import TextLink from "@/components/ui/TextLink.astro";
+import heroField from "@/assets/images/hero-architecture.jpg";
 import { HERO } from "@/data/home";
 import { CTA, PRODUCT_LINKS, SITE } from "@/data/site";
 ---
 
 <section class="hero">
+  <div class="hero__media" aria-hidden="true">
+    <Picture
+      src={heroField}
+      alt=""
+      widths={[768, 1100, 1376]}
+      sizes="100vw"
+      formats={["avif", "webp"]}
+      loading="eager"
+      fetchpriority="high"
+      decoding="sync"
+    />
+  </div>
   <div class="shell hero__inner">
     {
       /*
        * The hero is the first viewport, so it rides the load-in ripple rather
-       * than the scroll reveal. The proposition opens the wave; the lead and
-       * the support line sit close enough together on screen to read as one
-       * arrival, so they share a ring; the actions land last.
+       * than the scroll reveal. The proposition opens the wave, the lead
+       * follows, and the actions land last.
        *
        * One button, not two. The three actions that used to compete here —
        * two of them pointing at the same contact page — read as a choice the
@@ -27,11 +40,11 @@ import { CTA, PRODUCT_LINKS, SITE } from "@/data/site";
       level={1}
       title={HERO.title}
       lead={HERO.lead}
+      align="start"
       flush
       rings={{ title: 0, lead: 1 }}
     >
-      <p class="t-body hero__support" data-ring={1}>{HERO.support}</p>
-      <div class="btn-row btn-row--center hero__actions">
+      <div class="btn-row hero__actions">
         <Button href="#products" variant="primary" ring={2}>
           {CTA.products}
         </Button>

@@ -5,7 +5,7 @@ colors:
   canvas: "#ffffff"
   band: "#eef1f8"
   band-deep: "#e2e8f4"
-  hero: "#eef1f8"
+  hero: "#0a0d16"
   ink: "#0c1024"
   ink-2: "#414a63"
   ink-3: "#5f6884"
@@ -136,8 +136,12 @@ each product's closing statement, the final call, and the footer.
 - Large Geist headlines over calm Geist explanation, separated by weight and
   colour rather than by a second face.
 - Motion that is felt rather than watched, and which costs no JavaScript.
-- The landing page opens on a tinted hero plane, with the proposition centred
-  on top of it.
+- The landing page opens on a full-bleed dark hero — the one dark band that
+  opens the page rather than punctuating it further down — carrying an
+  architectural photograph as a cropped background, with the proposition
+  left-aligned over a scrim on top of it. The header floats transparent over
+  the same plane and only resolves to a solid canvas bar once the visitor
+  scrolls past it.
 
 ## Colors
 
@@ -154,9 +158,12 @@ never for a colour, so the same card works on either.
 | `--s-2` | band-deep `#e2e8f4` | `#2f3442`      | hover, a raised card  |
 | `--s-3` | `#d6def0`           | `#3a4054`      | an inset chip or tile |
 
-`.band--dark` and `.on-dark` rebind `--s-*`, `--ink-*`, `--fill-*` and
+`.band--dark`, `.on-dark` and `.hero` rebind `--s-*`, `--ink-*`, `--fill-*` and
 `--c-accent-current` in **one place**. Anything nested inside then resolves
-correctly without naming a dark colour itself.
+correctly without naming a dark colour itself. The hero carries the rebind
+directly — it is a permanent dark ground rather than an instance of
+`.band--dark` — since `scripts/validate-build.mjs` matches its opening tag
+literally and a second class would break that guard.
 
 **A dark island on a light band must carry `.on-dark` in the markup** and name
 `--s-dark-*` explicitly — the wide first capability card is the one instance.
@@ -285,7 +292,16 @@ surface modifiers: `--canvas`, `--tint`, `--deep`, `--dark`. `--round-top` and
 
 **The homepage runs a deepening ramp** — canvas, tint, deep, dark — so the page
 darkens as it moves from what we make, to how it works, to the call to act.
-Reordering bands should preserve that direction.
+Reordering bands should preserve that direction. The hero is the one
+deliberate exception: it opens on the same dark ground the ramp ends on, as a
+cold open, before the ramp itself begins again from canvas.
+
+**The hero's background image is decoration over a guarantee.** `.hero` paints
+`--c-hero` itself and `.hero__media::after` lays a left-heavy scrim over the
+art, so every contrast ratio in the section is met by the ground and the scrim
+alone. The artwork can be reseeded, replaced or fail to load without the
+proposition ever becoming unreadable — never lighten the scrim to show more of
+it, and never bake copy into the image.
 
 **`SectionHead` is the only container for a heading + subtitle pair**, on every
 page and in every band. It owns the eyebrow, the headline measure (`26ch`, set
@@ -426,11 +442,17 @@ Nothing is ever inlined, so the CSP still needs no `unsafe-inline`.
 - Section entry uses `animation-timeline: view()` behind an `@supports` guard.
   Where the timeline is unsupported, content simply renders at rest — there is
   no hidden state to get stuck in and no flash.
-- The header's background and hairline both use `animation-timeline: scroll()`.
-  It rests on the colour of the section beneath it and resolves to canvas over
-  the first 48px of scroll, so the first viewport has no bar across the top.
-  `body:has(.hero)` sets `--header-rest`; pages without a tinted first section
-  leave it at canvas and the animation moves the hairline only.
+- The header's background, ink, accent and hairline all use
+  `animation-timeline: scroll()`. At rest it carries no ground of its own —
+  transparent over the hero, with light ink, so the first viewport has no bar
+  across the top — and resolves to a solid canvas bar with dark ink over the
+  first 48px of scroll. `body:has(.hero)` sets the four `--header-*-rest`
+  tokens; pages without a dark first section leave them at their canvas-ground
+  defaults and the animation moves the hairline only. `--c-accent-current` is
+  typed with `@property` in `tokens.css` so it cross-fades with the rest of the
+  animation instead of cutting over partway through the range; `--fill-1` and
+  `--fill-2` need no keyframe of their own, since they are mixed from the
+  colour the animation already carries.
 
 **Never write scroll-driven animations with the `animation` shorthand.** The
 CSS minifier folds the following `animation-timeline` into it, emitting

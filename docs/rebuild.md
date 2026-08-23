@@ -81,15 +81,13 @@ workflow" → closing statement on a dark band. All copy is per-product content 
 
 ## Imagery
 
-**The hero field** is drawn, not photographed: `HeroField.astro` emits four
-bundles of fine bezier strands, fanned and pinched along a shared curve, and
-lets them drift across the full width of the landing page behind the centred
-proposition. Each strand is a sum of sines with whole-number cycle counts, so a
-layer tiles seamlessly and the motion is one composited `transform`.
+**The hero** is a full-bleed architectural photograph cropped to the section,
+served through Astro's `<Picture>` in AVIF and WebP. It is decoration over a
+guarantee: the section paints `--c-hero` itself and a left-heavy scrim sits
+between the art and the copy, so every contrast ratio is met without the image.
 
-**The social preview card** is still raster, generated in-repo by
-`scripts/generate-art.mjs` and deterministic by seed. The same script still
-writes the retired hero raster, which nothing imports.
+**The social preview card** is a 1200x630 crop of the same frame, so the share
+card and the first viewport show one image.
 
 **Product illustrations** are inline SVG, not screenshots: a visibility board, a
 change feed, a reconciliation ladder, a tender document with extracted
@@ -113,9 +111,9 @@ replaced:
   so the panel would stay in the top layer over the section it just jumped to.
   `popovertarget` is not allowed on an anchor, so this is the single case that
   earned a script. It is bundled, never inlined, and the CSP is untouched.
-- **The hero field** is four bundles of SVG strands drifting on `transform`
-  alone, each layer holding two tiles of a wave that repeats once per tile, so
-  translating it by exactly one tile loops without a seam.
+- **The header's ground swap** over the hero is a `scroll()` timeline, so the
+  bar goes from transparent-over-the-image to a solid canvas bar with no
+  scroll listener.
 - **The products menu** opens on `:hover` and `:focus-within`.
 
 This is asserted, not assumed: one e2e test fails if any first-party script

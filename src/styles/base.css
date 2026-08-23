@@ -84,9 +84,14 @@ svg {
   max-width: 100%;
 }
 
+/* Ground-relative, like every other colour pair in the system: the light
+   ground tints crimson behind dark ink, and the dark grounds rebind it below.
+   A single hardcoded pair cannot serve both — a 16% crimson wash behind
+   light ink on the near-black bands left the selected text less legible than
+   the unselected text around it. */
 ::selection {
-  background: rgb(169 29 75 / 0.16);
-  color: var(--c-ink);
+  background: var(--c-selection);
+  color: var(--c-selection-ink);
 }
 
 :focus-visible {
@@ -151,9 +156,13 @@ svg {
 }
 
 /* One place rebinds every ground-dependent token. Anything nested inside a
-   dark band then resolves correctly without naming a dark colour itself. */
+   dark band then resolves correctly without naming a dark colour itself.
+   The hero is a permanent dark ground — the one full-bleed dark band that
+   opens the page rather than punctuating it — so it rebinds alongside the
+   two general-purpose classes instead of carrying one of its own. */
 .band--dark,
-.on-dark {
+.on-dark,
+.hero {
   --s-0: var(--s-dark-0);
   --s-1: var(--s-dark-1);
   --s-2: var(--s-dark-2);
@@ -164,6 +173,8 @@ svg {
   --ink-1: var(--c-dark-ink);
   --ink-2: var(--c-dark-ink-2);
   --ink-3: var(--c-dark-ink-3);
+  --c-selection: rgb(242 120 159 / 0.32);
+  --c-selection-ink: var(--c-dark-ink);
 }
 
 .band--dark {
