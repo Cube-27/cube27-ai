@@ -8,8 +8,14 @@
   box-sizing: border-box;
 }
 
+/* No smooth scrolling. It reads as a nicety on an in-page anchor, but the
+   property does not distinguish those from a fragment arrived at across a
+   document boundary — following the product breadcrumb to /#products landed at
+   the top of the home page and then animated 756px down, so the visitor
+   watched the landing page scroll past on the way to the section they asked
+   for. Reduced-motion users were already getting the instant jump, which is
+   the behaviour everyone now gets. */
 html {
-  scroll-behavior: smooth;
   background: var(--c-canvas);
   -webkit-text-size-adjust: 100%;
 }
@@ -157,12 +163,10 @@ svg {
 
 /* One place rebinds every ground-dependent token. Anything nested inside a
    dark band then resolves correctly without naming a dark colour itself.
-   The hero is a permanent dark ground — the one full-bleed dark band that
-   opens the page rather than punctuating it — so it rebinds alongside the
-   two general-purpose classes instead of carrying one of its own. */
+   The hero is not among them: it is a light ivory plane, so it wants the
+   root's light-ground rungs exactly as the canvas bands do. */
 .band--dark,
-.on-dark,
-.hero {
+.on-dark {
   --s-0: var(--s-dark-0);
   --s-1: var(--s-dark-1);
   --s-2: var(--s-dark-2);

@@ -23,10 +23,12 @@
   --c-band: #eef1f8;
   --c-band-deep: #e2e8f4;
 
-  /* The home hero's plane — a full-bleed dark band, the one place the light
-     field opens on the dark ground instead of it. Product heroes use their
-     own --card-soft; this is the brand-level equivalent. */
-  --c-hero: var(--c-dark);
+  /* The home hero's plane — warm ivory, a half-step off the canvas white the
+     rest of the light field sits on. Warm rather than neutral because every
+     plate on it blends with multiply: a neutral ground turns the acrylic's
+     own warmth grey. Product heroes use their own --card-soft; this is the
+     brand-level equivalent. */
+  --c-hero: #f4f1eb;
 
   /* Ink on light: primary, secondary, tertiary. */
   --c-ink: #0c1024;

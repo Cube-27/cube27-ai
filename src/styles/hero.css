@@ -1,11 +1,16 @@
 /* --------------------------------------------------------------------------
    Hero
 
-   The one full-bleed dark band that opens the page instead of punctuating
-   it further down — the same near-black ground as the philosophy, final-call
-   and footer bands, so the page's darkest colour is also its first. The
-   proposition sits left-aligned on top of it, and the header floats
-   transparent over the same plane until the visitor scrolls past it.
+   The first viewport is a single high-key ivory plane. A photographed acrylic
+   architecture is set into its right half and washed back out again on the
+   left, so the proposition sits on quiet paper while the detail stays where
+   there is nothing to read. The header floats transparent over the same plane
+   until the visitor scrolls past it.
+
+   Two plates carry the artwork — the ledger and the routes texture — and every
+   other mark on the band is drawn here: the grain, the 132px grid, the
+   structural rails, the acrylic panels, the network hairlines and the coloured
+   nodes.
    -------------------------------------------------------------------------- */
 
 .hero {
@@ -16,43 +21,347 @@
   padding-block: calc(var(--header-h) + clamp(96px, 11vw, 160px))
     clamp(72px, 9vw, 128px);
   overflow: hidden;
+  /* Every plate blends with multiply, and multiply against a transparent
+     backdrop is a no-op. Isolating the section gives the blend group a ground
+     of its own — this ivory — and keeps the blend from reaching the page
+     behind it. */
+  isolation: isolate;
   background: var(--c-hero);
   color: var(--ink-1);
-  /* Everything in the hero sits over artwork, so the secondary rung steps up
-     for the whole section rather than per element. */
-  --ink-2: var(--c-dark-ink-2-over-media);
+
+  /* Pointer parallax, written by the hero's script in the range -1..1. The
+     script owns the two numbers; the depth order below is what turns them into
+     distance, so it stays readable in one place. */
+  --hero-px: 0;
+  --hero-py: 0;
+
+  /* Where the shell's content column starts, so the rails and the instrument
+     can align to the type rather than to the viewport. */
+  --hero-rail: calc((100% - min(var(--shell), 100%)) / 2 + var(--pad-x));
 }
 
-/* The art sits behind everything, cropped to the section rather than framed
-   beside it. A scrim on top of it — not on the content layer — carries the
-   actual contrast guarantee, heaviest where the proposition sits, so the
-   text's legibility never depends on the artwork loading or on where its
-   lines happen to fall. */
+/* No z-index anywhere in here. A blended element only sees the backdrop of its
+   own stacking context, so a single z-index up the chain would cut the plates
+   off from the ivory beneath them and turn every multiply into a straight
+   paste. Paint order is DOM order instead, which is also the order the
+   composition reads in. */
 .hero__media {
   position: absolute;
   inset: 0;
-  z-index: 0;
 }
 
-.hero__media picture,
-.hero__media img {
-  width: 100%;
-  height: 100%;
+/* --------------------------------------------------------------------------
+   The plates
+   -------------------------------------------------------------------------- */
+
+/* The ledger, held to the right edge and run past the band on three sides, so
+   the architecture is cropped by the frame rather than sitting inside it.
+
+   The height is stated rather than implied by a top/bottom pair: an image is a
+   replaced element, so `height: auto` between two offsets resolves to the
+   plate's own intrinsic height and leaves a bare ivory strip across the band. */
+.hero__art {
+  position: absolute;
+  top: -5%;
+  right: -8%;
+  width: 72vw;
+  height: 110%;
+  max-width: none;
   object-fit: cover;
+  object-position: center right;
+  opacity: 0.93;
+  mix-blend-mode: multiply;
+  /* The plate's own left edge, feathered. Three sides run past the band and
+     are cropped by it; this one lands inside the frame, and a cropped
+     photograph that stops on a straight line reads as a seam however soft the
+     wash over it is. */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 24%);
+  mask-image: linear-gradient(to right, transparent, #000 24%);
+  transform: translate3d(
+    calc(var(--hero-px) * 8px),
+    calc(var(--hero-py) * 8px),
+    0
+  );
 }
 
-.hero__media::after {
-  content: "";
+/* The contrast guarantee. It sits on the artwork rather than on the content,
+   so the measure's legibility never depends on the plate loading or on where
+   its highlights happen to fall — the left 40% stays quiet whatever arrives
+   underneath it. */
+.hero__wash {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    100deg,
-    rgb(10 13 22 / 0.94) 0%,
-    rgb(10 13 22 / 0.86) 32%,
-    rgb(10 13 22 / 0.5) 62%,
-    rgb(10 13 22 / 0.22) 100%
+    97deg,
+    rgb(244 241 235 / 0.985) 0%,
+    rgb(244 241 235 / 0.96) 30%,
+    rgb(244 241 235 / 0.82) 44%,
+    rgb(244 241 235 / 0.4) 66%,
+    rgb(244 241 235 / 0.08) 100%
   );
 }
+
+/* --------------------------------------------------------------------------
+   Drawn structure
+   -------------------------------------------------------------------------- */
+
+/* A 132px graphite grid, faint enough to be felt rather than counted. It runs
+   the full band, so the artwork and the type are measured against one module. */
+.hero__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgb(12 16 36 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(12 16 36 / 0.04) 1px, transparent 1px);
+  background-size: 132px 132px;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 14%,
+    #000 82%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 14%,
+    #000 82%,
+    transparent
+  );
+}
+
+/* Two structural rails: one down the content column's own left edge, set back
+   far enough to read as a spine rather than as an underline turned on its
+   side, and a quieter one at the fold where the wash releases the artwork. */
+.hero__rails::before,
+.hero__rails::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(12 16 36 / 0.14) 18%,
+    rgb(12 16 36 / 0.14) 84%,
+    transparent
+  );
+}
+
+.hero__rails::before {
+  left: max(12px, calc(var(--hero-rail) - 28px));
+}
+
+.hero__rails::after {
+  left: 62%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(12 16 36 / 0.08) 26%,
+    rgb(12 16 36 / 0.08) 74%,
+    transparent
+  );
+}
+
+/* Paper, not screen. A fractal-noise tile at a few percent, multiplied over
+   everything else, is what stops a plane this light from reading as flat white
+   space. */
+.hero__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* --------------------------------------------------------------------------
+   The data instrument
+
+   The right-hand half of the composition: the routes plate for network
+   density, two acrylic panels and a field of hairlines drawn over it, and the
+   product hues as nodes.
+   -------------------------------------------------------------------------- */
+
+.hero__instrument {
+  position: absolute;
+  right: max(0px, calc(var(--hero-rail) - 3vw));
+  top: 17%;
+  width: min(46vw, 660px);
+  height: min(66%, 520px);
+}
+
+/* Behind everything else in the instrument and deliberately cropped, so it
+   contributes fine network density without competing with the ledger. The blur
+   is half a pixel — enough to seat it behind the drawn hairlines, not enough
+   to read as an effect. */
+.hero__routes {
+  position: absolute;
+  inset: -6% -4% -10% -8%;
+  width: auto;
+  height: auto;
+  max-width: none;
+  object-fit: cover;
+  object-position: 40% 45%;
+  opacity: 0.24;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: radial-gradient(
+    104% 104% at 54% 48%,
+    #000 26%,
+    transparent 86%
+  );
+  mask-image: radial-gradient(104% 104% at 54% 48%, #000 26%, transparent 86%);
+  transform: translate3d(
+    calc(var(--hero-px) * 10px),
+    calc(var(--hero-py) * 10px),
+    0
+  );
+}
+
+/* Translucent acrylic, drawn: a shallow white gradient for the face and a
+   hairline inset for the edge. Nothing casts a shadow — on a high-key band a
+   drop shadow is the one mark that reads as a web page. */
+.hero__panel {
+  position: absolute;
+  border-radius: 3px;
+  background: linear-gradient(
+    128deg,
+    rgb(255 255 255 / 0.5),
+    rgb(255 255 255 / 0.08) 60%,
+    rgb(255 255 255 / 0.32)
+  );
+  box-shadow: inset 0 0 0 1px rgb(12 16 36 / 0.055);
+}
+
+.hero__panel--wide {
+  top: 8%;
+  left: 6%;
+  width: 62%;
+  height: 34%;
+}
+
+.hero__panel--tall {
+  top: 26%;
+  right: 4%;
+  width: 27%;
+  height: 52%;
+}
+
+/* The fine network: a sub-module of hairlines inside the instrument, with two
+   diagonals cutting across it. Masked at the edges so the field ends by
+   thinning out rather than by stopping at a rectangle. */
+.hero__net {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      27deg,
+      transparent calc(50% - 0.5px),
+      rgb(12 16 36 / 0.13) calc(50% - 0.5px),
+      rgb(12 16 36 / 0.13) calc(50% + 0.5px),
+      transparent calc(50% + 0.5px)
+    ),
+    linear-gradient(
+      -19deg,
+      transparent calc(38% - 0.5px),
+      rgb(12 16 36 / 0.1) calc(38% - 0.5px),
+      rgb(12 16 36 / 0.1) calc(38% + 0.5px),
+      transparent calc(38% + 0.5px)
+    ),
+    linear-gradient(to right, rgb(12 16 36 / 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(12 16 36 / 0.07) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    100% 100%,
+    44px 100%,
+    100% 44px;
+  -webkit-mask-image: radial-gradient(
+    120% 100% at 62% 46%,
+    #000 34%,
+    transparent 82%
+  );
+  mask-image: radial-gradient(120% 100% at 62% 46%, #000 34%, transparent 82%);
+}
+
+/* The product hues, as the instrument's live points. Squares for the readings,
+   rings for the two junctions — the same two marks the ledger plate's own
+   artwork uses, so the drawn layer and the photographed one agree on what a
+   node looks like. */
+.hero__node,
+.hero__ring {
+  position: absolute;
+  border-radius: 2px;
+}
+
+.hero__node {
+  width: 7px;
+  height: 7px;
+  background: var(--node-hue);
+  opacity: 0.8;
+}
+
+.hero__ring {
+  width: 13px;
+  height: 13px;
+  border-radius: var(--r-pill);
+  background: rgb(255 255 255 / 0.9);
+  box-shadow: inset 0 0 0 3px var(--node-hue);
+  opacity: 0.85;
+}
+
+.hero__node--cobalt,
+.hero__ring--cobalt {
+  --node-hue: var(--hue-blue);
+}
+
+.hero__node--emerald {
+  --node-hue: var(--hue-green);
+}
+
+.hero__node--magenta,
+.hero__ring--magenta {
+  --node-hue: var(--c-accent);
+}
+
+.hero__node--violet {
+  --node-hue: var(--hue-purple);
+}
+
+/* Hand-placed against the panels rather than distributed on the module: the
+   point of a node is that something is happening at that spot. */
+.hero__node--cobalt {
+  top: 21%;
+  left: 22%;
+}
+
+.hero__node--emerald {
+  top: 63%;
+  left: 12%;
+}
+
+.hero__node--magenta {
+  top: 15%;
+  left: 57%;
+}
+
+.hero__node--violet {
+  top: 48%;
+  right: 12%;
+}
+
+.hero__ring--cobalt {
+  top: 37%;
+  right: 22%;
+}
+
+.hero__ring--magenta {
+  top: 72%;
+  left: 40%;
+}
+
+/* --------------------------------------------------------------------------
+   Content
+   -------------------------------------------------------------------------- */
 
 .hero__inner {
   position: relative;
@@ -98,8 +407,8 @@
 
 /* Hairline separators between the four, drawn on the list item so the link
    itself keeps a clean hit area. Only between — never before the first.
-   currentColor rather than a hand-picked ink keeps this legible on the
-   hero's dark ground without a second rule. */
+   currentColor rather than a hand-picked ink keeps it tracking whichever rung
+   the label beside it is sitting on. */
 .hero__domains li + li::before {
   content: "";
   display: inline-block;
@@ -157,9 +466,8 @@
   transition: transform 260ms var(--ease);
 }
 
-/* The hue itself is too dark to read reliably against the hero's near-black
-   ground, so the label brightens to full ink on hover and the dot carries
-   the hue instead. */
+/* Four saturated labels at rest would out-shout the one button above them, so
+   the hue stays on the dot and the label steps up to full ink on hover. */
 .hero__domain:hover,
 .hero__domain:focus-visible {
   color: var(--ink-1);
@@ -174,4 +482,127 @@
 .hero__domain:hover .hero__domain-label::after,
 .hero__domain:focus-visible .hero__domain-label::after {
   transform: scaleX(1);
+}
+
+/* --------------------------------------------------------------------------
+   Entrance and idle motion
+
+   The band's own arrival, on top of the load-in ripple's ring delays: a
+   shorter rise on a curve that leaves fast and settles for a long time, so the
+   first viewport reads as one arrival. Only transform and opacity move.
+
+   The type rides in; the artwork does not. Fading a 72vw multiplied plate is
+   an opacity animation over a blend group the whole width of the band, and it
+   ran in exactly the window the headline needed — the wave stuttered because
+   the picture behind it was being recomposited on every frame of it. The
+   plates are simply there at load, which is also the calmer reading.
+   -------------------------------------------------------------------------- */
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* The nodes breathe rather than blink — a slow, small change is what makes the
+   instrument read as running instead of decorated. */
+@keyframes hero-node-pulse {
+  50% {
+    opacity: 0.42;
+    transform: scale(0.86);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Wins on specificity over motion.css's [data-ring] rule, which goes on
+     supplying the ring delays; only the distance and the curve change here. */
+  .hero [data-ring] {
+    animation-name: hero-rise;
+    animation-duration: 900ms;
+    animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .hero__node,
+  .hero__ring {
+    animation: hero-node-pulse 5200ms var(--ease) infinite both;
+  }
+
+  .hero__node--emerald {
+    animation-duration: 6400ms;
+    animation-delay: 700ms;
+  }
+
+  .hero__node--magenta {
+    animation-duration: 5800ms;
+    animation-delay: 1400ms;
+  }
+
+  .hero__node--violet {
+    animation-duration: 7000ms;
+    animation-delay: 300ms;
+  }
+
+  .hero__ring--cobalt {
+    animation-duration: 6800ms;
+    animation-delay: 1000ms;
+  }
+
+  .hero__ring--magenta {
+    animation-duration: 6000ms;
+    animation-delay: 2000ms;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Portrait
+
+   A left column and a right instrument is a landscape idea. At phone width
+   there is no right half to give away, so the wash turns with the frame: the
+   artwork drops under the foot of the copy and reads as ground rather than as
+   a second subject beside it, and the drawn panels — a desktop-scale device —
+   come off entirely.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 860px) {
+  .hero__art {
+    right: -10%;
+    width: 112vw;
+    opacity: 0.82;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 14%);
+    mask-image: linear-gradient(to right, transparent, #000 14%);
+  }
+
+  .hero__wash {
+    background: linear-gradient(
+      168deg,
+      rgb(244 241 235 / 0.99) 0%,
+      rgb(244 241 235 / 0.965) 44%,
+      rgb(244 241 235 / 0.86) 72%,
+      rgb(244 241 235 / 0.6) 100%
+    );
+  }
+
+  .hero__instrument {
+    right: -12%;
+    top: auto;
+    bottom: -8%;
+    width: 78vw;
+    height: 40%;
+  }
+
+  .hero__panel,
+  .hero__net,
+  .hero__rails::after {
+    display: none;
+  }
+}
+
+/* Decorative motion off: the plates hold their painted positions, which is the
+   composition as designed rather than a degraded version of it. */
+@media (prefers-reduced-motion: reduce) {
+  .hero__art,
+  .hero__routes {
+    transform: none;
+  }
 }

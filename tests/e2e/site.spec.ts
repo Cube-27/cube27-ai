@@ -227,7 +227,7 @@ test("mobile navigation opens, links out, and closes", async ({ page }) => {
   await expect(page.locator("#capabilities")).toBeInViewport();
 });
 
-test("ships only the analytics loader and the menu module", async ({
+test("ships only the analytics loader and two hand-sized modules", async ({
   page,
 }) => {
   const scripts: string[] = [];
@@ -240,37 +240,45 @@ test("ships only the analytics loader and the menu module", async ({
     .map((url) => new URL(url).pathname);
 
   expect(firstParty).toContain("/analytics.js");
-  // Everything else must be the one bundled module that closes the mobile
-  // menu, and it must stay small enough to be beneath notice.
+  // Everything else must be the two bundled modules the page is allowed: the
+  // one that closes the mobile menu and the one that feeds the hero's parallax
+  // its two numbers. Each has to stay small enough to be beneath notice.
   const bundled = firstParty.filter((path) => path !== "/analytics.js");
-  expect(bundled).toHaveLength(1);
-  expect(bundled[0]).toMatch(/^\/_astro\/.+\.js$/);
+  expect(bundled).toHaveLength(2);
 
-  const response = await page.request.get(bundled[0]);
-  expect((await response.body()).byteLength).toBeLessThan(1024);
+  for (const path of bundled) {
+    expect(path).toMatch(/^\/_astro\/.+\.js$/);
+    const response = await page.request.get(path);
+    expect((await response.body()).byteLength).toBeLessThan(1024);
+  }
 });
 
-test("the hero opens on a dark image plane the header floats over", async ({
+test("the hero opens on an ivory image plane the header floats over", async ({
   page,
 }) => {
   await page.goto("/");
   const hero = page.locator(".hero");
-  // One full-bleed decorative background, cropped to the section.
+  // Two decorative plates, cropped to the section: the ledger and the routes
+  // texture inside the data instrument.
   const art = hero.locator(".hero__media img");
-  await expect(art).toHaveCount(1);
-  await expect(art).toHaveAttribute("alt", "");
-  // complete alone is also true for an image that failed to load, so the
-  // decoded width is what proves the artwork actually painted.
-  await expect(art).toHaveJSProperty("complete", true);
-  expect(
-    await art.evaluate((el: HTMLImageElement) => el.naturalWidth),
-  ).toBeGreaterThan(0);
+  await expect(art).toHaveCount(2);
 
-  // The section's own ground stays the dark plane behind the art, so the
-  // proposition keeps its contrast even if the image never paints.
+  for (const plate of await art.all()) {
+    await expect(plate).toHaveAttribute("alt", "");
+    // complete alone is also true for an image that failed to load, so the
+    // decoded width is what proves the artwork actually painted.
+    await expect(plate).toHaveJSProperty("complete", true);
+    expect(
+      await plate.evaluate((el: HTMLImageElement) => el.naturalWidth),
+    ).toBeGreaterThan(0);
+  }
+
+  // The section's own ground stays the ivory plane behind the art, so the
+  // proposition keeps its contrast even if the plates never paint — and every
+  // plate blends with multiply, which needs that ground to blend against.
   expect(
     await hero.evaluate((el) => getComputedStyle(el).backgroundColor),
-  ).toBe("rgb(10, 13, 22)");
+  ).toBe("rgb(244, 241, 235)");
 
   // The header overlaps the hero rather than stacking above it: its box is
   // pulled back over the section, so the hero's top edge starts underneath.
@@ -282,14 +290,16 @@ test("the hero opens on a dark image plane the header floats over", async ({
   expect(heroBox.y).toBeLessThanOrEqual(headerBox.y + 1);
 
   // At scroll top the header carries no ground of its own — transparent over
-  // the hero, with light ink — so the first viewport has no bar across it; it
-  // resolves to a solid canvas bar with dark ink once content passes beneath.
+  // the hero — so the first viewport has no bar across it; it resolves to a
+  // solid canvas bar once content passes beneath. Both ends of that range are
+  // light, so the ink is the site's dark ink throughout and only the ground
+  // animates.
   const header = page.locator(".site-header");
   expect(
     await header.evaluate((el) => getComputedStyle(el).backgroundColor),
   ).toBe("rgba(0, 0, 0, 0)");
   expect(await header.evaluate((el) => getComputedStyle(el).color)).toBe(
-    "rgb(242, 244, 250)",
+    "rgb(12, 16, 36)",
   );
 
   await page.evaluate(() => window.scrollTo(0, 400));

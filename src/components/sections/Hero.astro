@@ -1,25 +1,75 @@
 ---
-import { Picture } from "astro:assets";
+import { Image } from "astro:assets";
 import Button from "@/components/ui/Button.astro";
 import SectionHead from "@/components/ui/SectionHead.astro";
 import TextLink from "@/components/ui/TextLink.astro";
-import heroField from "@/assets/images/hero-architecture.jpg";
+import prismLedger from "@/assets/images/hero-prism-ledger.webp";
+import prismRoutes from "@/assets/images/hero-prism-routes.webp";
 import { HERO } from "@/data/home";
 import { CTA, PRODUCT_LINKS, SITE } from "@/data/site";
 ---
 
 <section class="hero">
+  {
+    /*
+     * The first viewport is one high-key ivory plane with a photographed
+     * acrylic architecture set into its right half. Two plates carry it and
+     * every other mark on the band is drawn in CSS.
+     *
+     * Nothing inside the media layer takes a z-index. Each plate blends with
+     * multiply, and a blended element only sees the backdrop of its own
+     * stacking context — a z-index anywhere up the chain would cut the plates
+     * off from the ivory underneath and the blend would silently become a
+     * straight paste. DOM order carries the stack instead.
+     */
+  }
   <div class="hero__media" aria-hidden="true">
-    <Picture
-      src={heroField}
+    <Image
+      class="hero__art"
+      src={prismLedger}
       alt=""
-      widths={[768, 1100, 1376]}
-      sizes="100vw"
-      formats={["avif", "webp"]}
+      widths={[900, 1400, 2200]}
+      sizes="72vw"
       loading="eager"
       fetchpriority="high"
       decoding="sync"
     />
+
+    {
+      /* The wash, not the plate's own opacity, is what guarantees the left
+         column stays quiet enough for dark text: the artwork can fail to load
+         or land any way it likes and the measure still reads. */
+    }
+    <div class="hero__wash"></div>
+    <div class="hero__grid"></div>
+    <div class="hero__rails"></div>
+
+    {
+      /* The data instrument. The routes plate is the fine network density
+         behind it; the acrylic panels, hairlines and nodes over it are drawn. */
+    }
+    <div class="hero__instrument">
+      <Image
+        class="hero__routes"
+        src={prismRoutes}
+        alt=""
+        widths={[600, 1200]}
+        sizes="46vw"
+        loading="eager"
+        decoding="async"
+      />
+      <span class="hero__panel hero__panel--wide"></span>
+      <span class="hero__panel hero__panel--tall"></span>
+      <div class="hero__net"></div>
+      <span class="hero__node hero__node--cobalt"></span>
+      <span class="hero__node hero__node--emerald"></span>
+      <span class="hero__node hero__node--magenta"></span>
+      <span class="hero__node hero__node--violet"></span>
+      <span class="hero__ring hero__ring--cobalt"></span>
+      <span class="hero__ring hero__ring--magenta"></span>
+    </div>
+
+    <div class="hero__grain"></div>
   </div>
   <div class="shell hero__inner">
     {
@@ -84,3 +134,66 @@ import { CTA, PRODUCT_LINKS, SITE } from "@/data/site";
     </SectionHead>
   </div>
 </section>
+
+<script>
+  /*
+   * Pointer parallax for the three plates. The script owns two numbers and
+   * nothing else: --hero-px and --hero-py, each in the range -1..1. Every
+   * distance those two numbers turn into lives in hero.css, so the depth
+   * order is readable there rather than split across two files.
+   *
+   * It writes through the CSSOM rather than a style attribute, which the
+   * page's `style-src 'self'` allows and an attribute would not.
+   */
+  const hero = document.querySelector<HTMLElement>(".hero");
+  const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
+  const still = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  if (hero && fine.matches && !still.matches) {
+    let targetX = 0;
+    let targetY = 0;
+    let x = 0;
+    let y = 0;
+    let frame = 0;
+
+    /* Eased toward the pointer rather than pinned to it: a plate that tracks
+       the cursor exactly reads as a cursor, and one that eases reads as
+       weight. */
+    const step = () => {
+      x += (targetX - x) * 0.08;
+      y += (targetY - y) * 0.08;
+      hero.style.setProperty("--hero-px", x.toFixed(4));
+      hero.style.setProperty("--hero-py", y.toFixed(4));
+
+      if (Math.abs(targetX - x) > 0.001 || Math.abs(targetY - y) > 0.001) {
+        frame = requestAnimationFrame(step);
+      } else {
+        frame = 0;
+      }
+    };
+
+    const run = () => {
+      if (!frame) frame = requestAnimationFrame(step);
+    };
+
+    hero.addEventListener(
+      "pointermove",
+      (event) => {
+        if (event.pointerType !== "mouse") return;
+        const box = hero.getBoundingClientRect();
+        /* -1 at one edge, +1 at the other, so the distances in the
+           stylesheet are amplitudes rather than half-amplitudes. */
+        targetX = ((event.clientX - box.left) / box.width - 0.5) * 2;
+        targetY = ((event.clientY - box.top) / box.height - 0.5) * 2;
+        run();
+      },
+      { passive: true },
+    );
+
+    hero.addEventListener("pointerleave", () => {
+      targetX = 0;
+      targetY = 0;
+      run();
+    });
+  }
+</script>

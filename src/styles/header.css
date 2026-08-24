@@ -22,13 +22,15 @@
   --fill-2: color-mix(in srgb, currentColor 14%, transparent);
 }
 
-/* The hero is the only dark first section, so it is what the header rests
-   transparent over and reads light against. Scoped by presence, not by a page
-   flag, so a page that grows a hero picks this up on its own. */
+/* The hero is a tinted first section, so the header rests transparent over its
+   ivory rather than carrying a bar across the top of it, and keeps the light
+   field's own ink and accent throughout — only the ground animates. Scoped by
+   presence, not by a page flag, so a page that grows a hero picks this up on
+   its own. */
 body:has(.hero) {
   --header-rest: transparent;
-  --header-ink-rest: var(--c-dark-ink);
-  --header-accent-rest: var(--c-accent-dark);
+  --header-ink-rest: var(--c-ink);
+  --header-accent-rest: var(--c-accent);
 }
 
 /* A sticky header still reserves its own box in normal flow, so the hero would
@@ -103,10 +105,9 @@ body:has(.hero) .site-header {
   height: 34px;
 }
 
-/* Inherits rather than naming an ink: the header animates its own `color`
-   between the hero's light-on-dark rest state and canvas, and the footer's
-   dark band sets its own `color` directly — the wordmark just follows
-   whichever ground it lands in. */
+/* Inherits rather than naming an ink: the header animates its own `color` as
+   it lifts off the hero onto canvas, and the footer's dark band sets its own
+   `color` directly — the wordmark just follows whichever ground it lands in. */
 .brand-wordmark {
   font-family: var(--font-body);
   font-size: var(--t-20);
