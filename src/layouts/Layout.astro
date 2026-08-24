@@ -5,7 +5,7 @@ import Footer from "@/components/sections/Footer.astro";
 import Header from "@/components/sections/Header.astro";
 import { SITE } from "@/data/site";
 import type { JsonLd } from "@/lib/schema";
-import geistLatinUrl from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
+import remusFontUrl from "@/assets/fonts/RemusVariableVF.woff2?url";
 
 interface Props {
   title?: string;
@@ -25,7 +25,7 @@ const {
 
 const image = `${SITE.url}/social-preview.jpg`;
 const imageAlt =
-  "A dark concrete interior threaded with luminous circuit traces, the visual signature of CUBE27 AI.";
+  "A sunlit hall of clear glass volumes threaded with fine coloured nodes and routes, the visual signature of CUBE27 AI.";
 const robots = noindex
   ? "noindex, nofollow"
   : "index, follow, max-image-preview:large";
@@ -70,7 +70,7 @@ const serializedJsonLd = jsonLd
     <link rel="manifest" href="/site.webmanifest" />
     <link
       rel="preload"
-      href={geistLatinUrl}
+      href={remusFontUrl}
       as="font"
       type="font/woff2"
       crossorigin

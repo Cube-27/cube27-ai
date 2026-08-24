@@ -1,1 +1,15 @@
-@import "@fontsource-variable/geist/wght.css";
+/* Remus Variable — a variable build of TeX Gyre Heros (URW Nimbus Sans, the
+   free Helvetica lineage). Shipped locally rather than from a package: no
+   fontsource release exists for it. GUST Font License, see the copy beside
+   the woff2 in src/assets/fonts/.
+
+   The file's real axes are narrower than its README claims: wght 400–700,
+   wdth 50–100 (condensed only), ital 0–1. `font-weight: 400 700` states that
+   honestly so the browser synthesises nothing it can interpolate. */
+@font-face {
+  font-family: "Remus Variable";
+  src: url("../assets/fonts/RemusVariableVF.woff2") format("woff2-variations");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}

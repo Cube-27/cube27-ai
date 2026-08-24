@@ -109,7 +109,7 @@
 
   /* Type. One family: at the sizes this site uses, a second grotesque reads as
      a mismatch rather than a contrast, and weight carries the distinction. */
-  --font-display: "Geist Variable", Geist, system-ui, sans-serif;
+  --font-display: "Remus Variable", Helvetica, Arial, system-ui, sans-serif;
   --font-body: var(--font-display);
 
   /* Type ladder. Every size in the system comes from here, each rung roughly

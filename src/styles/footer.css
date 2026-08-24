@@ -8,16 +8,17 @@
   color: var(--c-dark-ink);
 }
 
-/* The brand holds the left; both link columns are pushed to the right and
-   align to the shell edge, matching the right-hand item in the base row. */
+/* The brand holds the left; both link columns sit as a group on the right.
+   Their text stays left-aligned so titles and links share one edge per column. */
 .site-footer__top {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto auto;
-  gap: clamp(32px, 6vw, 96px);
+  gap: clamp(32px, 5vw, 80px);
+  align-items: start;
 }
 
 .site-footer__top .footer-col {
-  text-align: right;
+  min-width: 148px;
 }
 
 .site-footer__blurb {

@@ -28,11 +28,6 @@
     grid-column: 1 / -1;
   }
 
-  /* Stacked columns read left-to-right again. */
-  .site-footer__top .footer-col {
-    text-align: left;
-  }
-
   .cta-band__actions {
     flex-direction: row;
     flex-wrap: wrap;

@@ -27,9 +27,13 @@
 }
 
 /* Only the headline is metered — a big display size needs a short measure to
-   break well. The lead fills the container. */
+   break well. The lead fills the container.
+
+   28ch is load-bearing: the longest headline on the site needs 27.6ch to fall
+   in two lines rather than three, and the hero headline collapses to a single
+   line from 29ch up. The window between those is this one value. */
 .section-head__title {
-  max-width: 26ch;
+  max-width: 28ch;
   margin-inline: auto;
 }
 
